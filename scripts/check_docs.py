@@ -13,6 +13,36 @@ def git_output(args):
     return result.stdout.strip()
 
 
+def check_copyright_year():
+    """Verify LICENSE file copyright year is current."""
+    import datetime
+    
+    license_file = Path("LICENSE")
+    if not license_file.exists():
+        return True  # Skip if no LICENSE yet
+    
+    current_year = datetime.datetime.now().year
+    license_content = license_file.read_text()
+    
+    # Extract copyright year(s) from "Copyright (c) 2026" or "Copyright (c) 2026-2027"
+    copyright_match = re.search(r"Copyright \(c\) (\d{4})(?:-(\d{4}))?", license_content)
+    
+    if not copyright_match:
+        print("⚠️  LICENSE file missing copyright year. Expected: Copyright (c) YYYY")
+        return False
+    
+    start_year = int(copyright_match.group(1))
+    end_year = int(copyright_match.group(2)) if copyright_match.group(2) else start_year
+    
+    if end_year < current_year:
+        print(f"⚠️  COPYRIGHT YEAR STALE: LICENSE shows {start_year}-{end_year}, current year is {current_year}")
+        print(f"   Update to: Copyright (c) {start_year}-{current_year}")
+        print(f"   Or if this is fresh work: Copyright (c) {current_year}")
+        return False
+    
+    return True
+
+
 def main():
     # Commit message check
     try:
@@ -86,6 +116,10 @@ def main():
         print("Changed files:", changed)
         sys.exit(1)
 
+    # Copyright year check
+    if not check_copyright_year():
+        print("⚠️  License copyright year is stale.")
+    
     print("✅ Commit message and docs checks passed.")
     return 0
 

@@ -231,6 +231,8 @@ See `AGENTS.md` for contribution conventions (branch naming, commit format, etc.
 
 ## License & Attribution
 
-[Add your license here]
+MIT License — see [LICENSE](LICENSE) file.
+
+Copyright © 2026 Mateusz Tausaga.
 
 — Built as an educational sandbox. Questions? Open an issue or discussion.
