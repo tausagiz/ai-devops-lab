@@ -38,6 +38,21 @@ scripts/
 5. Constants (image tag, build path) live in `config.py` — not scattered in functions.
 6. Process `Dockerfile` for base image and default runtime behavior.
 
+## Commit Policy
+
+**CRITICAL**: Only the "Prepare Commit" prompt (`.github/prompts/prepare-commit.prompt.md`) is allowed to create commits automatically.
+
+- All other agents, prompts, and modes **must never commit or push without explicit user request**.
+- The "Prepare Commit" prompt invokes the Commit Coach agent and passes instructions to auto-commit only when:
+  1. The user explicitly invoked the "Prepare Commit" prompt in VS Code chat.
+  2. All changes are coherent (related scope).
+  3. Docs gate is satisfied (README.md or AGENTS.md included if code changed).
+  4. `python scripts/check_docs.py` validates the commit message format.
+- Other agents (default mode, PR Coach, etc.) must:
+  - Inspect changes without committing.
+  - Ask the user before taking git actions.
+  - Let Commit Coach handle commit operations when needed.
+
 ## GitHub Copilot
 
 - Copilot can leverage this file plus repo contents.
@@ -75,5 +90,3 @@ scripts/
   - `docs-check.yml` — enforces commit message format + docs update requirement.
   - `tests.yml` — runs `pytest tests/unit` and `pytest tests/integration` on every PR and push to `main`.
   - Optional: use Copilot to draft commit message and docs text for maintainers to review.
-
-
