@@ -57,3 +57,14 @@ python main.py clean   # stop/remove all containers
 - add container name, port mappings, volumes
 - add `docker-compose` integration
 
+## AI agent-doc support
+
+This repo is primarily authored for humans, but it also includes structured hints for agents. A dedicated companion file exists at [`AGENTS.md`](AGENTS.md) for AI-specific guidelines, while `README.md` stays user-focused.
+
+- Keep this README concise and clear for parser-friendly consumption (headings, bullets, explicit commands).
+- A general AI agent can extract intent: "DevOps learning automation with Docker via Python".
+- For GitHub Copilot (and Copilot Chat), use this repo description and this top-level summary as context, not a duplicate section.
+
+See `AGENTS.md` for agent-context details and assistant instructions.
+
+
