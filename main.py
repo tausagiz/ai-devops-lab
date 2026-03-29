@@ -1,7 +1,7 @@
 """Entry point for development use.
 
 For direct execution: python main.py [build|run|logs|clean]
-After `pip install -e .` the `docker-automation` CLI command is also available.
+After `pip install -e .` the `ai-devops-lab` CLI command is also available.
 """
 import os
 import sys
