@@ -50,6 +50,14 @@ Short guide for agents working in this repository.
 - Files in `.github/agents/` and `.github/prompts/` are thin GitHub Copilot wrappers for slash commands, `argument-hint`, and response format.
 - If a rule applies to the whole repo, keep it here; in Copilot files keep only what is necessary to run the workflow.
 
+## Vendor-agnostic policy
+
+- Prefer vendor-neutral conventions and references in shared instructions (for example `#file:AGENTS.md` as the canonical rule source).
+- Keep provider-specific capabilities (tool names, frontmatter keys, slash-command wiring, platform-only metadata) in provider-scoped wrapper files only.
+- Provider-scoped files must stay minimal adapters and must not duplicate repository-wide policy from `AGENTS.md`.
+- When adding or changing automation guidance, update the universal rule in `AGENTS.md` first, then reference it from tool/vendor-specific files.
+- Design new instruction/tool structures so another tool can adopt the same universal base without rewriting repository policy.
+
 ## Workflow prompts
 
 - `/Workflow Help` - list available workflows.
