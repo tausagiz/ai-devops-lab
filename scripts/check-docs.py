@@ -15,8 +15,11 @@ def main():
         import subprocess
         msg = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True).strip()
 
+    # GitHub creates merge commits like "Merge <sha> into <sha>" on some flows.
+    # Skip conventional-commit validation for those auto-generated messages.
+    is_merge_commit = msg.startswith("Merge ")
     msg_ok = re.match(r"^(feat|fix|docs|chore|refactor|test|build|ci)(\([a-zA-Z0-9_-]+\))?: .+", msg)
-    if not msg_ok:
+    if not msg_ok and not is_merge_commit:
         print("❌ Invalid commit message format. Expected: type(scope): describe or type: describe")
         print("Example: docs(readme): update docs to reflect new command")
         print("or: docs: update docs to reflect new command")
