@@ -43,6 +43,10 @@ scripts/
 - Copilot can leverage this file plus repo contents.
 - No duplication is needed; link agent behavior from here.
 - Recommend adding `.github/copilot.yml` for custom assistant instructions (optional).
+- Workspace customizations for commit preparation live in:
+  - `.github/agents/commit-coach.agent.md`
+  - `.github/prompts/prepare-commit.prompt.md`
+- Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready.
 
 ## Commit-time agent docs workflow (recommended)
 

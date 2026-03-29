@@ -95,6 +95,26 @@ pytest tests/ --cov=docker_automation  # full coverage report
 
 See [`AGENTS.md`](AGENTS.md) for AI-specific guidelines.
 
+For faster commit preparation in VS Code chat, this repository also includes:
+
+- `.github/agents/commit-coach.agent.md` — a custom Copilot agent that inspects git changes, validates docs-gate requirements, and can create the commit when the worktree is ready.
+- `.github/prompts/prepare-commit.prompt.md` — a slash prompt for quickly invoking that end-to-end workflow from chat.
+
+Example usage in VS Code chat:
+
+```text
+/Prepare Commit
+/Prepare Commit add restart command and tests
+```
+
+The workflow is tailored to this repository's CI rules:
+
+- commit titles must use the allowed Conventional Commit types,
+- code changes should usually be committed together with a `README.md` or `AGENTS.md` update,
+- the agent should either create the commit directly or stop with a concrete blocker,
+- the agent should either create the commit directly or stop with a concrete blocker,
+- the output includes a minimal validation step before push.
+
 ## CI checks
 
 Two GitHub Actions workflows run on push to `main` and on pull requests:
