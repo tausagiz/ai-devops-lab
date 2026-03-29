@@ -46,10 +46,24 @@ def main():
     # to encourage attention to docs as code evolves.
     changed = []
     base = os.environ.get("GITHUB_BASE_REF")
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "")
+    base_sha = os.environ.get("GITHUB_BASE_SHA")
+    head_sha = os.environ.get("GITHUB_HEAD_SHA")
+    before_sha = os.environ.get("GITHUB_BEFORE_SHA")
+    current_sha = os.environ.get("GITHUB_SHA")
 
     changed_out = None
-    if base:
-        # PR in CI: prefer diff against remote base branch when available.
+
+    if event_name == "pull_request" and base_sha and head_sha:
+        # PR: compare exactly base..head from the event payload.
+        changed_out = git_output(["diff", "--name-only", f"{base_sha}...{head_sha}"])
+
+    if changed_out is None and event_name == "push" and before_sha and current_sha:
+        # Push: compare exactly previous..current commit from the event payload.
+        changed_out = git_output(["diff", "--name-only", f"{before_sha}..{current_sha}"])
+
+    if changed_out is None and base:
+        # PR in CI: fallback to remote base branch when event SHAs are unavailable.
         changed_out = git_output(["diff", "--name-only", f"origin/{base}..HEAD"])
 
     if changed_out is None:
