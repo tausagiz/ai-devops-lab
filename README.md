@@ -4,6 +4,13 @@ A low-risk sandbox for exploring AI automation in DevOps workflows.
 
 This repository is optimized for cheap experimentation rather than production hardening. It is meant for comparing AI assistants, agent workflows, and automation tools with minimal risk, especially when working with free-tier limits or paid systems where prompt size, tool calls, and repeated context all cost money.
 
+## Token optimization notice
+
+- Agent instructions are tuned to minimize token and tool-call usage.
+- Agents should keep responses concise by default and ask for confirmation before costlier optional work (extra docs files, additional tests, helper scripts, broad validation).
+- This aligns with the repository goal: maximize practical testing of free-tier and quota-limited tools.
+- A side benefit is deliberate practice in stronger prompting, context management, and model-selection decisions.
+
 ## Sandbox model
 
 - Low operational risk: this repo is for learning and workflow experiments, not production deployment.

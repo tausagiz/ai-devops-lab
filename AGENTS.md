@@ -16,6 +16,14 @@ Short guide for agents working in this repository.
 - Minimize context: read only needed files and avoid duplicating the same rules across many instructions.
 - Do not overengineer; this repo is for experimentation.
 
+## Token-efficiency policy
+
+- Keep responses compact by default: report outcomes first, include only necessary detail, and avoid long explanations unless the user asks.
+- Do not create extra Markdown/docs files, new tests, or helper scripts by default.
+- If adding docs/tests/scripts could improve quality but is not explicitly requested, stop and ask for user confirmation first.
+- Prefer editing existing files over introducing new files.
+- Before running broader validation, heavy analysis, or multi-step refactors not explicitly requested, ask for confirmation and suggest the cheapest next check.
+
 ## Project map
 
 - `src/docker_automation/cli.py` - CLI entry point and command routing.
@@ -33,6 +41,7 @@ Short guide for agents working in this repository.
 - Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, ask for clarification instead of guessing.
 - Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
 - Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
+- User confirmation guardrail: when a proposed action increases token/call usage or project surface (new files, broader tests, extra scripts, large documentation updates), ask for explicit confirmation before proceeding unless already requested.
 - Branch closing: never delete `main` or `master`; delete only branches merged into `origin/main` unless user explicitly confirms risky operation; when merge state is uncertain or `-D` would be needed, stop and wait for confirmation; never force-push or force-delete without explicit request.
 
 ## Tooling integration
