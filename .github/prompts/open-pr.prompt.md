@@ -12,7 +12,8 @@ First, ensure the feature branch is up to date with main:
 - Update the branch using the chosen strategy.
 
 Then validate and create the PR:
-- Run `python scripts/check_docs.py` to validate commit messages and docs gate across the entire PR scope.
+- Re-run the same local validation expected by `/Validate Changes` before pushing: `pytest tests/unit`, `pytest tests/integration`, and `python scripts/check_docs.py`.
+- If I explicitly ask for full validation, also run `pytest tests/ --cov=docker_automation`.
 - Derive a PR title from the commit subjects,
 - Draft a PR body with Summary and Commits sections,
 - Push the branch with `git push --set-upstream origin <branch>`,

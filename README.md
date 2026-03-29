@@ -98,8 +98,25 @@ pytest tests/ --cov=docker_automation  # full coverage report
 
 See [`AGENTS.md`](AGENTS.md) for AI-specific guidelines and integration points.
 
-For faster commit preparation in VS Code chat, this repository includes:
+For faster work in VS Code chat, this repository includes:
 
+- `.github/prompts/new-branch.prompt.md` — a prompt that starts new work from the latest `main` and creates a properly named feature branch.
+- `.github/prompts/validate-changes.prompt.md` — a prompt that runs local validation before commit or PR and summarizes whether the branch is ready.
 - `.github/agents/commit-coach.agent.md` — a custom Copilot agent that inspects git changes, validates docs-gate requirements, and can create compliant commits.
+- `.github/prompts/open-pr.prompt.md` — a prompt that syncs the current branch with `main`, validates the PR scope, pushes the branch, and opens a pull request.
+- `.github/prompts/close-branch.prompt.md` — a prompt that cleans up a merged feature branch and returns to the latest `main`.
+
+### Recommended VS Code workflow
+
+Instead of managing branches manually, the intended flow is:
+
+1. Run `/New Branch` and describe the work you plan to do.
+2. Implement the change on the newly created feature branch.
+3. Run `/Validate Changes` to execute local tests and check docs-gate readiness before you commit or open a PR.
+4. Run `/Prepare Commit` when the worktree is ready to create a compliant commit.
+5. Run `/Open PR` to sync with `main`, validate the PR, push, and open the pull request.
+6. After the PR is merged, run `/Close Branch` to delete the finished branch and return to an up-to-date `main`.
+
+This keeps the branch lifecycle consistent and reduces manual git steps during development.
 
 This repo is optimized for AI exploration: clean abstractions, testable code, and comprehensive documentation make it a good playground for testing how AI can improve DevOps workflows.

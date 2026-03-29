@@ -66,12 +66,24 @@ scripts/
 - Workspace customizations for PR preparation live in:
   - `.github/agents/pr-coach.agent.md`
   - `.github/prompts/open-pr.prompt.md`
+- Workspace customizations for branch lifecycle live in:
+  - `.github/agents/branch-coach.agent.md` — syncs main and creates a named feature branch.
+  - `.github/agents/close-branch.agent.md` — verifies merge, deletes branch, returns to updated main.
+  - `.github/prompts/new-branch.prompt.md`
+  - `.github/prompts/close-branch.prompt.md`
+- Workspace customizations for local validation live in:
+  - `.github/agents/validate-changes.agent.md` — runs local checks and reports whether the branch is ready for commit or PR.
+  - `.github/prompts/validate-changes.prompt.md`
 - Use the `Prepare Commit` prompt in VS Code chat to create commits. When successful, it outputs a ready-to-click `/Open PR` command at the end.
 - Use the `Open PR` prompt in VS Code chat to finalize and push the PR. This prompt:
   1. Syncs the feature branch with main (asks merge or rebase preference if needed)
-  2. Validates all commits together at PR scope with `python scripts/check_docs.py`
-  3. Pushes the branch and creates the PR
+  2. Re-runs local validation (`pytest` and `python scripts/check_docs.py`) before push
+  3. Validates all commits together at PR scope with `python scripts/check_docs.py`
+  4. Pushes the branch and creates the PR
   - Supports both `merge` and `rebase` strategies for updating from main.
+- Use the `New Branch` prompt in VS Code chat to start new work: describe what you plan to build and the agent syncs main and creates the branch.
+- Use the `Validate Changes` prompt in VS Code chat before committing or opening a PR to run the local checks expected for this repo.
+- Use the `Close Branch` prompt in VS Code chat after a PR is merged to delete the feature branch and return to the latest main.
 
 ## PR-scope validation workflow (recommended)
 
