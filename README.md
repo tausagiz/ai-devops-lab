@@ -65,7 +65,7 @@ ai-devops-lab/
 ## Quick Start
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/tausagiz/ai-devops-lab.git
 cd ai-devops-lab
 python -m venv venv
 source venv/bin/activate
@@ -112,7 +112,7 @@ If Docker is installed and running:
 python main.py build   # Build image from Dockerfile
 python main.py run     # Start container in background
 python main.py logs    # Fetch container logs
-python main.py clean   # Stop and remove all containers
+python main.py clean   # Stop and remove containers managed by this project
 ```
 
 After `pip install -e .`, use the CLI directly:
@@ -121,7 +121,7 @@ After `pip install -e .`, use the CLI directly:
 ai-devops-lab build
 ```
 
-> Note: `clean` stops/removes all containers on your machine—treat it as a sandbox-only command.
+> Note: `run` labels containers as managed by this project, and `clean`/`logs` target only those labeled containers.
 
 ### Testing the Example
 
@@ -235,6 +235,6 @@ See `AGENTS.md` for contribution conventions (branch naming, commit format, etc.
 
 MIT License — see [LICENSE](LICENSE) file.
 
-Copyright © 2026 Mateusz Tausaga.
+Copyright © 2026 Mateusz Rusnak.
 
 — Built as an educational sandbox. Questions? Open an issue or discussion.

@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from docker_automation.commands.run import run_container
+from docker_automation.config import IMAGE_TAG, MANAGED_LABEL_KEY, MANAGED_LABEL_VALUE
 
 
 def test_run_container_success(capsys):
@@ -14,7 +15,11 @@ def test_run_container_success(capsys):
 
         run_container()
 
-        mock_get_client.return_value.containers.run.assert_called_once_with("myapp:latest", detach=True)
+        mock_get_client.return_value.containers.run.assert_called_once_with(
+            IMAGE_TAG,
+            detach=True,
+            labels={MANAGED_LABEL_KEY: MANAGED_LABEL_VALUE},
+        )
         assert "abc123" in capsys.readouterr().out
 
 
