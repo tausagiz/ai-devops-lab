@@ -100,6 +100,7 @@ See [`AGENTS.md`](AGENTS.md) for AI-specific guidelines and integration points.
 
 For faster work in VS Code chat, this repository includes:
 
+- `.github/prompts/workflow-help.prompt.md` — a prompt that briefly lists the available workflow commands and when to use them.
 - `.github/prompts/new-branch.prompt.md` — a prompt that starts new work from the latest `main` and creates a properly named feature branch.
 - `.github/prompts/validate-changes.prompt.md` — a prompt that runs local validation before commit or PR and summarizes whether the branch is ready.
 - `.github/agents/commit-coach.agent.md` — a custom Copilot agent that inspects git changes, validates docs-gate requirements, and can create compliant commits.
@@ -107,6 +108,8 @@ For faster work in VS Code chat, this repository includes:
 - `.github/prompts/close-branch.prompt.md` — a prompt that cleans up a merged feature branch and returns to the latest `main`.
 
 ### Recommended VS Code workflow
+
+If you are not sure which prompt to run next, start with `/Workflow Help`.
 
 Instead of managing branches manually, the intended flow is:
 

@@ -66,6 +66,9 @@ scripts/
 - Workspace customizations for PR preparation live in:
   - `.github/agents/pr-coach.agent.md`
   - `.github/prompts/open-pr.prompt.md`
+- Workspace customizations for workflow help live in:
+  - `.github/agents/workflow-help.agent.md` — lists the available workflow prompts like a concise help screen.
+  - `.github/prompts/workflow-help.prompt.md`
 - Workspace customizations for branch lifecycle live in:
   - `.github/agents/branch-coach.agent.md` — syncs main and creates a named feature branch.
   - `.github/agents/close-branch.agent.md` — verifies merge, deletes branch, returns to updated main.
@@ -81,6 +84,7 @@ scripts/
   3. Validates all commits together at PR scope with `python scripts/check_docs.py`
   4. Pushes the branch and creates the PR
   - Supports both `merge` and `rebase` strategies for updating from main.
+- Use the `Workflow Help` prompt in VS Code chat to get a concise list of the available workflow commands and when to use them.
 - Use the `New Branch` prompt in VS Code chat to start new work: describe what you plan to build and the agent syncs main and creates the branch.
 - Use the `Validate Changes` prompt in VS Code chat before committing or opening a PR to run the local checks expected for this repo.
 - Use the `Close Branch` prompt in VS Code chat after a PR is merged to delete the feature branch and return to the latest main.
