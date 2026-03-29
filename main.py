@@ -19,23 +19,44 @@ def run_container():
     try:
         container = client.containers.run("myapp:latest", detach=True)
         print(f"Kontener działa: {container.short_id}")
-        return container
     except Exception as e:
         print(f"❌ Błąd podczas uruchamiania kontenera: {e}")
         sys.exit(1)
 
-def show_logs(container):
+def show_logs():
     print("📜 Logi kontenera:")
-    print(container.logs().decode())
+    try:
+        container = client.containers.list()[0]
+        print(container.logs().decode())
+    except IndexError:
+        print("❌ Brak działających kontenerów.")
+    except Exception as e:
+        print(f"❌ Błąd podczas pobierania logów: {e}")
 
-def cleanup(container):
+def cleanup():
     print("🧹 Czyszczenie...")
-    container.stop()
-    container.remove()
-    print("🧼 Gotowe.")
+    try:
+        for container in client.containers.list(all=True):
+            container.stop()
+            container.remove()
+        print("🧼 Gotowe.")
+    except Exception as e:
+        print(f"❌ Błąd podczas czyszczenia: {e}")
 
 if __name__ == "__main__":
-    build_image()
-    container = run_container()
-    show_logs(container)
-    cleanup(container)
+    if len(sys.argv) < 2:
+        print("Użycie: python main.py [build|run|logs|clean]")
+        sys.exit(1)
+
+    command = sys.argv[1]
+
+    if command == "build":
+        build_image()
+    elif command == "run":
+        run_container()
+    elif command == "logs":
+        show_logs()
+    elif command == "clean":
+        cleanup()
+    else:
+        print(f"Nieznana komenda: {command}")
