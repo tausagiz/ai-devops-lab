@@ -71,6 +71,14 @@ See `AGENTS.md` for agent-context details and assistant instructions.
 
 - A GitHub Actions workflow is configured in `.github/workflows/docs-check.yml`.
 - It runs on pushes to `main` and on pull requests.
-- It validates commit message format and requires that `README.md` or `AGENTS.md` is updated when code changes are introduced.
+- It validates commit message format using Conventional Commit style:
+  - `feat|fix|docs|chore|refactor|test|build|ci`
+  - optional scope, for example `fix(main): ...`
+- Auto-generated merge commit messages are accepted (for example `Merge <sha> into <sha>`).
+- It requires that `README.md` or `AGENTS.md` is updated when code changes are introduced.
+- Changed files are detected from GitHub event SHAs for deterministic CI behavior:
+  - pull request: `base.sha...head.sha`
+  - push: `before..after`
+  - with local and CI fallbacks when those values are unavailable.
 
 

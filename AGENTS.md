@@ -32,6 +32,15 @@ This file summarizes guidance for AI agents ingesting this repository.
   3. Verify documentation covers the changed behavior in `README.md`, `AGENTS.md`, and any dedicated docs files.
   4. For missing updates, fail with an actionable message (e.g., `docs: add new feature description to README/AGENTS`).
 
+- Current checker details in this repo:
+  - Commit message format: `type(scope): summary` or `type: summary`.
+  - Allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`.
+  - Auto-generated merge commits are accepted (for example `Merge <sha> into <sha>`).
+  - Docs gate requires at least one docs file in the changed set: `README.md` or `AGENTS.md`.
+  - Changed set in CI is determined from GitHub event SHAs for deterministic behavior:
+    - pull request: `base.sha...head.sha`
+    - push: `before..after`
+
 - Commit message template for agent-assisted writing:
   - `type(scope): concise summary` (e.g., `feat(docker): add restart workflow`)
   - body: 1) what changed, 2) why, 3) docs updated (README, AGENTS, etc.).
