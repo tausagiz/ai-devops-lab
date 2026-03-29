@@ -42,8 +42,9 @@ scripts/
 
 **CRITICAL**: Only the "Prepare Commit" prompt (`.github/prompts/prepare-commit.prompt.md`) is allowed to create commits automatically.
 
+- The Commit Coach agent is invoked ONLY via the `/Prepare Commit` prompt. It never commits in response to routine file modification requests.
 - All other agents, prompts, and modes **must never commit or push without explicit user request**.
-- The "Prepare Commit" prompt invokes the Commit Coach agent and passes instructions to auto-commit only when:
+- The "Prepare Commit" prompt invokes the Commit Coach agent to auto-commit only when:
   1. The user explicitly invoked the "Prepare Commit" prompt in VS Code chat.
   2. All changes are coherent (related scope).
   3. Docs gate is satisfied (README.md or AGENTS.md included if code changed).
