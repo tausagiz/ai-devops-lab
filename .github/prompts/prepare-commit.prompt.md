@@ -8,4 +8,8 @@ Prepare a commit for current repository changes.
 
 Follow commit and docs-gate rules from `AGENTS.md`. Use provided context to refine scope, title, and body.
 
-When commit succeeds and all changes are committed, finish with `/Open PR` in a command block.
+If commit succeeds and all changes are committed, the response must end with a `### Next Step` section containing exactly this command block:
+
+```text
+/Open PR
+```
