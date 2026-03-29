@@ -66,13 +66,16 @@ scripts/
 - Workspace customizations for PR preparation live in:
   - `.github/agents/pr-coach.agent.md`
   - `.github/prompts/open-pr.prompt.md`
-- Use the `Open PR` prompt in VS Code chat to push the current branch and open a GitHub PR with a drafted title and description.
-- Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready. When successful, it outputs a ready-to-click `/Open PR` command at the end — simply click it or paste-and-enter to open your PR in one action.
-- After each commit the agent runs `python scripts/check_docs.py` locally — this mirrors exactly what CI checks and catches errors before push.
+- Use the `Prepare Commit` prompt in VS Code chat to create commits. When successful, it outputs a ready-to-click `/Open PR` command at the end.
+- Use the `Open PR` prompt in VS Code chat to finalize and push the PR. This prompt:
+  1. Syncs the feature branch with main (asks merge or rebase preference if needed)
+  2. Validates all commits together at PR scope with `python scripts/check_docs.py`
+  3. Pushes the branch and creates the PR
+  - Supports both `merge` and `rebase` strategies for updating from main.
 
-## Commit-time agent docs workflow (recommended)
+## PR-scope validation workflow (recommended)
 
-- On every commit that changes code, run a docs-checker to ensure documentation and intent are kept in sync as the project grows.
+- Instead of validating each commit independently, the full PR is validated at submission time. This allows docs updates to be scoped to the entire feature rather than individual commits.
 - Script: `scripts/check_docs.py` (renamed from `check-docs.py` to follow Python snake_case).
 
 - Current checker details in this repo:

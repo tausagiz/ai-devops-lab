@@ -1,17 +1,23 @@
 ---
 name: "Open PR"
-description: "Push the current feature branch to remote and create a GitHub PR with a drafted title and description based on the commits on this branch."
+description: "Sync the feature branch with main (merge or rebase), validate the entire PR, and push to create a GitHub PR."
 agent: "PR Coach"
-argument-hint: "Optional: extra context for the PR, e.g. reviewer or notes"
+argument-hint: "Optional: context for the PR (e.g. reviewer, notes) or merge/rebase preference"
 ---
-Push the current branch to remote and open a pull request for this project.
+Prepare and push the current branch to open a pull request for this project.
 
-Inspect all commits on this branch that are not yet on main, then:
-- derive a PR title from the commit subjects,
-- draft a PR body with Summary, Commits, and Checklist sections,
-- push the branch with `git push --set-upstream origin <branch>`,
-- create the PR with `gh pr create` if available, otherwise print the manual URL and the full PR body ready to paste.
+First, ensure the feature branch is up to date with main:
+- Check if the branch is behind main.
+- If behind, ask whether you prefer `merge` or `rebase` to update (or accept the preference from the prompt arguments).
+- Update the branch using the chosen strategy.
 
-If the worktree still has uncommitted changes, warn me and ask whether to commit them first.
+Then validate and create the PR:
+- Run `python scripts/check_docs.py` to validate commit messages and docs gate across the entire PR scope.
+- Derive a PR title from the commit subjects,
+- Draft a PR body with Summary and Commits sections,
+- Push the branch with `git push --set-upstream origin <branch>`,
+- Create the PR with `gh pr create` if available, otherwise print the manual URL and the full PR body ready to paste.
+
+If the worktree still has uncommitted changes, warn me and ask whether to commit them first using Prepare Commit.
 
 If I provided extra context in the prompt arguments, include it in the PR body.

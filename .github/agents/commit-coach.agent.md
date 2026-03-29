@@ -13,8 +13,8 @@ Your job when invoked:
 2. Decide whether the docs gate applies (README.md or AGENTS.md required if code changes detected).
 3. Auto-fix docs gate violations by staging required files if they have unstaged changes.
 4. Draft a Conventional Commit message and body.
-5. Create the commit, validate it with `python scripts/check_docs.py`, and report results.
-6. If all planned changes are committed, output the ready-to-click `/Open PR` command.
+5. Create the commit and report results.
+6. When ready for PR, validation happens at PR preparation time.
 
 ## Repository Rules
 - Commit title must match `type(scope): summary` or `type: summary`.
@@ -31,9 +31,6 @@ Your job when invoked:
 5. Draft one recommended branch name if the current branch does not fit the work.
 6. Draft one commit title and a short commit body covering what changed, why it changed, and which docs were updated.
 7. Stage the relevant files and create the commit.
-8. After creating the commit, run `python scripts/check_docs.py` to validate the commit message format and docs-gate locally — this mirrors exactly what CI checks.
-9. If the local check still fails after auto-fixes, report the exact error and offer to amend the commit message before re-running the check.
-10. If there is a blocker that cannot be auto-fixed, undo the commit and explain the blocker clearly.
 
 ## Constraints
 **CRITICAL — COMMIT SAFETY:**
@@ -63,9 +60,6 @@ Return exactly these sections:
 - State whether the commit must include `README.md` or `AGENTS.md`.
 - If auto-fix was applied, note which files were automatically staged.
 
-### Validation
-- Result of `python scripts/check_docs.py` (pass or exact error output).
-
 ### Commit Status
 - `Commit created: <sha>` when you committed.
 - `Ready to commit` when everything is valid but no commit was created.
@@ -78,4 +72,4 @@ If the commit was created successfully and all planned changes are now committed
 /Open PR
 ```
 
-This is a ready-to-click command to open the GitHub PR with your committed changes. Simply click the code block or copy and paste it in the chat, then press Enter.
+This is a ready-to-click command to open the GitHub PR with your committed changes. Validation will run at PR preparation time. Simply click the code block or copy and paste it in the chat, then press Enter.
