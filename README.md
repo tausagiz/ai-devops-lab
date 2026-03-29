@@ -1,106 +1,236 @@
 # ai-devops-lab
 
-A low-risk sandbox for exploring AI automation in DevOps workflows.
+**Vendor-neutral agent design patterns for cost-conscious, AI-assisted development.**
 
-This repository is optimized for cheap experimentation rather than production hardening. It is meant for comparing AI assistants, agent workflows, and automation tools with minimal risk, especially when working with free-tier limits or paid systems where prompt size, tool calls, and repeated context all cost money.
+A multi-experiment sandbox for exploring AI automation workflows. Current experiment: Docker automation CLI (more experiments planned). The repository's real value is the reusable pattern: a central vendor-neutral policy (`AGENTS.md`) that works across multiple AI tools without rewriting code or instructions.
 
-## Token optimization notice
+### The Core Problem This Solves
 
-- Agent instructions are tuned to minimize token and tool-call usage.
-- Agents should keep responses concise by default and ask for confirmation before costlier optional work (extra docs files, additional tests, helper scripts, broad validation).
-- This aligns with the repository goal: maximize practical testing of free-tier and quota-limited tools.
-- A side benefit is deliberate practice in stronger prompting, context management, and model-selection decisions.
+When you're working with AI assistants (especially free-tier or quota-limited), you face three challenges:
 
-## Sandbox model
+1. **Instruction duplication**: Agent policies are rewritten for GitHub Copilot, Claude, OpenAI, etc.—each tool gets its own verbatim copies.
+2. **Token waste**: Repeated context loading and verbose instructions consume quotas quickly.
+3. **Tool lock-in**: Switch AI tools? Rewrite all your agent instructions.
 
-- Low operational risk: this repo is for learning and workflow experiments, not production deployment.
-- Cost matters: prefer short prompts, small diffs, cheap local checks, and incremental validation.
-- Free-tier friendly: mocked Docker usage and smoke tests make it practical to evaluate many tools without burning quotas.
-- Compact by design: instructions are intentionally short to reduce token usage and repeated context loading.
+### The Solution
 
-## Repository structure
+This repository demonstrates a **central policy + thin adapters** approach:
+
+- **`AGENTS.md`** (vendor-neutral): *Single source of truth* for workflow policy, conventions, and agent behavior.
+- **`.github/agents/` & `.github/prompts/`** (tool-specific): *Thin wrappers* that translate the central policy to tool-specific format (Copilot slash commands, Claude prompts, etc.).
+- **Result**: 66% instruction reduction, portable workflows, free-tier friendly.
+
+The Docker CLI is a *working experiment*—the real value is learning the pattern, then applying it to your own workflows or experiments.
+
+## Design Philosophy
+
+- **Low operational risk**: Sandbox for learning and experiments, not production.
+- **Cost-conscious**: Mocked testing (~0 infrastructure cost), cheap-first validation (~2 seconds), free-tier compatible.
+- **Token-efficient**: Central policy, no duplication, intentionally concise.
+- **Portable**: Same workflows across GitHub Copilot, Claude, future tools, or even human teams.
+
+## Repository Structure
+
+Key files for understanding the pattern (and current experiments):
 
 ```text
 ai-devops-lab/
-|- src/docker_automation/   # core package
-|  |- cli.py                # CLI dispatch
-|  |- config.py             # constants
-|  |- docker_client.py      # Docker SDK client factory
-|  `- commands/             # build/run/logs/clean handlers
-|- tests/
-|  |- unit/                 # mocked Docker tests
-|  `- integration/          # CLI smoke tests
-|- scripts/
-|  `- check_docs.py         # docs + commit-message checker
+|- AGENTS.md                          # ⭐ Core: Vendor-neutral policy (framework)
+|- README.md                          # User guide (this file)
 |- .github/
-|  |- agents/               # GitHub Copilot workflow wrappers
-|  `- prompts/              # Copilot slash-command entry points
-|- main.py                  # thin dev entry point
-|- Dockerfile
-|- pyproject.toml
-|- requirements.txt
-`- requirements-dev.txt
+|  |- agents/                         # Copilot-specific agent wrappers
+|  |- prompts/                        # Copilot slash-command entry points
+|  `- workflows/                      # CI/CD validation
+|
+|- [EXPERIMENTS]
+|  |
+|  `- src/docker_automation/          # Experiment 1: Docker CLI automation
+|     |- cli.py                       # Generic command dispatch pattern
+|     |- config.py                    # How-to: centralize constants
+|     |- docker_client.py             # How-to: dependency injection
+|     `- commands/                    # How-to: modular extensibility
+|  |
+|- tests/                             # Testing strategy (applies to all experiments)
+|  |- unit/                           # Mocked unit tests (no infrastructure)
+|  `- integration/                    # CLI dispatch smoke tests
+|- scripts/
+|  `- check_docs.py                   # Documentation-as-code enforcement (shared)
+|- main.py                            # Dev entry point
+|- pyproject.toml                     # Package config
+`- Dockerfile                         # Current experiment only
 ```
 
-## Prerequisites
+**`AGENTS.md` is the framework**: Experiments (in `src/`) demonstrate how to implement it. Want to adopt this pattern? Start with `AGENTS.md`. Want to understand patterns? Read the Docker experiment.
 
-- Docker engine running and accessible.
-- Python 3.10+.
-
-## Setup
+## Quick Start
 
 ```bash
+git clone <repo-url>
+cd ai-devops-lab
 python -m venv venv
 source venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-> During development without `pip install`, `main.py` adds `src/` to `sys.path` automatically.
+## Understanding the Agent Pattern (AGENTS.md)
 
-## Usage
+`AGENTS.md` defines:
+- **Repository character**: What this project is and isn't
+- **Work priorities**: Cheap checks first, expensive validation on request
+- **Workflow steps**: `/New Branch` → `/Validate` → `/Prepare Commit` → `/Open PR`
+- **Conventions**: Branch naming, commit message format, docs requirements
+- **Guardrails**: When to ask for confirmation, safety checks, risk mitigation
+
+This file is **provider-neutral**—use it as-is with GitHub Copilot, or adapt for Claude, OpenAI, or any tool that reads markdown.
+
+### How Tool Adapters Work
+
+`.github/agents/` and `.github/prompts/` provide Copilot-specific syntax (slash commands, formatting hints). They **reference AGENTS.md rather than duplicating it**. Result: one policy update applies everywhere.
+
+To add support for a new AI tool:
+1. Read `AGENTS.md` to understand the workflows
+2. Create a thin wrapper (tool-specific syntax)
+3. Reference `AGENTS.md` from the wrapper
+4. Done—no policy rewriting needed
+
+## Current Experiment: Docker Automation CLI
+
+The first experiment is a **Docker automation CLI**. It demonstrates:
+
+- **Testability patterns**: Dependency injection, mocking, factory pattern
+- **CLI design**: Clean dispatch, error handling, user feedback
+- **Documentation-as-code**: Automated docs gates (`check_docs.py`)
+- **Cheap validation**: Unit + integration tests require zero infrastructure
+
+The Docker CLI is intentionally simple so the patterns stay visible. It's **not** the point—it's a vehicle for learning the pattern you can apply to build other experiments.
+
+### Example: Running the Docker Commands
+
+If Docker is installed and running:
 
 ```bash
-python main.py build
-python main.py run
-python main.py logs
-python main.py clean
+python main.py build   # Build image from Dockerfile
+python main.py run     # Start container in background
+python main.py logs    # Fetch container logs
+python main.py clean   # Stop and remove all containers
 ```
 
-After `pip install -e .`, you can also run:
+After `pip install -e .`, use the CLI directly:
 
 ```bash
 ai-devops-lab build
 ```
 
-## Testing
+> Note: `clean` stops/removes all containers on your machine—treat it as a sandbox-only command.
+
+### Testing the Example
+
+The testing strategy reflects the repo's cost-conscious philosophy:
 
 ```bash
+# Cheap validation (< 2 seconds, no infrastructure needed)
 pytest tests/unit
 pytest tests/integration
+python scripts/check_docs.py
+
+# Detailed analysis (optional, run on demand)
 pytest tests/ --cov=docker_automation
 ```
 
-Use the first two commands for the default cheap validation loop. Run coverage only when you explicitly need broader signal.
+**How it's cheap**: All Docker API calls are mocked. Unit tests don't require a running daemon. This makes CI/CD validation fast and free-tier compatible.
 
-## Notes
+**Test structure**:
+- `tests/unit/`: Command logic, error handling, output formatting (mocked Docker SDK)
+- `tests/integration/`: CLI dispatch verification (mocked commands)
 
-- `build` tags the image as `myapp:latest` in `src/docker_automation/config.py`.
-- `clean` stops and removes all containers on the host, so treat it as a sandbox command.
-- Add new commands in `src/docker_automation/commands/` and register them in `cli.py`.
+## Agent Workflows in Action
 
-## Agent workflow support
+The workflow system defined in `AGENTS.md` works for any experiment. Here's an example using the Docker CLI:
 
-Repository-wide policy lives in `AGENTS.md` and is intentionally provider-neutral.
+### Recommended VS Code + Copilot Workflow (Docker Example)
 
-Current GitHub Copilot integration lives in `.github/agents/` and `.github/prompts/`. Those files stay thin and mainly provide Copilot-specific entry points such as slash commands, argument hints, and output format.
+If you have GitHub Copilot installed:
 
-Recommended VS Code workflow:
+```
+/New Branch "add push-command"
+  ↓
+# Edit src/docker_automation/commands/push.py (or any experiment)
+# Update cli.py registration
+# Add tests in tests/unit/ and tests/integration/
+  ↓
+/Validate Changes
+  ↓
+/Prepare Commit
+  ↓
+/Open PR
+  ↓
+# Review & merge on GitHub
+  ↓
+/Close Branch
+```
 
-1. Run `/New Branch` to start work from updated `main`.
-2. Implement the change.
-3. Run `/Validate Changes` for fast local checks.
-4. Run `/Prepare Commit` to create a compliant commit.
-5. Run `/Open PR` to sync, validate, push, and open the PR.
-6. Run `/Close Branch` after merge.
+Each slash command follows `AGENTS.md`: cheap checks first, clear errors, human confirmation for risky operations.
 
-This keeps the repository easy to test across assistants while keeping token and tool usage low.
+**Same workflow works for any experiment**: Replace Docker commands with your own CLI, API client, or infrastructure tool—the pattern stays the same.
+
+### Adapting for Other AI Tools
+
+The workflow system is **tool-agnostic**. To use with Claude, OpenAI, or any AI assistant:
+
+1. Read `AGENTS.md` (vendor-neutral policy)
+2. Translate slash commands to your tool's interaction model
+3. Reference `AGENTS.md` from tool-specific instructions (no duplication)
+
+Example: Claude doesn't have slash commands, but you can create a system prompt that references the same workflows and conventions from `AGENTS.md`.
+
+## Key Files for Learning
+
+| Goal | Start Here | What You'll Learn |
+|------|-----------|-------------------|
+| **Understand the framework** | `AGENTS.md` (vendor-neutral policy) | The reusable pattern for any experiment |
+| **See tool integration** | `.github/agents/*.md`, `.github/prompts/*.md` | How to adapt policy to different AI tools |
+| **Learn testing patterns** | `tests/unit/`, `tests/integration/` | How to mock and test without infrastructure (applies to any CLI) |
+| **Understand CLI architecture** | `src/docker_automation/` (Docker experiment) | Command dispatch, factory pattern, dependency injection |
+| **See docs enforcement** | `scripts/check_docs.py` | Documentation-as-code validation (shared across experiments) |
+| **Build a new experiment** | Copy `src/docker_automation/` structure, replace `docker_automation` → your domain name | Adapt the pattern to your own CLI/automation tool |
+
+## Use Cases
+
+- 🎓 **Learning**: Study the pattern (`AGENTS.md`) → see it in action (Docker CLI) → build your own experiment
+- 🔬 **Experimentation**: Test AI assistants fairly with consistent structure and automated workflows across multiple experiments
+- 🏗️ **Adoption**: Adapt `AGENTS.md` framework for your own projects, teams, or workflows
+- 🤝 **Collaboration**: Reference implementation for AI-assisted development, extensible by design
+
+## Why This Pattern Matters
+
+**Traditional approach**: Build a tool with embedded policy → lock into one AI tool → rewrite when switching tools.
+
+**This approach**: Separate framework from tool → change AI tools without touching policy → reuse framework for different experiments.
+
+Cost comparison:
+
+| Dimension | Traditional | Framework-based |
+|-----------|-----------|-----------------|
+| Single tool | 1 policy | 1 policy |
+| Two tools | 2 policies (100% duplication) | 1 policy + 2 adapters (66% reduction) |
+| Three tools | 3 policies (200% duplication) | 1 policy + 3 adapters (80% reduction) |
+| New experiment | Start from scratch | Copy framework, adapt domain |
+
+**Free-tier friendly**: Test validation runs without infrastructure, without quotas, without cost. Perfect for comparing tools without burning tokens.
+
+## Contributing: Adding New Experiments
+
+This repository welcomes contributions:
+- **New experiments**: Build a different CLI tool (API client, infrastructure tool, etc.) following the same `AGENTS.md` pattern
+- **Extend current**: Add new commands to the Docker experiment (following existing patterns)
+- **Tool adapters**: Add support for Claude, OpenAI, or other AI tools (reference `AGENTS.md` from thin wrappers)
+- **Infrastructure**: Improve testing, validation, or docs-as-code enforcement
+- **Learning**: Share findings from AI tool comparisons or pattern adoption
+
+See `AGENTS.md` for contribution conventions (branch naming, commit format, etc.). When adding a new experiment, keep `AGENTS.md` the policy source—don't duplicate rules.
+
+## License & Attribution
+
+[Add your license here]
+
+— Built as an educational sandbox. Questions? Open an issue or discussion.
