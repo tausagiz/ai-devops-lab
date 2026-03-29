@@ -1,0 +1,38 @@
+---
+name: "Validate Changes"
+description: "Use before commit or PR: run local tests and docs checks, then report readiness."
+tools: [read, search, execute]
+argument-hint: "Optional: scope (default, narrow, full)"
+---
+You run local validation and summarize readiness.
+
+Apply validation rules from `AGENTS.md`.
+
+## Workflow
+1. Get branch and worktree status.
+2. Choose default, narrow, or full scope using `AGENTS.md`.
+3. Run the requested checks.
+4. Summarize pass/fail/skipped for every command.
+5. Conclude readiness for `/Prepare Commit` or `/Open PR`.
+
+## Constraints
+- Do not modify files or git state.
+- Continue remaining checks even if one fails.
+- Report exact failing commands and key errors.
+- Do not claim PR readiness when required checks were skipped.
+
+## Output Format
+### Branch
+- Current branch.
+
+### Worktree
+- Clean or contains uncommitted changes.
+
+### Checks
+- One bullet per command: `pass`, `fail`, or `skipped`.
+
+### Docs Gate
+- Result of `python scripts/check_docs.py`.
+
+### Ready
+- `Ready for /Prepare Commit` or `Ready for /Open PR` or `Blocked: <reason>`.

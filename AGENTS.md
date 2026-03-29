@@ -1,97 +1,68 @@
 # AGENTS
 
-This file summarizes guidance for AI agents ingesting this repository.
+Short guide for agents working in this repository.
 
-## Purpose
+## Repository character
 
-- DevOps learning project: automated Docker lifecycle with Python.
-- Avoid rewrites of business logic; focus on build/run/log management.
+- Educational sandbox for Docker automation and AI workflow testing.
+- Risk is intentionally very low: fast and cheap experiments are more important than production-hard process rigor.
+- The repo is used to compare multiple tools, especially those with free limits or cost tied to tokens/calls.
+- Instructions should stay short and non-duplicative to reduce context cost.
 
-## Repository structure (as of current branch)
+## Work priorities
 
-```
-src/docker_automation/
-  cli.py            — CLI entry point, dispatches subcommands
-  config.py         — IMAGE_TAG, BUILD_PATH constants
-  docker_client.py  — get_client() factory (mockable in tests)
-  commands/
-    build.py        — build_image()
-    run.py          — run_container()
-    logs.py         — show_logs()
-    clean.py        — cleanup()
-tests/
-  unit/             — per-command unit tests, Docker SDK mocked
-  integration/      — CLI smoke tests, no daemon required
-scripts/
-  check_docs.py     — CI commit-message and docs-gate checker
-.github/workflows/
-  docs-check.yml    — commit format + docs requirement
-  tests.yml         — pytest unit + integration + coverage
-```
+- Prefer small, reversible changes and short validation loops.
+- Start with the cheapest checks: `pytest tests/unit`, `pytest tests/integration`, then coverage or more expensive steps.
+- Minimize context: read only needed files and avoid duplicating the same rules across many instructions.
+- Do not overengineer; this repo is for experimentation.
 
-## How to use for agents
+## Token-efficiency policy
 
-1. Read `README.md` for overall intent and usage.
-2. To understand a command: read its module in `src/docker_automation/commands/`.
-3. To add a command: create `src/docker_automation/commands/<name>.py` and register in `cli.py`.
-4. All Docker access goes through `get_client()` from `docker_client.py` — patch that in tests.
-5. Constants (image tag, build path) live in `config.py` — not scattered in functions.
-6. Process `Dockerfile` for base image and default runtime behavior.
+- Keep responses compact by default: report outcomes first, include only necessary detail, and avoid long explanations unless the user asks.
+- Do not create extra Markdown/docs files, new tests, or helper scripts by default.
+- If adding docs/tests/scripts could improve quality but is not explicitly requested, stop and ask for user confirmation first.
+- Prefer editing existing files over introducing new files.
+- Before running broader validation, heavy analysis, or multi-step refactors not explicitly requested, ask for confirmation and suggest the cheapest next check.
 
-## Commit Policy
+## Project map
 
-**CRITICAL**: Only the "Prepare Commit" prompt (`.github/prompts/prepare-commit.prompt.md`) is allowed to create commits automatically.
+- `src/docker_automation/cli.py` - CLI entry point and command routing.
+- `src/docker_automation/config.py` - constants (`IMAGE_TAG`, `BUILD_PATH`).
+- `src/docker_automation/docker_client.py` - `get_client()` factory.
+- `src/docker_automation/commands/*.py` - command implementations.
+- `tests/unit/` - unit tests (Docker SDK mocked).
+- `tests/integration/` - CLI smoke tests.
+- `scripts/check_docs.py` - commit message + docs gate validation.
 
-- The Commit Coach agent is invoked ONLY via the `/Prepare Commit` prompt. It never commits in response to routine file modification requests.
-- All other agents, prompts, and modes **must never commit or push without explicit user request**.
-- The "Prepare Commit" prompt invokes the Commit Coach agent to auto-commit only when:
-  1. The user explicitly invoked the "Prepare Commit" prompt in VS Code chat.
-  2. All changes are coherent (related scope).
-  3. Docs gate is satisfied (README.md or AGENTS.md included if code changed).
-  4. `python scripts/check_docs.py` validates the commit message format.
-- **Auto-fix capability:** When docs gate violations are detected (code changes without README.md or AGENTS.md), Commit Coach automatically stages the required docs files if they have unstaged changes. Only existing unstaged changes are staged; new content is never created.
-- Other agents (default mode, PR Coach, etc.) must:
-  - Inspect changes without committing.
-  - Ask the user before taking git actions.
-  - Let Commit Coach handle commit operations when needed.
+## Repository rules
 
-## GitHub Copilot
+- Implementation: access Docker only through `get_client()`; keep constants in `config.py`; each new command must live in `commands/` and be registered in `cli.py`.
+- Language: developers may chat in any language, but all repository artifacts must be in English (code, comments, docstrings, variable/function names, CLI messages, tests, documentation, commit/PR descriptions).
+- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, ask for clarification instead of guessing.
+- Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
+- Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
+- User confirmation guardrail: when a proposed action increases token/call usage or project surface (new files, broader tests, extra scripts, large documentation updates), ask for explicit confirmation before proceeding unless already requested.
+- Branch closing: never delete `main` or `master`; delete only branches merged into `origin/main` unless user explicitly confirms risky operation; when merge state is uncertain or `-D` would be needed, stop and wait for confirmation; never force-push or force-delete without explicit request.
 
-- Copilot can leverage this file plus repo contents.
-- No duplication is needed; link agent behavior from here.
-- Recommend adding `.github/copilot.yml` for custom assistant instructions (optional).
-- Workspace customizations for commit preparation live in:
-  - `.github/agents/commit-coach.agent.md`
-  - `.github/prompts/prepare-commit.prompt.md`
-- Workspace customizations for PR preparation live in:
-  - `.github/agents/pr-coach.agent.md`
-  - `.github/prompts/open-pr.prompt.md`
-- Use the `Prepare Commit` prompt in VS Code chat to create commits. When successful, it outputs a ready-to-click `/Open PR` command at the end.
-- Use the `Open PR` prompt in VS Code chat to finalize and push the PR. This prompt:
-  1. Syncs the feature branch with main (asks merge or rebase preference if needed)
-  2. Validates all commits together at PR scope with `python scripts/check_docs.py`
-  3. Pushes the branch and creates the PR
-  - Supports both `merge` and `rebase` strategies for updating from main.
+## Tooling integration
 
-## PR-scope validation workflow (recommended)
+- `AGENTS.md` is the repo-neutral layer and the primary source of rules for any agent.
+- Files in `.github/agents/` and `.github/prompts/` are thin wrappers for slash commands, `argument-hint`, and response format; kept minimal to preserve token budget.
+- If a rule applies to the whole repo, keep it here; in Copilot files keep only what is necessary to run the workflow.
 
-- Instead of validating each commit independently, the full PR is validated at submission time. This allows docs updates to be scoped to the entire feature rather than individual commits.
-- Script: `scripts/check_docs.py` (renamed from `check-docs.py` to follow Python snake_case).
+## Vendor-agnostic policy
 
-- Current checker details in this repo:
-  - Commit message format: `type(scope): summary` or `type: summary`.
-  - Allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`.
-  - Auto-generated merge commits are accepted (for example `Merge <sha> into <sha>`).
-  - Docs gate requires at least one docs file in the changed set: `README.md` or `AGENTS.md`.
-  - Changed set in CI is determined from GitHub event SHAs for deterministic behavior:
-    - pull request: `base.sha...head.sha`
-    - push: `before..after`
+- Prefer vendor-neutral conventions and references in shared instructions (for example `#file:AGENTS.md` as the canonical rule source).
+- Keep provider-specific capabilities (tool names, frontmatter keys, slash-command wiring, platform-only metadata) in provider-scoped wrapper files only.
+- Provider-scoped files must stay minimal adapters and must not duplicate repository-wide policy from `AGENTS.md`.
+- When adding or changing automation guidance, update the universal rule in `AGENTS.md` first, then reference it from tool/vendor-specific files.
+- Design new instruction/tool structures so another tool can adopt the same universal base without rewriting repository policy.
 
-- Commit message template for agent-assisted writing:
-  - `type(scope): concise summary` (e.g., `feat(docker): add restart workflow`)
-  - body: 1) what changed, 2) why, 3) docs updated (README, AGENTS, etc.).
+## Workflow prompts
 
-- CI/PR automation:
-  - `docs-check.yml` — enforces commit message format + docs update requirement.
-  - `tests.yml` — runs `pytest tests/unit` and `pytest tests/integration` on every PR and push to `main`.
-  - Optional: use Copilot to draft commit message and docs text for maintainers to review.
+- `/Workflow Help` - list available workflows.
+- `/New Branch` - update `main` and create a feature branch.
+- `/Validate Changes` - local tests + docs gate.
+- `/Prepare Commit` - prepare and create commit.
+- `/Open PR` - branch sync, validation, push, and PR opening.
+- `/Close Branch` - close merged branch and return to `main`.
