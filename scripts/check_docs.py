@@ -6,8 +6,17 @@ import sys
 from pathlib import Path
 
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
 def git_output(args):
-    result = subprocess.run(["git", *args], capture_output=True, text=True, check=False)
+    result = subprocess.run(
+        ["git", *args],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=REPO_ROOT,
+    )
     if result.returncode != 0:
         return None
     return result.stdout.strip()
@@ -16,41 +25,46 @@ def git_output(args):
 def check_copyright_year():
     """Verify LICENSE file copyright year is current."""
     import datetime
-    
-    license_file = Path("LICENSE")
+
+    license_file = REPO_ROOT / "LICENSE"
     if not license_file.exists():
         return True  # Skip if no LICENSE yet
-    
+
     current_year = datetime.datetime.now().year
     license_content = license_file.read_text()
-    
+
     # Extract copyright year(s) from "Copyright (c) 2026" or "Copyright (c) 2026-2027"
     copyright_match = re.search(r"Copyright \(c\) (\d{4})(?:-(\d{4}))?", license_content)
-    
+
     if not copyright_match:
         print("⚠️  LICENSE file missing copyright year. Expected: Copyright (c) YYYY")
         return False
-    
+
     start_year = int(copyright_match.group(1))
     end_year = int(copyright_match.group(2)) if copyright_match.group(2) else start_year
-    
+
     if end_year < current_year:
         print(f"⚠️  COPYRIGHT YEAR STALE: LICENSE shows {start_year}-{end_year}, current year is {current_year}")
         print(f"   Update to: Copyright (c) {start_year}-{current_year}")
         print(f"   Or if this is fresh work: Copyright (c) {current_year}")
         return False
-    
+
     return True
 
 
 def main():
     # Commit message check
     try:
-        msg = (Path(".git/COMMIT_EDITMSG").read_text().strip())
+        msg = ((REPO_ROOT / ".git" / "COMMIT_EDITMSG").read_text().strip())
     except FileNotFoundError:
         # in CI we can use git log for current commit
         import subprocess
-        msg = subprocess.check_output(["git", "log", "-1", "--pretty=%B"], text=True).strip()
+
+        msg = subprocess.check_output(
+            ["git", "log", "-1", "--pretty=%B"],
+            text=True,
+            cwd=REPO_ROOT,
+        ).strip()
 
     # GitHub creates merge commits like "Merge <sha> into <sha>" on some flows.
     # Skip conventional-commit validation for those auto-generated messages.
@@ -65,8 +79,8 @@ def main():
         sys.exit(1)
 
     # Documentation checks
-    readme = Path("README.md")
-    agents = Path("AGENTS.md")
+    readme = REPO_ROOT / "README.md"
+    agents = REPO_ROOT / "AGENTS.md"
 
     if not readme.exists() or not agents.exists():
         print("❌ README.md and AGENTS.md are required.")
@@ -119,7 +133,7 @@ def main():
     # Copyright year check
     if not check_copyright_year():
         print("⚠️  License copyright year is stale.")
-    
+
     print("✅ Commit message and docs checks passed.")
     return 0
 

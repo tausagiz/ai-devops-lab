@@ -3,11 +3,11 @@
 For direct execution: python main.py [build|run|logs|clean]
 After `pip install -e .` the `ai-devops-lab` CLI command is also available.
 """
-import os
 import sys
+from pathlib import Path
 
 # Allow running without `pip install -e .` during development.
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from docker_automation.cli import main  # noqa: E402
 
