@@ -4,48 +4,48 @@ import sys
 client = docker.from_env()
 
 def build_image():
-    print("🔨 Buduję obraz...")
+    print("🔨 Building image...")
     try:
         image, logs = client.images.build(path=".", tag="myapp:latest")
         for line in logs:
             print(line.get("stream", ""), end="")
-        print("✅ Obraz zbudowany.")
+        print("✅ Image built.")
     except Exception as e:
-        print(f"❌ Błąd podczas budowania obrazu: {e}")
+        print(f"❌ Error building image: {e}")
         sys.exit(1)
 
 def run_container():
-    print("🚀 Uruchamiam kontener...")
+    print("🚀 Starting container...")
     try:
         container = client.containers.run("myapp:latest", detach=True)
-        print(f"Kontener działa: {container.short_id}")
+        print(f"Container running: {container.short_id}")
     except Exception as e:
-        print(f"❌ Błąd podczas uruchamiania kontenera: {e}")
+        print(f"❌ Error starting container: {e}")
         sys.exit(1)
 
 def show_logs():
-    print("📜 Logi kontenera:")
+    print("📜 Container logs:")
     try:
         container = client.containers.list()[0]
         print(container.logs().decode())
     except IndexError:
-        print("❌ Brak działających kontenerów.")
+        print("❌ No running containers.")
     except Exception as e:
-        print(f"❌ Błąd podczas pobierania logów: {e}")
+        print(f"❌ Error fetching logs: {e}")
 
 def cleanup():
-    print("🧹 Czyszczenie...")
+    print("🧹 Cleaning...")
     try:
         for container in client.containers.list(all=True):
             container.stop()
             container.remove()
-        print("🧼 Gotowe.")
+        print("🧼 Done.")
     except Exception as e:
-        print(f"❌ Błąd podczas czyszczenia: {e}")
+        print(f"❌ Error during cleanup: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Użycie: python main.py [build|run|logs|clean]")
+        print("Usage: python main.py [build|run|logs|clean]")
         sys.exit(1)
 
     command = sys.argv[1]
@@ -59,4 +59,4 @@ if __name__ == "__main__":
     elif command == "clean":
         cleanup()
     else:
-        print(f"Nieznana komenda: {command}")
+        print(f"Unknown command: {command}")
