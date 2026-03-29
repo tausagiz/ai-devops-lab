@@ -15,34 +15,26 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 4. If mixed unrelated work is present, stop and ask user to confirm scope.
 5. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
 6. Stage relevant files and create commit.
-7. Report outcome.
-8. If commit is created and worktree is clean, always include `### Next Step` with `/Open PR` in a command block.
+7. Report outcome with commit SHA.
+8. Always conclude with a `### Next Step` section containing the `/Open PR` command block.
 
 ## Constraints
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
-- Keep response concise and actionable.
-- Never omit the next-step command block after successful commit.
+- Keep response concise.
+- Always end with the mandatory Next Step command block.
 
 ## Output Format
-### Branch
-- Recommended branch name or `Current branch is suitable`.
 
-### Commit Title
-- One valid title.
+Report the following in order:
 
-### Commit Body
-- `What:`
-- `Why:`
-- `Docs:`
-
-### Docs Gate
-- Whether docs file is required and what was auto-staged.
-
-### Commit Status
-- `Commit created: <sha>` or `Ready to commit` or `Blocked: <reason>`.
-
-### Next Step (required when commit is successful)
-```text
+1. **Commit outcome**: One line stating `Commit created: <sha>` or `Blocked: <reason>` or `Ready to commit`.
+2. **Next Step** (required on successful commit):
+```
+### Next Step
 /Open PR
 ```
+
+Notes:
+- Omit verbose branch details unless needed for clarity.
+- Never skip the Next Step block when commit succeeds.

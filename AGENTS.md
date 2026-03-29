@@ -47,7 +47,7 @@ Short guide for agents working in this repository.
 ## Tooling integration
 
 - `AGENTS.md` is the repo-neutral layer and the primary source of rules for any agent.
-- Files in `.github/agents/` and `.github/prompts/` are thin GitHub Copilot wrappers for slash commands, `argument-hint`, and response format.
+- Files in `.github/agents/` and `.github/prompts/` are thin wrappers for slash commands, `argument-hint`, and response format; kept minimal to preserve token budget.
 - If a rule applies to the whole repo, keep it here; in Copilot files keep only what is necessary to run the workflow.
 
 ## Vendor-agnostic policy
