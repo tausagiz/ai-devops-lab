@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "docker-automation"
+name = "ai-devops-lab"
 version = "0.1.0"
 description = "Automated Docker workflow helper for DevOps learning and practice"
 readme = "README.md"
@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 dependencies = ["docker>=6.0"]
 
 [project.scripts]
-docker-automation = "docker_automation.cli:main"
+ai-devops-lab = "docker_automation.cli:main"
 
 [project.optional-dependencies]
 dev = [

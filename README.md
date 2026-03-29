@@ -1,4 +1,4 @@
-# docker-automation
+# ai-devops-lab
 
 A playground for exploring AI automation in DevOps workflows.
 
@@ -13,7 +13,7 @@ It serves as a hands-on project for testing AI agents (like GitHub Copilot) in r
 ## Repository structure
 
 ```
-docker-automation/
+ai-devops-lab/
 ├─ src/docker_automation/   # Python package (core logic)
 │  ├─ cli.py                # CLI argument dispatch
 │  ├─ config.py             # constants (IMAGE_TAG, BUILD_PATH)
@@ -72,7 +72,7 @@ python main.py clean   # stop and remove all containers
 After `pip install -e .` the installed CLI entry point is also available:
 
 ```bash
-docker-automation build
+ai-devops-lab build
 ```
 
 ## Testing
