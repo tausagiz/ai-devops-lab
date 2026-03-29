@@ -6,26 +6,18 @@ argument-hint: "Optional: branch name to close (defaults to current branch)"
 ---
 You safely close a merged feature branch.
 
-## Workflow
-1. Check `git status --short`; if dirty, stop.
-2. Resolve `<branch>` from argument or `git branch --show-current`.
-   - If `<branch>` is `main`, stop (nothing to close).
-3. Run `git fetch origin`.
-4. Verify merge using `git branch --merged origin/main`.
-   - If not merged, warn and stop for explicit confirmation before deletion.
-5. Switch to main: `git checkout main`.
-6. Update main: `git merge --ff-only origin/main`.
-7. Delete local branch: `git branch -d <branch>`.
-   - If rejected as unmerged (e.g., squash merge), stop and ask confirmation before `-D`.
-8. If remote branch exists (`git ls-remote --heads origin <branch>`), run `git push origin --delete <branch>`.
-9. Report final state.
+Apply branch cleanup safety rules from `AGENTS.md`.
 
-## Constraints
-- Never delete `main`/`master`.
-- Never force-delete without explicit confirmation.
-- Never force-push.
-- No file edits.
-- When confirmation is required, stop and wait for the user instead of continuing.
+## Workflow
+1. Check worktree status; if dirty, stop.
+2. Resolve branch from arguments or current branch; if it is `main`, stop.
+3. Fetch `origin` and verify merge into `origin/main`.
+4. If merge is unclear, stop and wait for explicit confirmation.
+5. Switch to `main` and fast-forward it.
+6. Delete local branch with `git branch -d <branch>`.
+7. If `-d` is rejected or deletion is otherwise risky, stop and ask before `-D`.
+8. If needed, delete remote branch.
+9. Report final state.
 
 ## Output Format
 ### Branch Closed

@@ -6,6 +6,6 @@ argument-hint: "Optional: context for commit scope and message"
 ---
 Prepare a commit for current repository changes.
 
-Apply repository commit rules and docs gate. If changes are coherent, auto-fix docs gate by staging already-modified docs files when possible, then create commit. If blocked, report exact reason. Use provided context to refine scope/title/body.
+Follow commit and docs-gate rules from `AGENTS.md`. Use provided context to refine scope, title, and body.
 
 When commit succeeds and all changes are committed, finish with `/Open PR` in a command block.

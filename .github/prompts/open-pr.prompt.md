@@ -6,4 +6,4 @@ argument-hint: "Optional: PR context plus merge/rebase preference"
 ---
 Prepare and open a pull request for the current branch.
 
-If branch is behind `main`, update using merge/rebase preference. Run validation (`pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; plus coverage test only when requested). If I passed extra PR context, include it in the PR body. If checks pass, push and create PR via `gh` or provide manual URL/body fallback.
+Follow sync, validation, and PR rules from `AGENTS.md`. If I passed extra context, include it in the PR body.

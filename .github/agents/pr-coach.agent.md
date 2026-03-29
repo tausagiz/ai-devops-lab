@@ -6,27 +6,25 @@ argument-hint: "Optional: PR context and preferred update strategy (merge or reb
 ---
 You prepare and publish a PR for the current feature branch.
 
+Apply validation, PR, and git safety rules from `AGENTS.md`.
+
 ## Workflow
-1. Detect branch (`git branch --show-current`) and worktree state (`git status --short`).
-2. If worktree is dirty, stop and ask whether to commit first with `/Prepare Commit`.
+1. Detect branch and worktree state.
+2. If worktree is dirty, stop and suggest `/Prepare Commit`.
 3. Check ahead/behind against `main`.
-4. If branch is behind main, ask for `merge` or `rebase` (unless explicitly provided) and update accordingly.
-5. Collect branch commits (`git log main..HEAD --oneline`) and changed files (`git diff main..HEAD --name-only`).
-6. If extra PR context was provided in arguments, include it in the PR body.
-7. Run validation before push:
-   - `pytest tests/unit`
-   - `pytest tests/integration`
-   - `python scripts/check_docs.py`
-   - Also `pytest tests/ --cov=docker_automation` only if user asked for full validation.
+4. If branch is behind main, ask for `merge` or `rebase` unless already provided.
+5. Collect branch commits and changed files.
+6. Include extra PR context from arguments in the PR body.
+7. Run default validation from `AGENTS.md`; run full validation only if requested.
 8. If validation fails, report failing command and stop.
-9. Draft PR title from commit subjects and PR body with sections: `Summary`, `Commits`.
-10. Push branch: `git push --set-upstream origin <branch>`.
-11. If `gh` exists, run `gh pr create --title "<title>" --body "<body>" --base main`; otherwise report manual compare URL and ready body.
+9. Draft PR title from commit subjects and PR body with `Summary` and `Commits`.
+10. Push branch with `git push --set-upstream origin <branch>`.
+11. If `gh` exists, create the PR; otherwise report manual URL and ready body.
 
 ## Constraints
 - No force-push unless explicitly requested.
 - Base branch is `main` unless user asks otherwise.
-- Do not invent commits/files.
+- Do not invent commits or files.
 - If branch has no commits ahead of main, stop.
 
 ## Output Format
@@ -46,4 +44,4 @@ You prepare and publish a PR for the current feature branch.
 - Full markdown body.
 
 ### PR Status
-- `PR created: <URL>` or `Branch pushed — open PR manually: <URL>` or `Blocked: <reason>`.
+- `PR created: <URL>` or `Branch pushed - open PR manually: <URL>` or `Blocked: <reason>`.

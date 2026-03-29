@@ -6,6 +6,4 @@ argument-hint: "Optional: validation scope (default, narrow, full)"
 ---
 Validate this branch before commit or PR.
 
-Default checks: `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`. Add `pytest tests/ --cov=docker_automation` only when full validation is requested.
-
-Report branch, worktree state, each check status, and readiness for `/Prepare Commit` or `/Open PR`.
+Use the validation scope from `AGENTS.md`: default by default, narrow only when explicitly requested with skipped checks called out, and full only when explicitly requested. Report readiness for `/Prepare Commit` or `/Open PR`.

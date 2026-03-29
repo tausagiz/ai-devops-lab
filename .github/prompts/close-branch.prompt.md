@@ -6,6 +6,4 @@ argument-hint: "Optional: branch name to close (defaults to current branch)"
 ---
 Close a merged feature branch safely.
 
-If worktree is dirty, stop. Verify branch is merged into `main` before deletion. If not merged, require explicit confirmation. Update `main`, delete local branch, then delete remote branch if it exists.
-
-Report branch closure status and main update status.
+Follow branch cleanup rules from `AGENTS.md`. If the target branch is `main` or `master`, stop. If deletion would require `-D`, stop and ask for explicit confirmation.
