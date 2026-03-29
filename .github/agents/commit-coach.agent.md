@@ -22,9 +22,11 @@ Your job is to inspect the current git state and either produce a commit-ready r
 4. Draft one recommended branch name if the current branch does not fit the work.
 5. Draft one commit title and a short commit body covering what changed, why it changed, and which docs were updated.
 6. If the user asked to commit and the changes are coherent, stage the relevant files, create the commit, and report the result.
-7. If the user asked to commit but there is a blocker, stop before committing and explain the blocker clearly.
-8. Recommend the smallest relevant test command before push.
-9. End with a short PR checklist focused on this repository.
+7. After creating the commit, run `python scripts/check_docs.py` to validate the commit message format and docs-gate locally — this mirrors exactly what CI checks.
+8. If the local check fails, report the exact error and offer to amend the commit message or add the missing docs file before re-running the check.
+9. If the user asked to commit but there is a blocker, stop before committing and explain the blocker clearly.
+10. Recommend the smallest relevant test command before push.
+11. End with a short PR checklist focused on this repository.
 
 ## Constraints
 - Do not push branches or amend commits unless the user explicitly asks.
@@ -53,6 +55,7 @@ Return exactly these sections:
 - State whether the commit must include `README.md` or `AGENTS.md`.
 
 ### Validation
+- Result of `python scripts/check_docs.py` (pass or exact error output).
 - Minimal test command or `No additional tests needed` with justification.
 
 ### Commit Status

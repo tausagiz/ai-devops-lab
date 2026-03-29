@@ -47,6 +47,7 @@ scripts/
   - `.github/agents/commit-coach.agent.md`
   - `.github/prompts/prepare-commit.prompt.md`
 - Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready.
+- After each commit the agent runs `python scripts/check_docs.py` locally — this mirrors exactly what CI checks and catches errors before push.
 
 ## Commit-time agent docs workflow (recommended)
 
