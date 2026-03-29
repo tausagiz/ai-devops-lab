@@ -66,7 +66,7 @@ scripts/
   - `.github/agents/pr-coach.agent.md`
   - `.github/prompts/open-pr.prompt.md`
 - Use the `Open PR` prompt in VS Code chat to push the current branch and open a GitHub PR with a drafted title and description.
-- Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready.
+- Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready. When successful, it directs you to use the `Open PR` prompt to submit a pull request.
 - After each commit the agent runs `python scripts/check_docs.py` locally — this mirrors exactly what CI checks and catches errors before push.
 
 ## Commit-time agent docs workflow (recommended)
