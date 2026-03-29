@@ -139,6 +139,8 @@ pytest tests/ --cov=docker_automation
 
 **How it's cheap**: All Docker API calls are mocked. Unit tests don't require a running daemon. This makes CI/CD validation fast and free-tier compatible.
 
+The GitHub Actions test workflow also uses minimal repository permissions (`contents: read`) because it only needs checkout access to run validation.
+
 Note: `scripts/check_docs.py` resolves paths from the repository root, so it can be run from any working directory.
 
 **Test structure**:
