@@ -122,6 +122,8 @@ ai-devops-lab build
 ```
 
 > Note: `run` labels containers as managed by this project, and `clean`/`logs` target only those labeled containers.
+>
+> Exit codes: commands return `0` on success and `1` on operational errors (for example, Docker API failures while running `logs`).
 
 ### Testing the Example
 
