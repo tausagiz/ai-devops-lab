@@ -1,20 +1,11 @@
 ---
 name: "Validate Changes"
-description: "Run local validation for the current branch before commit or PR, including tests and docs-gate readiness."
+description: "Run local checks for the current branch and report readiness for commit or PR."
 agent: "Validate Changes"
-argument-hint: "Optional: validation scope, e.g. unit only or full validation"
+argument-hint: "Optional: validation scope (default, narrow, full)"
 ---
-Validate the current branch before I commit or open a pull request.
+Validate this branch before commit or PR.
 
-By default, run the repository's local checks:
-- `pytest tests/unit`
-- `pytest tests/integration`
-- `python scripts/check_docs.py`
+Default checks: `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`. Add `pytest tests/ --cov=docker_automation` only when full validation is requested.
 
-If I explicitly ask for full validation, also run `pytest tests/ --cov=docker_automation`.
-
-Report:
-- The current branch,
-- Whether the worktree has uncommitted changes,
-- Which checks passed, failed, or were skipped,
-- Whether the branch is ready for `/Prepare Commit` or `/Open PR`.
+Report branch, worktree state, each check status, and readiness for `/Prepare Commit` or `/Open PR`.

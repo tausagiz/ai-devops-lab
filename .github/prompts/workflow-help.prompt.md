@@ -1,17 +1,9 @@
 ---
 name: "Workflow Help"
-description: "Show a concise help view of the available repository prompts and when to use each one."
+description: "Show available workflow prompts and recommend one next command."
 agent: "Workflow Help"
-argument-hint: "Optional: current goal, e.g. start work, validate, commit, open PR, or clean up"
+argument-hint: "Optional: current goal"
 ---
-Show the available workflow prompts for this repository in a concise help format, similar to a CLI help screen.
+Show a compact workflow help screen for this repo.
 
-List each prompt briefly, explain when to use it, and recommend the single best next command when my goal is clear.
-
-Cover these prompts:
-- `/Workflow Help`
-- `/New Branch`
-- `/Validate Changes`
-- `/Prepare Commit`
-- `/Open PR`
-- `/Close Branch`
+List `/Workflow Help`, `/New Branch`, `/Validate Changes`, `/Prepare Commit`, `/Open PR`, `/Close Branch` with one-line usage and recommend one next command if my goal is clear.

@@ -1,24 +1,9 @@
 ---
 name: "Open PR"
-description: "Sync the feature branch with main (merge or rebase), validate the entire PR, and push to create a GitHub PR."
+description: "Sync branch with main, run validation, push, and open or prepare a GitHub PR."
 agent: "PR Coach"
-argument-hint: "Optional: context for the PR (e.g. reviewer, notes) or merge/rebase preference"
+argument-hint: "Optional: PR context plus merge/rebase preference"
 ---
-Prepare and push the current branch to open a pull request for this project.
+Prepare and open a pull request for the current branch.
 
-First, ensure the feature branch is up to date with main:
-- Check if the branch is behind main.
-- If behind, ask whether you prefer `merge` or `rebase` to update (or accept the preference from the prompt arguments).
-- Update the branch using the chosen strategy.
-
-Then validate and create the PR:
-- Re-run the same local validation expected by `/Validate Changes` before pushing: `pytest tests/unit`, `pytest tests/integration`, and `python scripts/check_docs.py`.
-- If I explicitly ask for full validation, also run `pytest tests/ --cov=docker_automation`.
-- Derive a PR title from the commit subjects,
-- Draft a PR body with Summary and Commits sections,
-- Push the branch with `git push --set-upstream origin <branch>`,
-- Create the PR with `gh pr create` if available, otherwise print the manual URL and the full PR body ready to paste.
-
-If the worktree still has uncommitted changes, warn me and ask whether to commit them first using Prepare Commit.
-
-If I provided extra context in the prompt arguments, include it in the PR body.
+If branch is behind `main`, update using merge/rebase preference. Run validation (`pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; plus coverage test only when requested). If I passed extra PR context, include it in the PR body. If checks pass, push and create PR via `gh` or provide manual URL/body fallback.
