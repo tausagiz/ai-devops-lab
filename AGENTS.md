@@ -37,7 +37,8 @@ This file summarizes guidance for AI agents ingesting this repository.
   - body: 1) what changed, 2) why, 3) docs updated (README, AGENTS, etc.).
 
 - CI/PR automation:
-  - Add a GitHub Actions job to run `python scripts/check-docs.py` (or equivalent) on pull requests.
+  - Add a GitHub Actions job to run `python scripts/check-docs.py` (or equivalent) on pull requests and pushes to `main`.
+  - The workflow file is `.github/workflows/docs-check.yml` and it enforces commit message format + docs update requirement.
   - Optional: use Copilot to draft commit message and docs text for maintainers to review.
 
 

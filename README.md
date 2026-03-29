@@ -67,4 +67,10 @@ This repo is primarily authored for humans, but it also includes structured hint
 
 See `AGENTS.md` for agent-context details and assistant instructions.
 
+## CI checks
+
+- A GitHub Actions workflow is configured in `.github/workflows/docs-check.yml`.
+- It runs on pushes to `main` and on pull requests.
+- It validates commit message format and requires that `README.md` or `AGENTS.md` is updated when code changes are introduced.
+
 
