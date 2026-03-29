@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docker-automation"
+version = "0.1.0"
+description = "Automated Docker workflow helper for DevOps learning and practice"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["docker>=6.0"]
+
+[project.scripts]
+docker-automation = "docker_automation.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-mock>=3.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short -v"

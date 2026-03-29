@@ -7,15 +7,36 @@ This file summarizes guidance for AI agents ingesting this repository.
 - DevOps learning project: automated Docker lifecycle with Python.
 - Avoid rewrites of business logic; focus on build/run/log management.
 
+## Repository structure (as of current branch)
+
+```
+src/docker_automation/
+  cli.py            — CLI entry point, dispatches subcommands
+  config.py         — IMAGE_TAG, BUILD_PATH constants
+  docker_client.py  — get_client() factory (mockable in tests)
+  commands/
+    build.py        — build_image()
+    run.py          — run_container()
+    logs.py         — show_logs()
+    clean.py        — cleanup()
+tests/
+  unit/             — per-command unit tests, Docker SDK mocked
+  integration/      — CLI smoke tests, no daemon required
+scripts/
+  check_docs.py     — CI commit-message and docs-gate checker
+.github/workflows/
+  docs-check.yml    — commit format + docs requirement
+  tests.yml         — pytest unit + integration + coverage
+```
+
 ## How to use for agents
 
 1. Read `README.md` for overall intent and usage.
-2. Process `main.py` for exact command behavior:
-   - `build` => `myapp:latest` image build
-   - `run` => detached container
-   - `logs` => get logs from first container
-   - `clean` => stop+remove all containers
-3. Process `Dockerfile` for base image and default runtime behavior.
+2. To understand a command: read its module in `src/docker_automation/commands/`.
+3. To add a command: create `src/docker_automation/commands/<name>.py` and register in `cli.py`.
+4. All Docker access goes through `get_client()` from `docker_client.py` — patch that in tests.
+5. Constants (image tag, build path) live in `config.py` — not scattered in functions.
+6. Process `Dockerfile` for base image and default runtime behavior.
 
 ## GitHub Copilot
 
@@ -26,11 +47,7 @@ This file summarizes guidance for AI agents ingesting this repository.
 ## Commit-time agent docs workflow (recommended)
 
 - On every commit that changes code, run a docs-checker to ensure documentation and intent are kept in sync as the project grows.
-- Suggested script pattern (generic):
-  1. `diff` changed files.
-  2. Identify changed behavior or public API (new features, flags, commands, interfaces).
-  3. Verify documentation covers the changed behavior in `README.md`, `AGENTS.md`, and any dedicated docs files.
-  4. For missing updates, fail with an actionable message (e.g., `docs: add new feature description to README/AGENTS`).
+- Script: `scripts/check_docs.py` (renamed from `check-docs.py` to follow Python snake_case).
 
 - Current checker details in this repo:
   - Commit message format: `type(scope): summary` or `type: summary`.
@@ -46,8 +63,8 @@ This file summarizes guidance for AI agents ingesting this repository.
   - body: 1) what changed, 2) why, 3) docs updated (README, AGENTS, etc.).
 
 - CI/PR automation:
-  - Add a GitHub Actions job to run `python scripts/check-docs.py` (or equivalent) on pull requests and pushes to `main`.
-  - The workflow file is `.github/workflows/docs-check.yml` and it enforces commit message format + docs update requirement.
+  - `docs-check.yml` — enforces commit message format + docs update requirement.
+  - `tests.yml` — runs `pytest tests/unit` and `pytest tests/integration` on every PR and push to `main`.
   - Optional: use Copilot to draft commit message and docs text for maintainers to review.
 
 

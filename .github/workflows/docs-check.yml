@@ -29,5 +29,4 @@ jobs:
           GITHUB_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
-          chmod +x scripts/check-docs.py
-          python scripts/check-docs.py
+          python scripts/check_docs.py
