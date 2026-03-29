@@ -6,6 +6,13 @@ import sys
 from pathlib import Path
 
 
+def git_output(args):
+    result = subprocess.run(["git", *args], capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
+
+
 def main():
     # Commit message check
     try:
@@ -38,24 +45,27 @@ def main():
     # Require that at least one docs file is updated in the current diff,
     # to encourage attention to docs as code evolves.
     changed = []
-    try:
-        base = os.environ.get("GITHUB_BASE_REF")
-        if base:
-            changed = subprocess.check_output(["git", "diff", "--name-only", f"origin/{base}..HEAD"], text=True).strip().splitlines()
-        else:
-            # Get commit count to handle initial commit gracefully.
-            commits = int(subprocess.check_output(["git", "rev-list", "--count", "HEAD"], text=True).strip())
-            if commits > 1:
-                changed = subprocess.check_output(["git", "diff", "--name-only", "HEAD~1..HEAD"], text=True).strip().splitlines()
-            else:
-                # Initial commit: list files introduced by HEAD.
-                changed = subprocess.check_output(["git", "show", "--name-only", "--pretty=", "HEAD"], text=True).strip().splitlines()
-    except Exception:
-        try:
-            # Last fallback for staged changes if history is unavailable.
-            changed = subprocess.check_output(["git", "diff", "--name-only", "--cached"], text=True).strip().splitlines()
-        except Exception:
-            changed = []
+    base = os.environ.get("GITHUB_BASE_REF")
+
+    changed_out = None
+    if base:
+        # PR in CI: prefer diff against remote base branch when available.
+        changed_out = git_output(["diff", "--name-only", f"origin/{base}..HEAD"])
+
+    if changed_out is None:
+        # Works for typical local commits and many CI push builds.
+        changed_out = git_output(["diff", "--name-only", "HEAD~1..HEAD"])
+
+    if changed_out is None:
+        # Initial commit or very shallow history: inspect files from HEAD commit.
+        changed_out = git_output(["show", "--name-only", "--pretty=", "HEAD"])
+
+    if changed_out is None:
+        # Last fallback for local pre-commit checks.
+        changed_out = git_output(["diff", "--name-only", "--cached"])
+
+    if changed_out:
+        changed = changed_out.splitlines()
 
     if not any(f in ["README.md", "AGENTS.md"] for f in changed):
         print("❌ Docs update required: commit must include README.md or AGENTS.md changes.")
