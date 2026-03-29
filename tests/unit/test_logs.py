@@ -1,5 +1,7 @@
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from docker_automation.commands.logs import show_logs
 from docker_automation.config import MANAGED_LABEL_FILTER
 
@@ -35,6 +37,8 @@ def test_show_logs_unexpected_exception(capsys):
     with patch("docker_automation.commands.logs.get_client") as mock_get_client:
         mock_get_client.return_value.containers.list.side_effect = Exception("Socket error")
 
-        show_logs()
+        with pytest.raises(SystemExit) as exc_info:
+            show_logs()
 
+        assert exc_info.value.code == 1
         assert "Socket error" in capsys.readouterr().out
