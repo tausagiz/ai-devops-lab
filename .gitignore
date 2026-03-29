@@ -1,0 +1,41 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+ENV/
+
+# pytest / coverage artifacts
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*~
+
+# macOS temp
+.DS_Store
+
+# Docker artifacts
+docker-compose.override.yml
+docker-compose.*.yml
+*.log
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
