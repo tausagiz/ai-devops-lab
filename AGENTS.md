@@ -38,6 +38,23 @@ scripts/
 5. Constants (image tag, build path) live in `config.py` — not scattered in functions.
 6. Process `Dockerfile` for base image and default runtime behavior.
 
+## Commit Policy
+
+**CRITICAL**: Only the "Prepare Commit" prompt (`.github/prompts/prepare-commit.prompt.md`) is allowed to create commits automatically.
+
+- The Commit Coach agent is invoked ONLY via the `/Prepare Commit` prompt. It never commits in response to routine file modification requests.
+- All other agents, prompts, and modes **must never commit or push without explicit user request**.
+- The "Prepare Commit" prompt invokes the Commit Coach agent to auto-commit only when:
+  1. The user explicitly invoked the "Prepare Commit" prompt in VS Code chat.
+  2. All changes are coherent (related scope).
+  3. Docs gate is satisfied (README.md or AGENTS.md included if code changed).
+  4. `python scripts/check_docs.py` validates the commit message format.
+- **Auto-fix capability:** When docs gate violations are detected (code changes without README.md or AGENTS.md), Commit Coach automatically stages the required docs files if they have unstaged changes. Only existing unstaged changes are staged; new content is never created.
+- Other agents (default mode, PR Coach, etc.) must:
+  - Inspect changes without committing.
+  - Ask the user before taking git actions.
+  - Let Commit Coach handle commit operations when needed.
+
 ## GitHub Copilot
 
 - Copilot can leverage this file plus repo contents.
@@ -49,13 +66,16 @@ scripts/
 - Workspace customizations for PR preparation live in:
   - `.github/agents/pr-coach.agent.md`
   - `.github/prompts/open-pr.prompt.md`
-- Use the `Open PR` prompt in VS Code chat to push the current branch and open a GitHub PR with a drafted title and description.
-- Use the `Prepare Commit` prompt in VS Code chat to inspect current changes, validate docs-gate requirements, and create a compliant commit when the worktree is ready.
-- After each commit the agent runs `python scripts/check_docs.py` locally — this mirrors exactly what CI checks and catches errors before push.
+- Use the `Prepare Commit` prompt in VS Code chat to create commits. When successful, it outputs a ready-to-click `/Open PR` command at the end.
+- Use the `Open PR` prompt in VS Code chat to finalize and push the PR. This prompt:
+  1. Syncs the feature branch with main (asks merge or rebase preference if needed)
+  2. Validates all commits together at PR scope with `python scripts/check_docs.py`
+  3. Pushes the branch and creates the PR
+  - Supports both `merge` and `rebase` strategies for updating from main.
 
-## Commit-time agent docs workflow (recommended)
+## PR-scope validation workflow (recommended)
 
-- On every commit that changes code, run a docs-checker to ensure documentation and intent are kept in sync as the project grows.
+- Instead of validating each commit independently, the full PR is validated at submission time. This allows docs updates to be scoped to the entire feature rather than individual commits.
 - Script: `scripts/check_docs.py` (renamed from `check-docs.py` to follow Python snake_case).
 
 - Current checker details in this repo:
@@ -75,5 +95,3 @@ scripts/
   - `docs-check.yml` — enforces commit message format + docs update requirement.
   - `tests.yml` — runs `pytest tests/unit` and `pytest tests/integration` on every PR and push to `main`.
   - Optional: use Copilot to draft commit message and docs text for maintainers to review.
-
-
