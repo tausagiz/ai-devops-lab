@@ -139,6 +139,8 @@ pytest tests/ --cov=docker_automation
 
 **How it's cheap**: All Docker API calls are mocked. Unit tests don't require a running daemon. This makes CI/CD validation fast and free-tier compatible.
 
+Note: `scripts/check_docs.py` resolves paths from the repository root, so it can be run from any working directory.
+
 **Test structure**:
 - `tests/unit/`: Command logic, error handling, output formatting (mocked Docker SDK)
 - `tests/integration/`: CLI dispatch verification (mocked commands)
