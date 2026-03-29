@@ -61,3 +61,12 @@ Return exactly these sections:
 - `Commit created: <sha>` when you committed.
 - `Ready to commit` when everything is valid but no commit was created.
 - `Blocked: <reason>` when something prevented the push.
+
+### Next Step (when commit is successful)
+If the commit was created successfully and all planned changes are now committed, include this closing action:
+
+```
+/Open PR
+```
+
+This is a ready-to-click command to open the GitHub PR with your committed changes. Simply click the code block or copy and paste it in the chat, then press Enter.
