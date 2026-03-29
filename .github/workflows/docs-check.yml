@@ -1,4 +1,6 @@
 name: Docs and commit message checks
+permissions:
+  contents: read
 
 on:
   push:
