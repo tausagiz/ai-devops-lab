@@ -48,6 +48,7 @@ scripts/
   2. All changes are coherent (related scope).
   3. Docs gate is satisfied (README.md or AGENTS.md included if code changed).
   4. `python scripts/check_docs.py` validates the commit message format.
+- **Auto-fix capability:** When docs gate violations are detected (code changes without README.md or AGENTS.md), Commit Coach automatically stages the required docs files if they have unstaged changes. Only existing unstaged changes are staged; new content is never created.
 - Other agents (default mode, PR Coach, etc.) must:
   - Inspect changes without committing.
   - Ask the user before taking git actions.

@@ -13,7 +13,7 @@ Your job is to inspect all commits on the current branch that are not yet on mai
 2. Run `git log main..HEAD --oneline` to list all commits on this branch.
 3. Run `git diff main..HEAD --name-only` to see all changed files.
 4. Derive a PR title from the commit subjects following the Conventional Commit style used in this repo.
-5. Draft a PR body with three sections: Summary, Commits, and Checklist.
+5. Draft a PR body with two sections: Summary and Commits (no manual checklist — CI validates everything).
 6. Check whether `gh` CLI is available (`gh --version`).
 7a. If `gh` is available:
     - Run `git push --set-upstream origin <branch>`.
@@ -35,11 +35,6 @@ Use this structure for the PR body:
 
 ## Commits
 <bullet list of commit subjects from git log>
-
-## Checklist
-- [ ] `docs-check.yml` passes on CI
-- [ ] `tests.yml` passes on CI
-- [ ] README.md or AGENTS.md updated where relevant
 ```
 
 ## Constraints
@@ -65,6 +60,3 @@ Return exactly these sections:
 - `PR created: <URL>` when gh succeeded.
 - `Branch pushed — open PR manually: <URL>` when gh is unavailable.
 - `Blocked: <reason>` when something prevented the push.
-
-### Next Steps
-- 2 to 3 short items, e.g. request review, wait for CI.
