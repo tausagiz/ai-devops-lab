@@ -1,51 +1,51 @@
 # AGENTS
 
-Krotki przewodnik dla agentow pracujacych w tym repo.
+Short guide for agents working in this repository.
 
-## Charakter repo
+## Repository character
 
-- Sandbox edukacyjny do automatyzacji Dockera i testowania workflowow AI.
-- Ryzyko jest bardzo niskie: wazniejsze sa szybkie i tanie eksperymenty niz produkcyjna twardosc procesu.
-- Repo sluzy do porownywania wielu narzedzi, szczegolnie tych z darmowymi limitami albo kosztem zaleznym od tokenow/wywolan.
-- Instrukcje powinny byc krotkie i bez duplikacji, zeby zmniejszac koszt kontekstu.
+- Educational sandbox for Docker automation and AI workflow testing.
+- Risk is intentionally very low: fast and cheap experiments are more important than production-hard process rigor.
+- The repo is used to compare multiple tools, especially those with free limits or cost tied to tokens/calls.
+- Instructions should stay short and non-duplicative to reduce context cost.
 
-## Priorytety pracy
+## Work priorities
 
-- Preferuj male, odwracalne zmiany i krotkie petle walidacji.
-- Zaczynaj od najtanszych sprawdzen: `pytest tests/unit`, `pytest tests/integration`, dopiero potem coverage lub drozsze kroki.
-- Minimalizuj kontekst: czytaj tylko potrzebne pliki i nie powielaj tych samych zasad w wielu instrukcjach.
-- Nie overengineeruj; to repo ma ulatwiac eksperymenty.
+- Prefer small, reversible changes and short validation loops.
+- Start with the cheapest checks: `pytest tests/unit`, `pytest tests/integration`, then coverage or more expensive steps.
+- Minimize context: read only needed files and avoid duplicating the same rules across many instructions.
+- Do not overengineer; this repo is for experimentation.
 
-## Mapa projektu
+## Project map
 
-- `src/docker_automation/cli.py` - wejscie CLI i routing komend.
-- `src/docker_automation/config.py` - stale (`IMAGE_TAG`, `BUILD_PATH`).
-- `src/docker_automation/docker_client.py` - fabryka `get_client()`.
-- `src/docker_automation/commands/*.py` - implementacje komend.
-- `tests/unit/` - testy jednostkowe (mock Docker SDK).
-- `tests/integration/` - testy smoke CLI.
-- `scripts/check_docs.py` - walidacja commit message + docs gate.
+- `src/docker_automation/cli.py` - CLI entry point and command routing.
+- `src/docker_automation/config.py` - constants (`IMAGE_TAG`, `BUILD_PATH`).
+- `src/docker_automation/docker_client.py` - `get_client()` factory.
+- `src/docker_automation/commands/*.py` - command implementations.
+- `tests/unit/` - unit tests (Docker SDK mocked).
+- `tests/integration/` - CLI smoke tests.
+- `scripts/check_docs.py` - commit message + docs gate validation.
 
-## Reguly repo
+## Repository rules
 
-- Implementacja: dostep do Dockera tylko przez `get_client()`; stale trzymaj w `config.py`; nowa komenda trafia do `commands/` i musi byc zarejestrowana w `cli.py`.
-- Jezyk: programista moze pisac do czatu w dowolnym jezyku, ale wszystkie artefakty repozytorium musza byc po angielsku (kod, komentarze, docstringi, nazwy zmiennych/funkcji, komunikaty CLI, testy, dokumentacja, commit/PR opisy).
-- Branche: nowa galaz tylko z aktualnego `main`; dirty worktree blokuje przelaczanie; format `type/short-slug`; typy: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 sensowne slowa, bez duplikacji typu; przy zbyt ogolnym opisie dopytaj zamiast zgadywac.
-- Commity: tylko workflow `/Prepare Commit` moze automatycznie tworzyc commit; pozostale workflowy nie commituja ani nie pushuja bez jawnej prosby; title ma format `type(scope): summary` lub `type: summary`; docs gate dla zmian kodu wymaga `README.md` lub `AGENTS.md`; auto-fix docs gate wolno robic tylko przez stage juz istniejacych zmian w tych plikach; nie tworz nowej tresci dokumentacji tylko po to, zeby przejsc gate; przy mieszanym scope zatrzymaj sie i popros o potwierdzenie.
-- Walidacja i PR: domyslnie uruchamiaj `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; waski zakres tylko na wyrazna prosbe i trzeba wtedy jasno wskazac, co zostalo pominiete; pelna walidacja tylko na wyrazna prosbe (`pytest tests/ --cov=docker_automation`); PR domyslnie kieruj do `main`; jesli branch jest behind `main`, zapytaj o `merge` lub `rebase`, chyba ze preferencja zostala podana wprost; przed push zatrzymaj sie przy brudnym worktree i zasugeruj `/Prepare Commit`; dodatkowy kontekst PR dolacz do body.
-- Zamykanie brancha: nigdy nie usuwaj `main` ani `master`; usuwaj tylko branche zmergowane do `origin/main`, chyba ze uzytkownik wyraznie potwierdzi ryzykowna operacje; gdy merge nie jest pewny albo potrzebne jest `-D`, zatrzymaj sie i czekaj na potwierdzenie; nigdy nie force-pushuj ani nie force-delete bez jawnej prosby.
+- Implementation: access Docker only through `get_client()`; keep constants in `config.py`; each new command must live in `commands/` and be registered in `cli.py`.
+- Language: developers may chat in any language, but all repository artifacts must be in English (code, comments, docstrings, variable/function names, CLI messages, tests, documentation, commit/PR descriptions).
+- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, ask for clarification instead of guessing.
+- Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
+- Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
+- Branch closing: never delete `main` or `master`; delete only branches merged into `origin/main` unless user explicitly confirms risky operation; when merge state is uncertain or `-D` would be needed, stop and wait for confirmation; never force-push or force-delete without explicit request.
 
-## Integracje narzedziowe
+## Tooling integration
 
-- `AGENTS.md` jest warstwa repo-neutralna i podstawowym zrodlem zasad dla dowolnego agenta.
-- Pliki w `.github/agents/` i `.github/prompts/` sa cienkimi wrapperami GitHub Copilot dla slash commands, `argument-hint` i formatu odpowiedzi.
-- Gdy zasada dotyczy calego repo, trzymaj ja tutaj; w plikach Copilota zostaw tylko to, co konieczne do uruchomienia workflow.
+- `AGENTS.md` is the repo-neutral layer and the primary source of rules for any agent.
+- Files in `.github/agents/` and `.github/prompts/` are thin GitHub Copilot wrappers for slash commands, `argument-hint`, and response format.
+- If a rule applies to the whole repo, keep it here; in Copilot files keep only what is necessary to run the workflow.
 
-## Workflow promptow
+## Workflow prompts
 
-- `/Workflow Help` - lista dostepnych workflowow.
-- `/New Branch` - aktualizacja `main` i utworzenie feature branch.
-- `/Validate Changes` - lokalne testy + docs gate.
-- `/Prepare Commit` - przygotowanie i utworzenie commitu.
-- `/Open PR` - sync brancha, walidacja, push i otwarcie PR.
-- `/Close Branch` - zamkniecie zmergowanego brancha i powrot na `main`.
+- `/Workflow Help` - list available workflows.
+- `/New Branch` - update `main` and create a feature branch.
+- `/Validate Changes` - local tests + docs gate.
+- `/Prepare Commit` - prepare and create commit.
+- `/Open PR` - branch sync, validation, push, and PR opening.
+- `/Close Branch` - close merged branch and return to `main`.
