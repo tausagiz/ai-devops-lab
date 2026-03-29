@@ -1,0 +1,44 @@
+name: Improvement idea
+description: Share a suggestion or observation that could improve this project.
+title: "idea: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea.
+
+        This repository welcomes practical suggestions and discussion.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem or friction did you notice?
+      placeholder: Today it is hard to ...
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested direction
+      description: Practical proposal or alternative approach.
+      placeholder: One possible direction is ...
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this matters
+      description: Optional impact and trade-offs.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I checked existing issues for similar ideas.
+          required: true
+        - label: I kept the proposal proportional to this sandbox scope.
+          required: true
+        - label: I understand this issue is for project feedback and discussion.
+          required: true

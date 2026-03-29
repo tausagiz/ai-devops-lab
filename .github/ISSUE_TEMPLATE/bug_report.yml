@@ -1,0 +1,66 @@
+name: Bug report
+description: Report a reproducible defect in current behavior.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        This repository is discussion-first.
+        Detailed observations and reproducible reports are very helpful.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Clear one-paragraph description of the issue.
+      placeholder: What is broken?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Exact steps someone else can run.
+      placeholder: |
+        1. Run ...
+        2. Execute ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, and relevant command output.
+      placeholder: Linux, Python 3.12, ...
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any additional context that may help discussion.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I checked existing issues for duplicates.
+          required: true
+        - label: I provided a reproducible scenario.
+          required: true
+        - label: I understand this issue is for project feedback and discussion.
+          required: true

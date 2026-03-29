@@ -52,11 +52,11 @@ Short guide for agents working in this repository.
 
 ## Vendor-agnostic policy
 
-- Prefer vendor-neutral conventions and references in shared instructions (for example `#file:AGENTS.md` as the canonical rule source).
+- Prefer vendor-neutral conventions and references in shared instructions (for example `#file:AGENTS.md` as the canonical rule source for automation).
 - Keep provider-specific capabilities (tool names, frontmatter keys, slash-command wiring, platform-only metadata) in provider-scoped wrapper files only.
-- Provider-scoped files must stay minimal adapters and must not duplicate repository-wide policy from `AGENTS.md`.
+- Provider-scoped files must stay minimal adapters and must not duplicate agent workflow policy from `AGENTS.md`.
 - When adding or changing automation guidance, update the universal rule in `AGENTS.md` first, then reference it from tool/vendor-specific files.
-- Design new instruction/tool structures so another tool can adopt the same universal base without rewriting repository policy.
+- Design new instruction/tool structures so another tool can adopt the same universal base without rewriting agent workflow policy.
 
 ## Workflow prompts
 

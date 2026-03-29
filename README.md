@@ -2,7 +2,7 @@
 
 **Vendor-neutral agent design patterns for cost-conscious, AI-assisted development.**
 
-A multi-experiment sandbox for exploring AI automation workflows. Current experiment: Docker automation CLI (more experiments planned). The repository's real value is the reusable pattern: a central vendor-neutral policy (`AGENTS.md`) that works across multiple AI tools without rewriting code or instructions.
+A multi-experiment sandbox for exploring AI automation workflows. Current experiment: Docker automation CLI (more experiments planned). The repository's real value is twofold: a reusable vendor-neutral pattern and transparent sharing of practical lessons learned while applying it.
 
 ### The Core Problem This Solves
 
@@ -65,7 +65,7 @@ ai-devops-lab/
 ## Quick Start
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/tausagiz/ai-devops-lab.git
 cd ai-devops-lab
 python -m venv venv
 source venv/bin/activate
@@ -112,7 +112,7 @@ If Docker is installed and running:
 python main.py build   # Build image from Dockerfile
 python main.py run     # Start container in background
 python main.py logs    # Fetch container logs
-python main.py clean   # Stop and remove all containers
+python main.py clean   # Stop and remove containers managed by this project
 ```
 
 After `pip install -e .`, use the CLI directly:
@@ -121,7 +121,7 @@ After `pip install -e .`, use the CLI directly:
 ai-devops-lab build
 ```
 
-> Note: `clean` stops/removes all containers on your machine—treat it as a sandbox-only command.
+> Note: `run` labels containers as managed by this project, and `clean`/`logs` target only those labeled containers.
 
 ### Testing the Example
 
@@ -220,21 +220,28 @@ Cost comparison:
 
 **Free-tier friendly**: Test validation runs without infrastructure, without quotas, without cost. Perfect for comparing tools without burning tokens.
 
-## Contributing: Adding New Experiments
+## Feedback and Project Boundaries
 
-This repository welcomes contributions:
-- **New experiments**: Build a different CLI tool (API client, infrastructure tool, etc.) following the same `AGENTS.md` pattern
-- **Extend current**: Add new commands to the Docker experiment (following existing patterns)
-- **Tool adapters**: Add support for Claude, OpenAI, or other AI tools (reference `AGENTS.md` from thin wrappers)
-- **Infrastructure**: Improve testing, validation, or docs-as-code enforcement
-- **Learning**: Share findings from AI tool comparisons or pattern adoption
+This repository is maintained primarily as a personal practice environment.
 
-See `AGENTS.md` for contribution conventions (branch naming, commit format, etc.). When adding a new experiment, keep `AGENTS.md` the policy source—don't duplicate rules.
+- Use **Issues/Discussions** to share feedback, observations, and suggestions.
+- If you reuse ideas in your own fork, sharing outcomes back (what worked, what failed, and why) is strongly encouraged.
+- If you want to implement ideas directly, you are welcome to **reuse the project in your own fork** under the repository license.
+- The main collaboration model in this repository is discussion-first feedback focused on learning outcomes and knowledge transfer.
+
+For contributor-facing guidance, see `CONTRIBUTING.md`.
+For agent workflow and automation rules, see `AGENTS.md`.
+
+Community adapters are intentionally thin:
+- `CODE_OF_CONDUCT.md` defines collaboration behavior expectations.
+- `.github/ISSUE_TEMPLATE/` standardizes feedback submission.
+
+These files complement `AGENTS.md` and avoid duplicating automation-specific rules.
 
 ## License & Attribution
 
 MIT License — see [LICENSE](LICENSE) file.
 
-Copyright © 2026 Mateusz Tausaga.
+Copyright © 2026 Mateusz Rusnak.
 
 — Built as an educational sandbox. Questions? Open an issue or discussion.

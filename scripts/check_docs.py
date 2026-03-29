@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import datetime
 import os
 import re
 import subprocess
@@ -7,6 +8,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+COPYRIGHT_PATTERN = r"Copyright\s*(?:\(c\)|©)\s*(\d{4})(?:-(\d{4}))?"
 
 
 def git_output(args):
@@ -22,29 +24,24 @@ def git_output(args):
     return result.stdout.strip()
 
 
-def check_copyright_year():
-    """Verify LICENSE file copyright year is current."""
-    import datetime
-
-    license_file = REPO_ROOT / "LICENSE"
-    if not license_file.exists():
-        return True  # Skip if no LICENSE yet
+def check_copyright_year(file_path: Path, label: str) -> bool:
+    """Verify copyright year in a file is current (supports (c) and © formats)."""
+    if not file_path.exists():
+        return True
 
     current_year = datetime.datetime.now().year
-    license_content = license_file.read_text()
-
-    # Extract copyright year(s) from "Copyright (c) 2026" or "Copyright (c) 2026-2027"
-    copyright_match = re.search(r"Copyright \(c\) (\d{4})(?:-(\d{4}))?", license_content)
+    content = file_path.read_text(encoding="utf-8")
+    copyright_match = re.search(COPYRIGHT_PATTERN, content, flags=re.IGNORECASE)
 
     if not copyright_match:
-        print("⚠️  LICENSE file missing copyright year. Expected: Copyright (c) YYYY")
+        print(f"❌ Missing copyright year in {label}. Expected: Copyright (c) YYYY or Copyright © YYYY")
         return False
 
     start_year = int(copyright_match.group(1))
     end_year = int(copyright_match.group(2)) if copyright_match.group(2) else start_year
 
     if end_year < current_year:
-        print(f"⚠️  COPYRIGHT YEAR STALE: LICENSE shows {start_year}-{end_year}, current year is {current_year}")
+        print(f"❌ COPYRIGHT YEAR STALE in {label}: shows {start_year}-{end_year}, current year is {current_year}")
         print(f"   Update to: Copyright (c) {start_year}-{current_year}")
         print(f"   Or if this is fresh work: Copyright (c) {current_year}")
         return False
@@ -58,8 +55,6 @@ def main():
         msg = ((REPO_ROOT / ".git" / "COMMIT_EDITMSG").read_text().strip())
     except FileNotFoundError:
         # in CI we can use git log for current commit
-        import subprocess
-
         msg = subprocess.check_output(
             ["git", "log", "-1", "--pretty=%B"],
             text=True,
@@ -130,9 +125,13 @@ def main():
         print("Changed files:", changed)
         sys.exit(1)
 
-    # Copyright year check
-    if not check_copyright_year():
-        print("⚠️  License copyright year is stale.")
+    # Copyright year checks
+    copyright_ok = True
+    copyright_ok = check_copyright_year(REPO_ROOT / "LICENSE", "LICENSE") and copyright_ok
+    copyright_ok = check_copyright_year(REPO_ROOT / "README.md", "README.md") and copyright_ok
+
+    if not copyright_ok:
+        sys.exit(1)
 
     print("✅ Commit message and docs checks passed.")
     return 0

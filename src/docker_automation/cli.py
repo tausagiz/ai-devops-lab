@@ -20,7 +20,7 @@ def main() -> None:
     commands = _commands()
 
     if len(sys.argv) < 2:
-        print(f"Usage: python main.py [{' | '.join(commands)}]")
+        print(f"Usage: python main.py [{' | '.join(commands)}] or ai-devops-lab [{' | '.join(commands)}]")
         sys.exit(1)
 
     command = sys.argv[1]
