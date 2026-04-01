@@ -10,6 +10,19 @@ Follow commit and docs-gate rules from `AGENTS.md`. Use provided context to refi
 
 If commit succeeds and all changes are committed:
 - include one short, friendly sentence naming the next slash command (either `/Open PR` if this closes the work, or `/New Branch` if more work is planned),
-- then end with a `### Next Step` section containing that command block.
+- then end with a `### Next Step` section followed immediately by a fenced code block containing only that slash command, formatted exactly like one of these examples:
 
+  - For a final commit where you should open a PR:
+
+    ### Next Step
+    ```bash
+    /Open PR
+    ```
+
+  - For a commit where more work on a new branch is planned:
+
+    ### Next Step
+    ```bash
+    /New Branch
+    ```
 If the right next step is unclear from context, ask briefly: "Is this the final commit for this branch, or do you have more changes planned?"
