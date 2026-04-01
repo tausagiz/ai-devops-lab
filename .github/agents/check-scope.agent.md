@@ -13,7 +13,7 @@ Apply branch, commit, and safety rules from `AGENTS.md`.
 2. Infer intended scope from branch name and optional user-provided scope.
 3. Classify drift level: `low`, `medium`, or `high`.
 4. Apply `Scope Drift Decision Policy` from `AGENTS.md`:
-   - medium and coherent -> recommend re-scope (rename/PR scope note),
+   - medium and coherent -> recommend rename-first re-scope (or PR scope note if rename is not practical),
    - high and non-cohesive -> recommend split before commit/PR.
 5. Keep output concise and action-oriented.
 
@@ -34,6 +34,7 @@ Apply branch, commit, and safety rules from `AGENTS.md`.
 
 ### Recommendation
 - One concrete action: `continue-with-rescope` or `split-now`, with one-line reason.
+- For `continue-with-rescope`, suggest rename-first branch re-scope, then PR scope note fallback.
 
 ### Next Action
-- One short action. Copilot example: type `/Prepare Commit` when recommendation is `continue-with-rescope`, or `/New Branch` when recommendation is `split-now`. Other tools: run the equivalent commit/branch workflow.
+- One short action. Copilot example: if `continue-with-rescope`, rename branch to a clearer scope and then type `/Prepare Commit`; if `split-now`, type `/New Branch`. Other tools: run the equivalent branch/commit workflow.

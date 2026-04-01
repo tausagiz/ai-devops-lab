@@ -65,7 +65,7 @@ Short guide for agents working in this repository.
 
 - Goal: keep PRs reviewable without forcing unnecessary branch splits.
 - `low` drift: branch name and changes are aligned; proceed normally.
-- `medium` drift: changes are still one coherent topic but broader than branch name; prefer branch re-scope (new branch name or explicit PR scope note) over split.
+- `medium` drift: changes are still one coherent topic but broader than branch name; suggest branch re-scope first (rename branch), and use an explicit PR scope note as fallback when rename is not practical.
 - `high` drift: multiple unrelated topics, or PR would be hard to review due to size/surface; split is recommended before commit/PR.
 - Reviewability heuristics for `high`: mixed unrelated domains, many independent intents, or large surface with weak thematic cohesion.
 - If user intentionally keeps a broader but coherent scope, allow continuation after explicit confirmation and require clear PR summary of included subtopics.
@@ -97,7 +97,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/New Branch` - update `main` and create a feature branch.
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
-- `/Check Scope` - assess scope drift against branch intent and recommend re-scope vs split with reviewability in mind.
+- `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
 - `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; on success, first show one short usage hint (Copilot Chat slash command), then show `### Next Step` with `/Open PR`.
 - `/Open PR` - branch sync, validation, push, and PR opening. Triggers scope-drift check before push/PR creation and enforces split only for high, non-cohesive drift.
 - `/Close Branch` - close merged branch and return to `main`.

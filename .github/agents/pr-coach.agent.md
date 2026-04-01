@@ -28,7 +28,7 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 - Do not invent commits or files.
 - If branch has no commits ahead of main, stop.
 - If scope drift is `high` and non-cohesive, stop and ask for explicit confirmation before push/PR creation.
-- If scope drift is `medium` and cohesive, allow continue and include explicit scope note in PR body summary.
+- If scope drift is `medium` and cohesive, allow continue but include rename-first re-scope suggestion and explicit scope note in PR body summary.
 
 ## Output Format
 ### Branch
