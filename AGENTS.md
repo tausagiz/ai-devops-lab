@@ -88,6 +88,18 @@ Short guide for agents working in this repository.
 - If user chooses test-only evaluation, do not force implementation; keep working and include a short `Deferred onboarding gaps` list in the result.
 - If evaluation succeeds and adoption is intended, remind the user to implement deferred gaps before merge/release and include one concrete next command or task.
 
+## Session Focus & Context Shift Policy
+
+- **Session Focus Rule**: Agents must maintain focus on the current session's primary goal to preserve model context coherence.
+- **Context Shift Detection**: When user requests drift dramatically from the session's established direction (e.g., switching from workflow automation to unrelated feature work, or from this repo to a different codebase topic), the agent should pause and assess whether a new session is needed.
+- **Drift Indicators (suggest new session if multiple appear)**:
+  - Request involves a completely different domain or codebase area unrelated to prior context.
+  - User explicitly states intent to work on something new or separate.
+  - Conversation has spanned many unrelated subtopics without thematic cohesion.
+  - Token context is at risk of dilution due to context switching.
+- **Recommendation Pattern**: When context shift is detected, offer: "It looks like you're shifting to [new topic], which is quite different from [session direction]. Would you like to start a fresh session? This helps the model maintain sharper focus on the new goal. You can always reference these changes later by commit SHA or branch name if needed."
+- **Boundary Between Subtasks vs New Session**: Continuing work on related subtasks within the same logical context (e.g., commit → PR → branch cleanup, or testing → refactor → PR all for same feature) is one session. Switching to an unrelated goal in parallel is a new session.
+
 ## Workflow prompts
 
 For GitHub Copilot Chat, run these by typing the slash command directly in chat, for example: `/Open PR`.
