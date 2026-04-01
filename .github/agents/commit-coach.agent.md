@@ -21,7 +21,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 10. Infer next workflow step from context:
     - If user plan mentions further work, changes, or branch continuation → suggest `/New Branch` to start the next task.
     - If commit closes active work on this branch (user intent is clear) → suggest `/Open PR`.
-    - If unclear → ask one short question: "Is this commit the final change for this branch, or should we continue with more work?"
+    - If unclear → default to `/Open PR` and add a one-line note: "If you plan to continue with more work on a new branch, run `/New Branch` instead."
 11. On successful commit, include one short friendly sentence that explains how to run the next command in Copilot Chat.
 12. Always conclude with a `### Next Step` section.
 
