@@ -19,9 +19,13 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
    d. Get author email via `git log -1 --format=%ae <branch_ref>`.
    e. Check merge status to main (or master) via `git merge-base --is-ancestor <branch_ref> origin/main` (or `origin/master` where appropriate).
    f. Get short commit message via `git log -1 --format=%s <branch_ref>`.
+   g. For local branches only: check whether a configured upstream tracking ref exists via `git for-each-ref --format='%(upstream:short)' <branch_ref>`; record as `has_upstream_tracking` (non-empty result = true).
+   h. Compute age in hours from the last commit date to now; record as `age_hours`.
 5. Filter candidates:
-   - Collect branches older than max-age-days AND not merged to origin/main (or origin/master), using `branch_ref` for checks and `branch_name` for reporting.
-   - Optionally include all branches with last-commit > max-age-days for reference.
+   - Exclude branches with `age_hours < 48` (recent activity — skip these entirely).
+   - Exclude local branches with `has_upstream_tracking = true` (actively tracked — skip these entirely).
+   - If filter mode is "unmerged" (default): collect remaining branches older than max-age-days AND not merged to origin/main (or origin/master), using `branch_ref` for checks and `branch_name` for reporting.
+   - If filter mode is "all": collect all remaining branches older than max-age-days, regardless of merge status.
 6. Group by author to build contact list.
 7. Report stale/unmerged branches with:
    - Branch name, last commit date, author, email, short message.
