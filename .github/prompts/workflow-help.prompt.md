@@ -23,5 +23,7 @@ List these commands with one-line usage:
 - `/Prepare Commit`
 - `/Open PR`
 - `/Close Branch`
+- `/Branch Cleanup Report`
+- `/Cleanup Stale Branches`
 
 If my goal is clear, recommend exactly one next command. If not, return `None`.

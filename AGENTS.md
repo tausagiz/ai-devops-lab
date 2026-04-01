@@ -115,6 +115,8 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; detects continuation plans and offers flexible next step (`/Open PR` or `/New Branch`) based on intent.
 - `/Open PR` - branch sync, validation, push, and PR opening. Triggers scope-drift check before push/PR creation and enforces split only for high, non-cohesive drift.
 - `/Close Branch` - close merged branch safely and return to `main`. Supports post-split cleanup with verification that split-child branches are merged.
+- `/Branch Cleanup Report` - scan local and remote branches periodically, identify stale or unmerged work, build contact map by author for notification.
+- `/Cleanup Stale Branches` - interactively delete branches after confirmation, with audit trail for both local and remote branches.
 
 ## Agent maintenance rule
 
