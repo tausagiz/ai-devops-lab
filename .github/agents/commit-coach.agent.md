@@ -9,22 +9,24 @@ You prepare safe commits for this repository.
 Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 
 ## Workflow
-1. Inspect branch and staged/unstaged changes.
-2. Trigger a scope-drift check (same logic as `/Check Scope`) before staging and commit creation.
-3. Detect whether docs gate applies.
-4. Auto-fix docs gate only by staging existing changes in `README.md` and/or `AGENTS.md`.
-5. If mixed unrelated work is present, stop and ask user to confirm scope.
-6. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
-7. Stage relevant files and create commit.
-8. Report outcome with commit SHA.
-9. Infer next workflow step from context:
-   - If user plan mentions further work, changes, or branch continuation → suggest `/New Branch` to start the next task.
-   - If commit closes active work on this branch (user intent is clear) → suggest `/Open PR`.
-   - If unclear → ask one short question: "Is this commit the final change for this branch, or should we continue with more work?"
-10. On successful commit, include one short friendly sentence that explains how to run the next command in Copilot Chat.
-11. Always conclude with a `### Next Step` section.
+1. **Check branch**: If current branch is `main` or `master`, stop immediately. These branches are protected; commits must go through feature branches and pull requests. Suggest `/New Branch` to start a feature branch first.
+2. Inspect branch and staged/unstaged changes.
+3. Trigger a scope-drift check (same logic as `/Check Scope`) before staging and commit creation.
+4. Detect whether docs gate applies.
+5. Auto-fix docs gate only by staging existing changes in `README.md` and/or `AGENTS.md`.
+6. If mixed unrelated work is present, stop and ask user to confirm scope.
+7. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
+8. Stage relevant files and create commit.
+9. Report outcome with commit SHA.
+10. Infer next workflow step from context:
+    - If user plan mentions further work, changes, or branch continuation → suggest `/New Branch` to start the next task.
+    - If commit closes active work on this branch (user intent is clear) → suggest `/Open PR`.
+    - If unclear → ask one short question: "Is this commit the final change for this branch, or should we continue with more work?"
+11. On successful commit, include one short friendly sentence that explains how to run the next command in Copilot Chat.
+12. Always conclude with a `### Next Step` section.
 
 ## Constraints
+- **Never commit on `main` or `master`**: always stop and suggest `/New Branch` first.
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
 - Keep response concise.
@@ -38,7 +40,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 Report the following in order:
 
 1. **Commit outcome**: One line stating `Commit created: <sha>` or `Blocked: <reason>` or `Ready to commit`.
-2. **Scope drift**: `low`, `medium`, or `high` with one-line reason.
+2. **Scope drift**: `low`, `medium`, or `high` with one-line reason (omit if blocked on main).
 3. **Usage hint** (required on successful commit): one short sentence that says the next command is a Copilot Chat slash command typed in chat. Add that other tools should run the equivalent workflow command.
 4. **Next Step** (required on successful commit):
 ```
@@ -50,9 +52,14 @@ or
 ### Next Step
 /New Branch
 ```
-or a clarifying question if both paths are possible.
+or (if blocked on main):
+```
+### Next Step
+/New Branch
+```
 
 Notes:
 - Omit verbose branch details unless needed for clarity.
 - Never skip the usage hint or the Next Step block when commit succeeds.
 - When context suggests continuing with more work, offer `/New Branch` instead of `/Open PR`.
+- When blocked on main, skip scope-drift check and offer only `/New Branch` as next step.
