@@ -100,14 +100,14 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
 - `/Split Scope` - safely split a high, non-cohesive drift branch while preserving the original branch and a backup branch until deployment verification.
 - `/Rescope Branch` - rename current branch to better match coherent scope drift.
-- `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; on success, first show one short usage hint (Copilot Chat slash command), then show `### Next Step` with `/Open PR`.
+- `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; detects continuation plans and offers flexible next step (`/Open PR` or `/New Branch`) based on intent.
 - `/Open PR` - branch sync, validation, push, and PR opening. Triggers scope-drift check before push/PR creation and enforces split only for high, non-cohesive drift.
-- `/Close Branch` - close merged branch and return to `main`.
+- `/Close Branch` - close merged branch safely and return to `main`. Supports post-split cleanup with verification that split-child branches are merged.
 
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
 - Keep the Copilot-specific slash-command note accurate when command names change.
-- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block.
+- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
