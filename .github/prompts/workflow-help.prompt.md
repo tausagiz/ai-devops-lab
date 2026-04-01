@@ -1,9 +1,26 @@
 ---
 name: "Workflow Help"
 description: "Show available workflow prompts and recommend one next command."
-agent: "Workflow Help"
 argument-hint: "Optional: current goal"
 ---
 Show a compact workflow help screen for this repo.
 
-List `/Workflow Help`, `/New Branch`, `/Validate Changes`, `/Prepare Commit`, `/Open PR`, `/Close Branch` with one-line usage and recommend one next command if my goal is clear.
+Workflow rules:
+- Do not run git or tests.
+- Do not edit files.
+- Keep output concise.
+- Clarify that `/Command` examples are Copilot Chat slash commands entered in chat.
+- Add one short note that other tools may require different syntax.
+
+List these commands with one-line usage:
+- `/Workflow Help`
+- `/New Branch`
+- `/Validate Changes`
+- `/Fix Validation`
+- `/Check Scope`
+- `/Rescope Branch`
+- `/Prepare Commit`
+- `/Open PR`
+- `/Close Branch`
+
+If my goal is clear, recommend exactly one next command. If not, return `None`.
