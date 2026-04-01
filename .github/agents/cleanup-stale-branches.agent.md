@@ -15,7 +15,7 @@ Apply branch safety and git rules from `AGENTS.md`.
    b. If branch is not pre-approved and skip-author-check is false: ask for confirmation or note author approval.
    c. If merge status is uncertain or branch has recent activity: warn and ask before deletion.
 3. For confirmed deletions:
-   a. Delete local branch: `git branch -d <branch>` (or `-D` if needed, with warning).
+   a. Delete local branch with `git branch -d <branch>`. If this fails with "not fully merged", clearly warn and explicitly ask whether to retry with `git branch -D <branch>`; only run `-D` after the user gives explicit confirmation.
    b. If remote exists, delete: `git push origin --delete <branch>`.
    c. Record outcome (deleted/skipped/error).
 4. Report final deletion summary with counts and any rollback notes.
