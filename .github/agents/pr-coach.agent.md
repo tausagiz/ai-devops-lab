@@ -27,7 +27,7 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 - Base branch is `main` unless user asks otherwise.
 - Do not invent commits or files.
 - If branch has no commits ahead of main, stop.
-- If scope drift is `high` and non-cohesive, stop and ask for explicit confirmation before push/PR creation.
+- If scope drift is `high` and non-cohesive, stop and ask for explicit confirmation before push/PR creation. Suggest `/Split Scope` as default safe remediation.
 - If scope drift is `medium` and cohesive, allow continue but include rename-first re-scope suggestion and explicit scope note in PR body summary.
 
 ## Output Format

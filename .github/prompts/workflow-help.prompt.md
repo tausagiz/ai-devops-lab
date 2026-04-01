@@ -18,6 +18,7 @@ List these commands with one-line usage:
 - `/Validate Changes`
 - `/Fix Validation`
 - `/Check Scope`
+- `/Split Scope`
 - `/Rescope Branch`
 - `/Prepare Commit`
 - `/Open PR`

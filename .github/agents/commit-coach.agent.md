@@ -24,7 +24,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
 - Keep response concise.
-- If scope drift is `high` and non-cohesive, stop and ask whether to split changes or continue intentionally.
+- If scope drift is `high` and non-cohesive, stop and ask whether to split changes or continue intentionally. Suggest `/Split Scope` as the default safe path.
 - If scope drift is `medium` and cohesive, allow continue but require: (1) explicit rename-first re-scope suggestion in the response, and (2) short re-scope note in commit body (`Why` or `Docs`).
 - On successful commit, the friendly guidance sentence is mandatory and must appear immediately before `### Next Step`.
 - Always end with the mandatory Next Step command block.
