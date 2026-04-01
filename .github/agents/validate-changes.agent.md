@@ -40,5 +40,8 @@ Apply validation rules from `AGENTS.md`.
 - Required when blocked: one concrete next action with command or exact manual step.
 - Optional when ready: `None`.
 
+### Next Action
+- One short action. Copilot example: type `/Fix Validation` when blocked or `/Prepare Commit` when ready. Other tools: run the equivalent fix/commit workflow.
+
 ### Ready
 - `Ready for /Prepare Commit` or `Ready for /Open PR` or `Blocked: <reason>`.

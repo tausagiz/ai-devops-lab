@@ -32,7 +32,7 @@ Apply repository rules from `AGENTS.md`.
 - One bullet per rerun command with `pass`, `fail`, or `skipped`.
 
 ### Next Action
-- One cheapest concrete step if still blocked, or `None`.
+- One short action. Copilot example: type `/Validate Changes` in chat after fixes. Other tools: run the equivalent validation workflow.
 
 ### Ready
 - `Ready for /Validate Changes` or `Blocked: <reason>`.

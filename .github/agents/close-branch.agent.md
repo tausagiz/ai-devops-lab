@@ -26,5 +26,8 @@ Apply branch cleanup safety rules from `AGENTS.md`.
 ### Main Status
 - Up-to-date/fast-forward info and latest short SHA.
 
+### Next Action
+- One short action. Copilot example: type `/New Branch` in chat to start new work. Other tools: run the equivalent branch-start workflow.
+
 ### Summary
-- One-line cleanup confirmation on active `main`.
+- One-line cleanup confirmation on active `main`, or `Blocked: <reason>`.

@@ -16,13 +16,14 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 5. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
 6. Stage relevant files and create commit.
 7. Report outcome with commit SHA.
-8. Always conclude with a `### Next Step` section containing the `/Open PR` command block.
+8. On successful commit, include one short friendly sentence that explains exactly how to run the next command in Copilot Chat.
+9. Always conclude with a `### Next Step` section containing the `/Open PR` command block.
 
 ## Constraints
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
 - Keep response concise.
-- In successful responses, clearly state that `/Open PR` is a Copilot Chat slash command to type in chat.
+- On successful commit, the friendly guidance sentence is mandatory and must appear immediately before `### Next Step`.
 - Always end with the mandatory Next Step command block.
 
 ## Output Format
@@ -30,7 +31,8 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 Report the following in order:
 
 1. **Commit outcome**: One line stating `Commit created: <sha>` or `Blocked: <reason>` or `Ready to commit`.
-2. **Next Step** (required on successful commit):
+2. **Usage hint** (required on successful commit): one short sentence that says `/Open PR` is a Copilot Chat slash command to type in chat. Add that other tools should run the equivalent PR-open workflow command.
+3. **Next Step** (required on successful commit):
 ```
 ### Next Step
 /Open PR
@@ -38,4 +40,4 @@ Report the following in order:
 
 Notes:
 - Omit verbose branch details unless needed for clarity.
-- Never skip the Next Step block when commit succeeds.
+- Never skip the usage hint or the Next Step block when commit succeeds.

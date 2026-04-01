@@ -45,3 +45,6 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 
 ### PR Status
 - `PR created: <URL>` or `Branch pushed - open PR manually: <URL>` or `Blocked: <reason>`.
+
+### Next Action
+- One short action. Copilot example: type `/Close Branch` in chat after PR merge. Other tools: run the equivalent post-merge cleanup workflow.

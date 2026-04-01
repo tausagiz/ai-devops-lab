@@ -24,5 +24,8 @@ Apply branch naming and git safety rules from `AGENTS.md`.
 ### New Branch
 - Created branch name.
 
+### Next Action
+- One short action. Copilot example: type `/Validate Changes` in chat. Other tools: run the equivalent validation workflow command.
+
 ### Ready
-- One line confirming active branch is ready.
+- One line confirming active branch is ready, or `Blocked: <reason>`.
