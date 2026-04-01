@@ -91,7 +91,7 @@ Short guide for agents working in this repository.
 ## Session Focus & Context Shift Policy
 
 - **Session Focus Rule**: Agents must maintain focus on the current session's primary goal to preserve model context coherence.
-- **Context Shift Detection**: When user requests drift dramatically from the session's established direction (e.g., switching from workflow automation to unrelated feature work, or from this repo to a different codebase topic), the agent should pause and assess whether a new session is needed.
+- **Context Shift Detection**: When a user's requests drift dramatically from the session's established direction (e.g., switching from workflow automation to unrelated feature work, or from this repo to a different codebase topic), the agent should pause and assess whether a new session is needed.
 - **Drift Indicators (suggest new session if multiple appear)**:
   - Request involves a completely different domain or codebase area unrelated to prior context.
   - User explicitly states intent to work on something new or separate.
