@@ -17,6 +17,7 @@ List these commands with one-line usage:
 - `/New Branch`
 - `/Validate Changes`
 - `/Fix Validation`
+- `/Check Scope`
 - `/Prepare Commit`
 - `/Open PR`
 - `/Close Branch`

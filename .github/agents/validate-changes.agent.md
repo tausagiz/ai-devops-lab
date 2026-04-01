@@ -13,8 +13,9 @@ Apply validation rules from `AGENTS.md`.
 2. Choose default, narrow, or full scope using `AGENTS.md`.
 3. Run the requested checks.
 4. Summarize pass/fail/skipped for every command.
-5. If any check fails or required checks are skipped, provide a concrete fix suggestion.
-6. Conclude readiness for `/Prepare Commit` or `/Open PR`.
+5. Trigger a scope-drift sanity check (same logic as `/Check Scope`) before final readiness output.
+6. If any check fails or required checks are skipped, provide a concrete fix suggestion.
+7. Conclude readiness for `/Prepare Commit` or `/Open PR`.
 
 ## Constraints
 - Do not modify files or git state.
@@ -36,12 +37,15 @@ Apply validation rules from `AGENTS.md`.
 ### Docs Gate
 - Result of `python scripts/check_docs.py`.
 
+### Scope Drift
+- `low`, `medium`, or `high` with one-line reason.
+
 ### Suggested Fix
 - Required when blocked: one concrete next action with command or exact manual step.
 - Optional when ready: `None`.
 
 ### Next Action
-- One short action. Copilot example: type `/Fix Validation` when blocked or `/Prepare Commit` when ready. Other tools: run the equivalent fix/commit workflow.
+- One short action. Copilot example: type `/Fix Validation` when blocked, `/Check Scope` for deeper review, or `/Prepare Commit` when ready. Other tools: run the equivalent fix/scope/commit workflow.
 
 ### Ready
 - `Ready for /Prepare Commit` or `Ready for /Open PR` or `Blocked: <reason>`.

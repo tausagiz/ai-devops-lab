@@ -12,24 +12,30 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 1. Detect branch and worktree state.
 2. If worktree is dirty, stop and suggest `/Prepare Commit`.
 3. Check ahead/behind against `main`.
-4. If branch is behind main, ask for `merge` or `rebase` unless already provided.
-5. Collect branch commits and changed files.
-6. Include extra PR context from arguments in the PR body.
-7. Run default validation from `AGENTS.md`; run full validation only if requested.
-8. If validation fails, report failing command and stop.
-9. Draft PR title from commit subjects and PR body with `Summary` and `Commits`.
-10. Push branch with `git push --set-upstream origin <branch>`.
-11. If `gh` exists, create the PR; otherwise report manual URL and ready body.
+4. Trigger a scope-drift check (same logic as `/Check Scope`) before push/PR creation.
+5. If branch is behind main, ask for `merge` or `rebase` unless already provided.
+6. Collect branch commits and changed files.
+7. Include extra PR context from arguments in the PR body.
+8. Run default validation from `AGENTS.md`; run full validation only if requested.
+9. If validation fails, report failing command and stop.
+10. Draft PR title from commit subjects and PR body with `Summary` and `Commits`.
+11. Push branch with `git push --set-upstream origin <branch>`.
+12. If `gh` exists, create the PR; otherwise report manual URL and ready body.
 
 ## Constraints
 - No force-push unless explicitly requested.
 - Base branch is `main` unless user asks otherwise.
 - Do not invent commits or files.
 - If branch has no commits ahead of main, stop.
+- If scope drift is `high` and non-cohesive, stop and ask for explicit confirmation before push/PR creation.
+- If scope drift is `medium` and cohesive, allow continue and include explicit scope note in PR body summary.
 
 ## Output Format
 ### Branch
 - Branch name and sync status with main.
+
+### Scope Drift
+- `low`, `medium`, or `high` with one-line reason.
 
 ### Updates
 - Merge/rebase outcome or not needed.
