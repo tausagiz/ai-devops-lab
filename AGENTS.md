@@ -98,6 +98,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
+- `/Rescope Branch` - rename current branch to better match coherent scope drift.
 - `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; on success, first show one short usage hint (Copilot Chat slash command), then show `### Next Step` with `/Open PR`.
 - `/Open PR` - branch sync, validation, push, and PR opening. Triggers scope-drift check before push/PR creation and enforces split only for high, non-cohesive drift.
 - `/Close Branch` - close merged branch and return to `main`.

@@ -37,4 +37,4 @@ Apply branch, commit, and safety rules from `AGENTS.md`.
 - For `continue-with-rescope`, suggest rename-first branch re-scope, then PR scope note fallback.
 
 ### Next Action
-- One short action. Copilot example: if `continue-with-rescope`, rename branch to a clearer scope and then type `/Prepare Commit`; if `split-now`, type `/New Branch`. Other tools: run the equivalent branch/commit workflow.
+- One short action. Copilot example: if `continue-with-rescope`, type `/Rescope Branch` in chat and then `/Prepare Commit`; if `split-now`, type `/New Branch`. Other tools: run the equivalent branch/commit workflow.
