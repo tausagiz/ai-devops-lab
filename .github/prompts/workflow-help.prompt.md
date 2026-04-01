@@ -18,9 +18,12 @@ List these commands with one-line usage:
 - `/Validate Changes`
 - `/Fix Validation`
 - `/Check Scope`
+- `/Split Scope`
 - `/Rescope Branch`
 - `/Prepare Commit`
 - `/Open PR`
 - `/Close Branch`
+- `/Branch Cleanup Report`
+- `/Cleanup Stale Branches`
 
 If my goal is clear, recommend exactly one next command. If not, return `None`.

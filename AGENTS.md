@@ -88,6 +88,18 @@ Short guide for agents working in this repository.
 - If user chooses test-only evaluation, do not force implementation; keep working and include a short `Deferred onboarding gaps` list in the result.
 - If evaluation succeeds and adoption is intended, remind the user to implement deferred gaps before merge/release and include one concrete next command or task.
 
+## Session Focus & Context Shift Policy
+
+- **Session Focus Rule**: Agents must maintain focus on the current session's primary goal to preserve model context coherence.
+- **Context Shift Detection**: When a user's requests drift dramatically from the session's established direction (e.g., switching from workflow automation to unrelated feature work, or from this repo to a different codebase topic), the agent should pause and assess whether a new session is needed.
+- **Drift Indicators (suggest new session if multiple appear)**:
+  - Request involves a completely different domain or codebase area unrelated to prior context.
+  - User explicitly states intent to work on something new or separate.
+  - Conversation has spanned many unrelated subtopics without thematic cohesion.
+  - Token context is at risk of dilution due to context switching.
+- **Recommendation Pattern**: When context shift is detected, offer: "It looks like you're shifting to [new topic], which is quite different from [session direction]. Would you like to start a fresh session? This helps the model maintain sharper focus on the new goal. You can always reference these changes later by commit SHA or branch name if needed."
+- **Boundary Between Subtasks vs New Session**: Continuing work on related subtasks within the same logical context (e.g., commit → PR → branch cleanup, or testing → refactor → PR all for same feature) is one session. Switching to an unrelated goal in parallel is a new session.
+
 ## Workflow prompts
 
 For GitHub Copilot Chat, run these by typing the slash command directly in chat, for example: `/Open PR`.
@@ -98,15 +110,18 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
+- `/Split Scope` - safely split a high, non-cohesive drift branch while preserving the original branch and a backup branch until deployment verification.
 - `/Rescope Branch` - rename current branch to better match coherent scope drift.
-- `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; on success, first show one short usage hint (Copilot Chat slash command), then show `### Next Step` with `/Open PR`.
-- `/Open PR` - branch sync, validation, push, and PR opening. Triggers scope-drift check before push/PR creation and enforces split only for high, non-cohesive drift.
-- `/Close Branch` - close merged branch and return to `main`.
+- `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; detects continuation plans and offers flexible next step (`/Open PR` or `/New Branch`) based on intent.
+- `/Open PR` - branch sync, validation, push, and PR opening or refresh. Triggers scope-drift check before push/PR creation, detects existing PRs, and suggests description update before applying it with explicit confirmation.
+- `/Close Branch` - close merged branch safely and return to `main`. Supports post-split cleanup with verification that split-child branches are merged.
+- `/Branch Cleanup Report` - scan local and remote branches periodically, identify stale or unmerged work, build contact map by author for notification.
+- `/Cleanup Stale Branches` - interactively delete branches after confirmation, with audit trail for both local and remote branches.
 
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
 - Keep the Copilot-specific slash-command note accurate when command names change.
-- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block.
+- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
