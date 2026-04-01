@@ -21,8 +21,10 @@ Apply branch cleanup safety rules from `AGENTS.md`.
 5. For split-related cleanup (source or backup branch):
    a. Fetch `origin`.
    b. For split-source branch: verify that all related split branches (inferred from commit/branch history) are merged to `origin/main`. If uncertain, ask for explicit confirmation of split branch list.
-   c. For backup branch: verify it is no longer actively used (can reference recent logs or user confirmation).
-   d. Proceed with deletion.
+   c. For backup branch:
+      - Verify that all related split-child branches are merged to `origin/main` (reuse results from split-source verification when available, or ask for explicit confirmation of the split branch list if uncertain).
+      - Verify it is no longer actively used (can reference recent logs or user confirmation).
+   d. Only after all related split-child branches are verified merged (for both split-source and split-backup flows), proceed with deletion.
 6. Switch to `main` and fast-forward it.
 7. Delete local branch with `git branch -d <branch>`.
 8. If `-d` is rejected or deletion is risky, stop and ask before attempting `-D`.
