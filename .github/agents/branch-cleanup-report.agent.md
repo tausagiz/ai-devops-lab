@@ -11,15 +11,16 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
 ## Workflow
 1. Read optional parameters: max-age-days (default 30) and filter mode (default: unmerged).
 2. Run `git fetch origin --prune` to sync remote state.
-3. Collect local branches and remote branches; exclude `main` and `master`.
-4. For each branch:
-   a. Get last commit date via `git log -1 --format=%ai <branch>`.
-   b. Get author of last commit via `git log -1 --format=%an <branch>`.
-   c. Get author email via `git log -1 --format=%ae <branch>`.
-   d. Check merge status: `git merge-base --is-ancestor <branch> origin/main`.
-   e. Get short commit message via `git log -1 --format=%s <branch>`.
+3. Collect local branches (`refs/heads/*`) and remote branches (`refs/remotes/origin/*`) separately; exclude `main` and `master` by ref (e.g., `refs/heads/main`, `refs/remotes/origin/main`, etc.).
+4. For each collected ref:
+   a. Define `branch_ref` as the full ref name (e.g., `refs/heads/feature/foo` or `refs/remotes/origin/feature/foo`) and `branch_name` as the display name with the prefix stripped (e.g., `feature/foo`).
+   b. Get last commit date via `git log -1 --format=%ai <branch_ref>`.
+   c. Get author of last commit via `git log -1 --format=%an <branch_ref>`.
+   d. Get author email via `git log -1 --format=%ae <branch_ref>`.
+   e. Check merge status to main (or master) via `git merge-base --is-ancestor <branch_ref> origin/main` (or `origin/master` where appropriate).
+   f. Get short commit message via `git log -1 --format=%s <branch_ref>`.
 5. Filter candidates:
-   - Collect branches older than max-age-days AND not merged to origin/main.
+   - Collect branches older than max-age-days AND not merged to origin/main (or origin/master), using `branch_ref` for checks and `branch_name` for reporting.
    - Optionally include all branches with last-commit > max-age-days for reference.
 6. Group by author to build contact list.
 7. Report stale/unmerged branches with:
