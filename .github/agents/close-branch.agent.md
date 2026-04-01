@@ -2,7 +2,7 @@
 name: "Close Branch"
 description: "Use after merge: verify branch is merged, delete local/remote branch, and return to updated main. Supports cleanup after split operations."
 tools: [read, search, execute]
-argument-hint: "Optional: branch name to close (defaults to current branch). Optional: skip verification (only with explicit safety context)"
+argument-hint: "Optional: branch name to close (defaults to current branch)."
 ---
 You safely close a merged feature branch, with special handling for post-split cleanup.
 
