@@ -22,6 +22,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
 - Keep response concise.
+- In successful responses, clearly state that `/Open PR` is a Copilot Chat slash command to type in chat.
 - Always end with the mandatory Next Step command block.
 
 ## Output Format

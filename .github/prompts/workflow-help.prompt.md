@@ -9,6 +9,8 @@ Workflow rules:
 - Do not run git or tests.
 - Do not edit files.
 - Keep output concise.
+- Clarify that `/Command` examples are Copilot Chat slash commands entered in chat.
+- Add one short note that other tools may require different syntax.
 
 List these commands with one-line usage:
 - `/Workflow Help`

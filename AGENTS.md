@@ -48,6 +48,8 @@ Short guide for agents working in this repository.
 
 - `AGENTS.md` is the repo-neutral layer and the primary source of rules for any agent.
 - Files in `.github/agents/` and `.github/prompts/` are thin wrappers for slash commands, `argument-hint`, and response format; kept minimal to preserve token budget.
+- Copilot-specific note: commands shown as `/Command` are GitHub Copilot Chat slash commands (type them in chat input).
+- Other AI tools may require different syntax (for example plain text commands, menu actions, or different prefixes).
 - If a rule applies to the whole repo, keep it here; in Copilot files keep only what is necessary to run the workflow.
 
 ## Vendor-agnostic policy
@@ -55,10 +57,23 @@ Short guide for agents working in this repository.
 - Prefer vendor-neutral conventions and references in shared instructions (for example `#file:AGENTS.md` as the canonical rule source for automation).
 - Keep provider-specific capabilities (tool names, frontmatter keys, slash-command wiring, platform-only metadata) in provider-scoped wrapper files only.
 - Provider-scoped files must stay minimal adapters and must not duplicate agent workflow policy from `AGENTS.md`.
+- When provider-specific behavior is documented in generic sections, explicitly label it (for example `Copilot-specific note`) and add a short sentence that other tools may need different syntax.
 - When adding or changing automation guidance, update the universal rule in `AGENTS.md` first, then reference it from tool/vendor-specific files.
 - Design new instruction/tool structures so another tool can adopt the same universal base without rewriting agent workflow policy.
 
+## New Tool Onboarding
+
+- At the start of onboarding a new AI tool, run a quick capability-gap check against this repo workflow primitives.
+- Compare these capabilities explicitly: workflow command entry, prompt equivalent, agent/subagent equivalent, tool execution permissions, branch/commit/PR automation, and validation runner behavior.
+- If any capability is missing or partially mapped, report it immediately and suggest the smallest implementation steps needed.
+- Ask one explicit question before implementing gaps: is this a test-only evaluation or a real onboarding for adoption?
+- If user chooses test-only evaluation, do not force implementation; keep working and include a short `Deferred onboarding gaps` list in the result.
+- If evaluation succeeds and adoption is intended, remind the user to implement deferred gaps before merge/release and include one concrete next command or task.
+
 ## Workflow prompts
+
+For GitHub Copilot Chat, run these by typing the slash command directly in chat, for example: `/Open PR`.
+If you use another tool, keep the same workflow intent but adapt invocation syntax to that tool.
 
 - `/Workflow Help` - list available workflows.
 - `/New Branch` - update `main` and create a feature branch.
@@ -67,3 +82,9 @@ Short guide for agents working in this repository.
 - `/Prepare Commit` - prepare and create commit.
 - `/Open PR` - branch sync, validation, push, and PR opening.
 - `/Close Branch` - close merged branch and return to `main`.
+
+## Agent maintenance rule
+
+- When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
+- Keep the Copilot-specific slash-command note accurate when command names change.
+- If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
