@@ -25,4 +25,4 @@ If commit succeeds and all changes are committed:
     ```bash
     /New Branch
     ```
-If the right next step is unclear from context, ask briefly: "Is this the final commit for this branch, or do you have more changes planned?"
+If the right next step is unclear from context, ask briefly: "Is this the final commit for this branch, or do you have more changes planned?", and by default assume more work is planned: still end with a `### Next Step` section using `/New Branch` as the command block.
