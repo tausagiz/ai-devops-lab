@@ -13,7 +13,7 @@ Apply scope drift, validation, and git safety rules from `AGENTS.md`.
 2. Detect current branch and worktree state.
 3. If worktree is dirty, stop and ask to commit/stash first.
 4. If current branch is `main` or `master`, stop.
-5. Fetch `origin` and inspect commits ahead of `main`.
+5. Fetch `origin` and inspect commits ahead of the base branch (use the provided base branch, defaulting to `main` if not specified).
 6. Build a dependency-risk assessment before splitting:
    - collect commit subjects and touched files,
    - detect overlap hotspots (same files changed across proposed split themes),
@@ -33,7 +33,7 @@ Apply scope drift, validation, and git safety rules from `AGENTS.md`.
 - Never run destructive commands (`reset --hard`, force delete, force push) unless explicitly approved.
 - Never delete backup branch in this workflow.
 - Stop if merge state is uncertain or split mapping is ambiguous.
-- If no commits are ahead of `main`, report that and stop.
+- If no commits are ahead of the base branch (default: `main`), report that and stop.
 
 ## Output Format
 ### Source Branch

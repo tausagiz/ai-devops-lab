@@ -42,7 +42,8 @@ Report the following in order:
 1. **Commit outcome**: One line stating `Commit created: <sha>` or `Blocked: <reason>` or `Ready to commit`.
 2. **Scope drift**: `low`, `medium`, or `high` with one-line reason (omit if blocked on main).
 3. **Usage hint** (required on successful commit): one short sentence that says the next command is a Copilot Chat slash command typed in chat. Add that other tools should run the equivalent workflow command.
-4. **Next Step** (required on successful commit):
+4. **Next Step** (always required; never omit or replace with a clarifying question):
+   - On successful commit, choose `/Open PR` or `/New Branch` based on inferred context (see step 10 of the workflow):
 ```
 ### Next Step
 /Open PR
@@ -52,7 +53,7 @@ or
 ### Next Step
 /New Branch
 ```
-or (if blocked on main):
+   - When blocked on main (no commit created):
 ```
 ### Next Step
 /New Branch
@@ -60,6 +61,6 @@ or (if blocked on main):
 
 Notes:
 - Omit verbose branch details unless needed for clarity.
-- Never skip the usage hint or the Next Step block when commit succeeds.
+- The Next Step block is mandatory in every response, including the blocked-on-main case.
 - When context suggests continuing with more work, offer `/New Branch` instead of `/Open PR`.
 - When blocked on main, skip scope-drift check and offer only `/New Branch` as next step.
