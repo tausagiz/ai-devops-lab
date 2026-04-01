@@ -20,7 +20,7 @@ Apply scope drift, validation, and git safety rules from `AGENTS.md`.
    - detect likely coupling signals (renames, shared API updates, config/schema changes).
 7. If dependency risk is unclear or high, stop and warn that splitting may break behavior; ask for explicit mapping confirmation before any split.
 8. Create a safety backup branch from current HEAD: `backup/<source-branch>-pre-split-<yyyymmdd-hhmm>`.
-9. Keep source branch unchanged. Create new split branches from `main` (or provided base), then apply selected commits via safe cherry-pick.
+9. Keep source branch unchanged. Create new split branches from `main` (or provided base) using deterministic names: `split/<source-branch>/<theme-slug>` (for example, `split/feature-login/api`, `split/feature-login/ui`), then apply selected commits via safe cherry-pick.
 10. If cherry-pick conflicts or dependency warnings appear, stop that branch and report exactly what must be resolved.
 11. Run cheap validation per split branch (`pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`) unless user explicitly narrows scope.
 12. Produce recommended deploy order and hold policy:
