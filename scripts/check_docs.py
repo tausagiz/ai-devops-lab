@@ -81,7 +81,7 @@ def main():
         print("❌ README.md and AGENTS.md are required.")
         sys.exit(1)
 
-    # Require that at least one docs file is updated in the current diff,
+    # Require that at least one docs file is updated in the active change scope,
     # to encourage attention to docs as code evolves.
     changed = []
     base = os.environ.get("GITHUB_BASE_REF")
@@ -104,6 +104,14 @@ def main():
     if changed_out is None and base:
         # PR in CI: fallback to remote base branch when event SHAs are unavailable.
         changed_out = git_output(["diff", "--name-only", f"origin/{base}..HEAD"])
+
+    if changed_out is None and not event_name:
+        # Local workflow: evaluate current staged/unstaged changes first.
+        staged = git_output(["diff", "--name-only", "--cached"]) or ""
+        unstaged = git_output(["diff", "--name-only"]) or ""
+        local_changed = sorted({line for line in (staged + "\n" + unstaged).splitlines() if line})
+        if local_changed:
+            changed_out = "\n".join(local_changed)
 
     if changed_out is None:
         # Works for typical local commits and many CI push builds.

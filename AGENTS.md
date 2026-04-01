@@ -63,6 +63,7 @@ Short guide for agents working in this repository.
 - `/Workflow Help` - list available workflows.
 - `/New Branch` - update `main` and create a feature branch.
 - `/Validate Changes` - local tests + docs gate.
+- `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Prepare Commit` - prepare and create commit.
 - `/Open PR` - branch sync, validation, push, and PR opening.
 - `/Close Branch` - close merged branch and return to `main`.

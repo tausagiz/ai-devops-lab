@@ -14,6 +14,7 @@ List these commands with one-line usage:
 - `/Workflow Help`
 - `/New Branch`
 - `/Validate Changes`
+- `/Fix Validation`
 - `/Prepare Commit`
 - `/Open PR`
 - `/Close Branch`
