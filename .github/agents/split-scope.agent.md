@@ -33,7 +33,7 @@ Apply scope drift, validation, and git safety rules from `AGENTS.md`.
 - Never run destructive commands (`reset --hard`, force delete, force push) unless explicitly approved.
 - Never delete backup branch in this workflow.
 - Stop if merge state is uncertain or split mapping is ambiguous.
-- If no commits are ahead of the base branch (default: `main`), report that and stop.
+- If no commits are ahead of the selected base branch, report that and stop.
 
 ## Output Format
 ### Source Branch
