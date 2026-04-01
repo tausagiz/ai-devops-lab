@@ -13,8 +13,8 @@ Apply branch cleanup safety rules from `AGENTS.md`.
 2. Resolve branch from arguments or current branch; if it is `main` or `master`, stop.
 3. Detect branch type:
    - If pattern matches `backup/<source>-pre-split-*`: treat as post-split backup branch.
-   - If pattern contains `split` or user context mentions split cleanup: treat as split-cleanup flow.
-   - Otherwise: treat as normal post-merge cleanup.
+   - Else if there is an explicit user-provided flag/context indicating split cleanup: treat as split-cleanup flow.
+   - Otherwise: treat as normal post-merge cleanup; if the branch name or context is ambiguous (for example, it contains `split` but does not match the explicit backup pattern and there is no explicit flag), stop and ask the user to confirm the branch type before proceeding.
 4. For normal cleanup:
    a. Fetch `origin` and verify merge into `origin/main`.
    b. If merge is unclear, stop and wait for explicit confirmation.
