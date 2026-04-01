@@ -11,7 +11,7 @@ Apply branch safety and git rules from `AGENTS.md`.
 ## Workflow
 1. If branch list is provided in arguments, parse and use it; otherwise, run a quick scan (same as report, but interactive).
 2. For each branch candidate:
-   a. Show: name, age, author, email, last commit message, merge status.
+   a. Show: name, age, author name, last commit message, merge status. Do not display author email by default; include it only if the user explicitly requests it or confirms they need it for outreach.
    b. If branch is not pre-approved and skip-author-check is false: ask for confirmation or note author approval.
    c. If merge status is uncertain or branch has recent activity: warn and ask before deletion.
 3. For confirmed deletions:

@@ -16,7 +16,7 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
    a. Define `branch_ref` as the full ref name (e.g., `refs/heads/feature/foo` or `refs/remotes/origin/feature/foo`) and `branch_name` as the display name with the prefix stripped (e.g., `feature/foo`).
    b. Get last commit date via `git log -1 --format=%ai <branch_ref>`.
    c. Get author of last commit via `git log -1 --format=%an <branch_ref>`.
-   d. Get author email via `git log -1 --format=%ae <branch_ref>`.
+   d. Collect author email only if user explicitly requests email output: get via `git log -1 --format=%ae <branch_ref>`. Treat email as sensitive personal data; warn in output when included. GitHub noreply addresses (`*@users.noreply.github.com`) are safe to include without warning.
    e. Check merge status to main (or master) via `git merge-base --is-ancestor <branch_ref> origin/main` (or `origin/master` where appropriate).
    f. Get short commit message via `git log -1 --format=%s <branch_ref>`.
    g. For local branches only: check whether a configured upstream tracking ref exists via `git for-each-ref --format='%(upstream:short)' <branch_ref>`; record as `has_upstream_tracking` (non-empty result = true).
@@ -28,8 +28,9 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
    - If filter mode is "all": collect all remaining branches older than max-age-days, regardless of merge status.
 6. Group by author to build contact list.
 7. Report stale/unmerged branches with:
-   - Branch name, last commit date, author, email, short message.
+   - Branch name, last commit date, author name, short message.
    - Merge status (in origin/main or not).
+   - Author email only if explicitly requested (treat as sensitive data).
    - Suggested action (candidate for cleanup if old + unmerged).
 
 ## Constraints
@@ -43,7 +44,7 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
 - Total branches checked (local and remote), total candidates.
 
 ### Contact Map
-- Grouped by author: list of branches, dates, merge status, email.
+- Grouped by author name: list of branches, dates, merge status. Email omitted by default; include only if explicitly requested (label as sensitive data).
 
 ### Cleanup Candidates
 - Branches older than max-age AND unmerged: branch name, age, author, merge status, last message.
@@ -52,7 +53,7 @@ Apply branch safety and git rules from `AGENTS.md`. Produce a non-destructive re
 - Branches excluded (main/master), branches with active tracking, any scan errors.
 
 ### Suggested Contacts
-- Authors with stale branches and their email list for outreach.
+- Authors with stale branches. Email list omitted by default; include only if user explicitly requests it (warn that output contains sensitive data).
 
 ### Next Action
 - One short action. Copilot example: type `/Cleanup Stale Branches` in chat to interactively remove confirmed candidates. Other tools: run the equivalent branch cleanup workflow.

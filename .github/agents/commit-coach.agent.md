@@ -43,19 +43,24 @@ Report the following in order:
 2. **Scope drift**: `low`, `medium`, or `high` with one-line reason (omit if blocked on main).
 3. **Usage hint** (required on successful commit): one short sentence that says the next command is a Copilot Chat slash command typed in chat. Add that other tools should run the equivalent workflow command.
 4. **Next Step** (always required; never omit or replace with a clarifying question):
-   - On successful commit, choose `/Open PR` or `/New Branch` based on inferred context (see step 10 of the workflow):
-```
+   - On successful commit, choose `/Open PR` or `/New Branch` based on inferred context (see step 10 of the workflow). The `### Next Step` heading must appear outside any code fence, with only the slash command inside the fenced block:
+
 ### Next Step
+```bash
 /Open PR
 ```
-or
-```
+
+   or, if continuation is planned:
+
 ### Next Step
+```bash
 /New Branch
 ```
+
    - When blocked on main (no commit created):
-```
+
 ### Next Step
+```bash
 /New Branch
 ```
 
