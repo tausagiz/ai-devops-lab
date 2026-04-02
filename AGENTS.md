@@ -122,7 +122,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
 - Keep the Copilot-specific slash-command note accurate when command names change.
-- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context.
+- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context. `/New Branch` is only correct when the user is starting *separate new work on a different branch*; for more commits on the *current* branch, the user should just continue and re-run `/Prepare Commit`.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
 - When updating PR Coach's PR body edit step, preserve the `gh api` REST fallback for environments where `gh pr edit` fails with deprecation errors; document both methods in the agent.
