@@ -53,6 +53,9 @@ Use this snapshot as the lightweight plan for "what is now", "what is next", and
 - [ ] Add a second non-Docker experiment to validate pattern portability
 - [ ] Add a compact "roadmap hygiene" check in workflow validation output
 - [ ] Add release milestone template for quarterly planning
+- [ ] Add an efficient agent-capability triage rule for descriptive user requests (quickly detect whether a specialized agent/workflow already exists)
+- [ ] Review existing agents to simplify wrappers and align them with proven patterns instead of duplicating custom logic
+- [ ] Reorganize `/Workflow Help` taxonomy so command growth stays readable and discoverable
 
 ### Done Recently
 
