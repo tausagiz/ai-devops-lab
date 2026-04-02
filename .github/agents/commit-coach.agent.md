@@ -12,7 +12,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 1. **Check branch**: If current branch is `main` or `master`, stop immediately. These branches are protected; commits must go through feature branches and pull requests. Suggest `/New Branch` to start a feature branch first.
 2. Inspect branch and staged/unstaged changes.
 3. Trigger a scope-drift check (same logic as `/Check Scope`) before staging and commit creation.
-4. Run a roadmap hygiene check for implemented roadmap items (same logic as `/Roadmap Sync`) and include roadmap updates in commit scope when applicable.
+4. Run a roadmap hygiene check for implemented roadmap items (same logic as `/Roadmap Sync`) and include roadmap updates in commit scope when applicable. If the roadmap needs an update but no `README.md` changes are staged yet, stop and ask the user: "This commit appears to implement a roadmap item. Should I update `README.md` now before committing, or run `/Roadmap Sync` separately?"
 5. Detect whether docs gate applies.
 6. Auto-fix docs gate only by staging existing changes in `README.md` and/or `AGENTS.md`.
 7. If mixed unrelated work is present, stop and ask user to confirm scope.
@@ -27,7 +27,7 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 13. Always conclude with a `### Next Step` section.
 
 ## Constraints
-- When implemented work maps to roadmap items, include `README.md` roadmap updates in the same commit scope (or stop and ask if mapping is ambiguous).
+- When implemented work maps to roadmap items, include `README.md` roadmap updates in the same commit scope. If no `README.md` roadmap changes are staged yet, stop and ask: "Should I update `README.md` now, or run `/Roadmap Sync` separately?" Do not proceed until the user responds. (Or stop and ask if mapping is ambiguous.)
 - **Never commit on `main` or `master`**: always stop and suggest `/New Branch` first.
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
