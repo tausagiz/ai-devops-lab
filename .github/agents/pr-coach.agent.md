@@ -24,7 +24,7 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 13. If no open PR exists and `gh` is available, create the PR; otherwise report manual URL and ready body.
 14. If an open PR exists, compare current branch commits and files with the PR body and identify missing updates.
 15. If updates are missing, propose a PR body refresh and ask for explicit confirmation before applying any edit.
-16. After explicit confirmation, update the PR body: try `gh pr edit` first; if it fails (including known `gh` API deprecation warnings that return non-zero exit codes), fall back to `gh api repos/{owner}/{repo}/pulls/{number} --method PATCH --raw-field body="..."` via the GitHub REST API. If both methods are unavailable, provide the refreshed body for manual update. If user declines, keep current PR body unchanged.
+16. After explicit confirmation, update the PR body: try `gh pr edit` first; if it fails (including known `gh` API deprecation warnings that return non-zero exit codes), fall back to using the GitHub REST API with `gh api repos/{owner}/{repo}/pulls/{number} --method PATCH --raw-field body@<path-to-temp-file>`, where the refreshed body is first written verbatim to a temporary file. If both methods are unavailable, provide the refreshed body for manual update. If user declines, keep current PR body unchanged.
 
 ## Constraints
 - No force-push unless explicitly requested.
