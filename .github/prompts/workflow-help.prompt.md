@@ -26,4 +26,4 @@ List these commands with one-line usage:
 - `/Branch Cleanup Report`
 - `/Cleanup Stale Branches`
 
-If my goal is clear, recommend exactly one next command. If not, return `None`.
+If my goal is clear, recommend exactly one next command. If my goal is not clear, still show the full command list but set the recommended next command to `None`.
