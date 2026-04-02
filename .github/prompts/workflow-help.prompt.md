@@ -14,6 +14,8 @@ Workflow rules:
 
 List these commands with one-line usage:
 - `/Workflow Help`
+- `/Roadmap Sync`
+- `/Start Backlog`
 - `/New Branch`
 - `/Validate Changes`
 - `/Fix Validation`

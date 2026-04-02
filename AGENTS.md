@@ -38,7 +38,7 @@ Short guide for agents working in this repository.
 
 - Implementation: access Docker only through `get_client()`; keep constants in `config.py`; each new command must live in `commands/` and be registered in `cli.py`.
 - Language: developers may chat in any language, but all repository artifacts must be in English (code, comments, docstrings, variable/function names, CLI messages, tests, documentation, commit/PR descriptions).
-- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, ask for clarification instead of guessing.
+- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, return exactly 3 numbered branch suggestions and allow selection by number (`1`/`2`/`3`) instead of guessing.
 - Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
 - Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
 - User confirmation guardrail: when a proposed action increases token/call usage or project surface (new files, broader tests, extra scripts, large documentation updates), ask for explicit confirmation before proceeding unless already requested.
@@ -61,6 +61,14 @@ Short guide for agents working in this repository.
 - For Copilot wrappers, use slash command examples.
 - For other tools, keep the same intent and adapt syntax to that tool.
 - Section naming: generic workflows should prefer a `### Next Action` heading; workflows explicitly required to end with `### Next Step` (for example `/Prepare Commit`) MUST treat that section as their `Next Action` and are considered compliant with this policy.
+
+## Roadmap Hygiene Policy
+
+- Keep roadmap visibility in `README.md` under a dedicated `## Roadmap` section with buckets: `Current Focus`, `Next Up`, `Backlog`, `Done Recently`.
+- When work implements a roadmap item, update roadmap status in the same change: remove or mark completed from active buckets and add to `Done Recently`.
+- When user asks to start work from backlog, first pick one explicit backlog item, then run branch-start workflow for that item (do not pick multiple backlog items at once unless user explicitly asks).
+- If roadmap status is stale or unclear after implementation, run a roadmap sync step before commit/PR (or stop and ask for confirmation when mapping is ambiguous).
+- Keep roadmap updates concise; do not add large planning documents by default.
 
 ## Scope Drift Decision Policy
 
@@ -107,7 +115,9 @@ For GitHub Copilot Chat, run these by typing the slash command directly in chat,
 If you use another tool, keep the same workflow intent but adapt invocation syntax to that tool.
 
 - `/Workflow Help` - list available workflows.
-- `/New Branch` - update `main` and create a feature branch.
+- `/Roadmap Sync` - update roadmap snapshot after implemented work (close completed items, keep backlog actionable).
+- `/Start Backlog` - choose one backlog item and start branch workflow for it on request.
+- `/New Branch` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
@@ -122,6 +132,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
+- Keep roadmap workflow wrappers (`/Roadmap Sync`, `/Start Backlog`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update wrappers in the same commit.
 - Keep the Copilot-specific slash-command note accurate when command names change.
 - Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context. `/New Branch` is only correct when the user is starting *separate new work on a different branch*; for more commits on the *current* branch, the user should just continue and re-run `/Prepare Commit`.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
