@@ -10,7 +10,7 @@ Apply branch cleanup safety rules from `AGENTS.md`.
 
 ## Workflow
 1. Check worktree status; if dirty, stop.
-2. Resolve branch from arguments or current branch; if it is `main` or `master`, stop.
+2. Resolve branch from arguments or current branch; if it is `main` or `master`, stop and explain that main/master cannot be closed this way — suggest checking out the intended feature branch first.
 3. Detect branch type:
    - If pattern matches `backup/<source>-pre-split-*`: treat as post-split backup branch.
    - Else if there is an explicit user-provided flag/context indicating split cleanup: treat as split-cleanup flow.
