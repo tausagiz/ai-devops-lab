@@ -29,6 +29,39 @@ The Docker CLI is a *working experiment*—the real value is learning the patter
 - **Token-efficient**: Central policy, no duplication, intentionally concise.
 - **Portable**: Same workflows across GitHub Copilot, Claude, future tools, or even human teams.
 
+## Roadmap
+
+Roadmap status is tracked in three places:
+
+- **GitHub Projects** for board/timeline planning (source of execution truth)
+- **GitHub Milestones** for release scope/progress
+- **README roadmap snapshot** below for quick repository-level visibility
+
+Use this snapshot as the lightweight plan for "what is now", "what is next", and "what is backlog".
+
+### Current Focus
+
+- [ ] Add next experiment scope after Docker CLI baseline (candidate: AI-assisted release workflow checks)
+- [ ] Keep workflow wrappers thin and aligned with `AGENTS.md`
+
+### Next Up
+
+- [ ] Expand multi-tool onboarding capability-gap checklist examples
+
+### Backlog
+
+- [ ] Add a second non-Docker experiment to validate pattern portability
+- [ ] Add a compact "roadmap hygiene" check in workflow validation output
+- [ ] Add release milestone template for quarterly planning
+
+### Done Recently
+
+- [x] Docker automation CLI baseline with mocked unit/integration test strategy
+- [x] Vendor-neutral policy centralization in `AGENTS.md` with thin Copilot adapters
+- [x] Workflow discoverability improved with roadmap commands and help updates
+
+When a roadmap item is implemented, move it out of **Current Focus**, **Next Up**, or **Backlog** and add it to **Done Recently**.
+
 ## Repository Structure
 
 Key files for understanding the pattern (and current experiments):

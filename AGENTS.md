@@ -62,6 +62,14 @@ Short guide for agents working in this repository.
 - For other tools, keep the same intent and adapt syntax to that tool.
 - Section naming: generic workflows should prefer a `### Next Action` heading; workflows explicitly required to end with `### Next Step` (for example `/Prepare Commit`) MUST treat that section as their `Next Action` and are considered compliant with this policy.
 
+## Roadmap Hygiene Policy
+
+- Keep roadmap visibility in `README.md` under a dedicated `## Roadmap` section with buckets: `Current Focus`, `Next Up`, `Backlog`, `Done Recently`.
+- When work implements a roadmap item, update roadmap status in the same change: remove or mark completed from active buckets and add to `Done Recently`.
+- When user asks to start work from backlog, first pick one explicit backlog item, then run branch-start workflow for that item (do not pick multiple backlog items at once unless user explicitly asks).
+- If roadmap status is stale or unclear after implementation, run a roadmap sync step before commit/PR (or stop and ask for confirmation when mapping is ambiguous).
+- Keep roadmap updates concise; do not add large planning documents by default.
+
 ## Scope Drift Decision Policy
 
 - Goal: keep PRs reviewable without forcing unnecessary branch splits.
@@ -107,6 +115,8 @@ For GitHub Copilot Chat, run these by typing the slash command directly in chat,
 If you use another tool, keep the same workflow intent but adapt invocation syntax to that tool.
 
 - `/Workflow Help` - list available workflows.
+- `/Roadmap Sync` - update roadmap snapshot after implemented work (close completed items, keep backlog actionable).
+- `/Start Backlog` - choose one backlog item and start branch workflow for it on request.
 - `/New Branch` - update `main` and create a feature branch.
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
@@ -122,6 +132,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
+- Keep roadmap workflow wrappers (`/Roadmap Sync`, `/Start Backlog`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update wrappers in the same commit.
 - Keep the Copilot-specific slash-command note accurate when command names change.
 - Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context. `/New Branch` is only correct when the user is starting *separate new work on a different branch*; for more commits on the *current* branch, the user should just continue and re-run `/Prepare Commit`.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.

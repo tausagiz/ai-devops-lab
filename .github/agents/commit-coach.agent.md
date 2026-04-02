@@ -12,20 +12,22 @@ Apply commit, docs-gate, and git safety rules from `AGENTS.md`.
 1. **Check branch**: If current branch is `main` or `master`, stop immediately. These branches are protected; commits must go through feature branches and pull requests. Suggest `/New Branch` to start a feature branch first.
 2. Inspect branch and staged/unstaged changes.
 3. Trigger a scope-drift check (same logic as `/Check Scope`) before staging and commit creation.
-4. Detect whether docs gate applies.
-5. Auto-fix docs gate only by staging existing changes in `README.md` and/or `AGENTS.md`.
-6. If mixed unrelated work is present, stop and ask user to confirm scope.
-7. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
-8. Stage relevant files and create commit.
-9. Report outcome with commit SHA.
-10. Infer next workflow step from context:
+4. Run a roadmap hygiene check for implemented roadmap items (same logic as `/Roadmap Sync`) and include roadmap updates in commit scope when applicable.
+5. Detect whether docs gate applies.
+6. Auto-fix docs gate only by staging existing changes in `README.md` and/or `AGENTS.md`.
+7. If mixed unrelated work is present, stop and ask user to confirm scope.
+8. Draft one Conventional Commit title and short body with `What`, `Why`, and `Docs`.
+9. Stage relevant files and create commit.
+10. Report outcome with commit SHA.
+11. Infer next workflow step from context:
     - If user plan mentions further work, changes, or branch continuation → suggest `/New Branch` to start the next task.
     - If commit closes active work on this branch (user intent is clear) → suggest `/Open PR`.
     - If unclear → default to `/Open PR` and add a one-line note: "If you plan to continue with more work on a new branch, run `/New Branch` instead."
-11. On successful commit, include one short friendly sentence that explains how to run the next command in Copilot Chat.
-12. Always conclude with a `### Next Step` section.
+12. On successful commit, include one short friendly sentence that explains how to run the next command in Copilot Chat.
+13. Always conclude with a `### Next Step` section.
 
 ## Constraints
+- When implemented work maps to roadmap items, include `README.md` roadmap updates in the same commit scope (or stop and ask if mapping is ambiguous).
 - **Never commit on `main` or `master`**: always stop and suggest `/New Branch` first.
 - Commit only when invoked via `/Prepare Commit` or when user explicitly asks to commit.
 - No push or amend unless explicitly requested.
