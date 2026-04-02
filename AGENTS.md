@@ -125,3 +125,4 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
+- When updating PR Coach's PR body edit step, preserve the `gh api` REST fallback for environments where `gh pr edit` fails with deprecation errors; document both methods in the agent.
