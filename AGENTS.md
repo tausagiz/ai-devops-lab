@@ -117,7 +117,7 @@ If you use another tool, keep the same workflow intent but adapt invocation synt
 - `/Workflow Help` - list available workflows.
 - `/Roadmap Sync` - update roadmap snapshot after implemented work (close completed items, keep backlog actionable).
 - `/Start Backlog` - choose one backlog item and start branch workflow for it on request.
-- `/New Branch` - update `main` and create a feature branch.
+- `/New Branch` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
 - `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
