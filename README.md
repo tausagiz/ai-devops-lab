@@ -55,9 +55,10 @@ Use this snapshot as the lightweight plan for "what is now", "what is next", and
 - [ ] Add an efficient agent-capability triage rule for descriptive user requests (quickly detect whether a specialized agent/workflow already exists)
 - [ ] Reorganize `/Workflow Help` taxonomy so command growth stays readable and discoverable
 - [ ] Investigate Copilot agent discoverability and invocation reliability for agent-only workflows (missing `@` suggestions and unstable argument handling)
-- [ ] Simplify workflow surface area by reducing overlapping workflow agents/prompts and keeping a smaller default set
 
 ### Done Recently
+
+- [x] Simplified workflow surface area by reducing overlapping workflow agents/prompts and keeping a smaller default set
 
 - [x] Simplified workflow wrappers by consolidating lightweight agent logic into prompt-only commands
 - [x] Kept workflow wrappers thin and aligned with `AGENTS.md`

@@ -57,7 +57,7 @@ Apply workflow and token-efficiency rules from `AGENTS.md`.
 - One concrete task with validation mode and acceptance condition.
 
 ### Next Action
-- One short action. Copilot example: type `/Learn <your problem>` in chat. Other tools: run the equivalent learning workflow command.
+- One short action. Copilot example: type `@Learning Coach <your problem>` in chat. Other tools: run the equivalent learning workflow command.
 
 ### Summary
 - One-line result, or `Blocked: <reason>`.

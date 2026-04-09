@@ -1,6 +1,6 @@
 ---
 name: "PR Coach"
-description: "Use when opening or updating a PR: sync with main, validate branch scope, push, and create or refresh GitHub PR details."
+description: "Use when opening or updating a PR: sync with main, validate branch scope, push, and create or refresh GitHub PR details. Prefer a recent @Validate Changes result and re-run validation only when requested."
 tools: [read, search, execute]
 argument-hint: "Optional: PR context and preferred update strategy (merge or rebase)"
 ---
@@ -12,12 +12,12 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 1. Detect branch and worktree state.
 2. If worktree is dirty, stop and suggest `/Prepare Commit`.
 3. Check ahead/behind against `main`.
-4. Trigger a scope-drift check (same logic as `/Check Scope`) before push/PR creation.
+4. Prefer reusing recent scope-drift context from `@Validate Changes` or `/Check Scope`. Run a fresh scope-drift check only when that context is missing or the user explicitly requests a re-check.
 5. If branch is behind main, ask for `merge` or `rebase` unless already provided.
 6. Collect branch commits and changed files.
 7. Include extra PR context from arguments in the PR body.
-8. Run default validation from `AGENTS.md`; run full validation only if requested.
-9. If validation fails, report failing command and stop.
+8. Prefer reusing a recent `@Validate Changes` result from context. Re-run default validation only when user requests it or when no prior validation context is available. Run full validation only if requested.
+9. If validation was re-run and it fails, report failing command and stop.
 10. Draft PR title from commit subjects and PR body with `Summary` and `Commits`.
 11. Push branch with `git push --set-upstream origin <branch>`.
 12. Detect if an open PR already exists for the current branch.

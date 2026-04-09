@@ -116,21 +116,23 @@ For GitHub Copilot Chat, use the simplest entrypoint for the job:
 - Agent-first complex workflows via direct agent mentions (`@Agent Name`).
 If you use another tool, keep the same workflow intent and adapt invocation syntax.
 
+Core default lane (use these for day-to-day feature delivery):
+- `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
+- `@Validate Changes` - run local tests + docs gate and the primary scope-drift sanity check before readiness output.
+- `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
+- `@PR Coach` - sync branch, push, and create or refresh PR details. Reuse recent validate/scope context by default; re-run checks only when explicitly requested.
+- `/Close Branch` - close merged branch safely and return to `main`.
+
+Advanced on-demand lane (use when needed):
 - `/Workflow Help` - list available workflow entrypoints.
 - `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split.
 - `/Rescope Branch` - rename current branch to match coherent scope drift.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
-- `/Close Branch` - close merged branch safely and return to `main`.
-- `/Learn` - start or resume a diagnostic-first learning session that maps your real problem to skill goals.
-- `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
-- `@Learning Coach` - run a structured learning workflow: mandatory problem discovery, adaptive tasks, and test-based or rubric-based validation.
-- `@Validate Changes` - run local tests + docs gate and scope-drift sanity check before readiness output.
-- `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
-- `@PR Coach` - branch sync, validation, push, and PR opening or refresh.
 - `@Split Scope` - safely split a high, non-cohesive drift branch while preserving original and backup branches.
-- `@Roadmap Coach` - roadmap sync and backlog-start workflows.
+- `@Roadmap Coach` - roadmap sync and roadmap hygiene updates.
 - `@Branch Cleanup Report` - scan branches periodically and build author contact map.
 - `@Cleanup Stale Branches` - interactively delete confirmed stale branches with audit trail.
+- `@Learning Coach` - run a structured learning workflow: mandatory problem discovery, adaptive tasks, and test-based or rubric-based validation.
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
