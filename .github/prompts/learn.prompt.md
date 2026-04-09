@@ -2,6 +2,7 @@
 name: "Learn"
 description: "Start or resume a diagnostic-first learning session that maps a real problem to skill goals and adaptive validation."
 argument-hint: "Optional: real problem context"
+tools: [read, search, execute]
 ---
 Start a compact learning session for this repository.
 

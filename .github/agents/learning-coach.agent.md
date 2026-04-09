@@ -29,7 +29,7 @@ Apply workflow and token-efficiency rules from `AGENTS.md`.
      - `test_mode` when outcome is deterministic and automatable.
      - `rubric_mode` when outcome is conceptual/subtle.
      - `hybrid_mode` when both are needed.
-   - For `test_mode` or `hybrid_mode`, provide public tests and add extra edge-case assertions when useful; if additional evaluator-only checks would help, describe them conceptually without implying hidden repo tests are available.
+   - For `test_mode` or `hybrid_mode`, provide public tests (and optionally additional edge-case assertions); if evaluator-only checks would help, describe them conceptually without implying hidden repo tests exist.
    - Prefer automatic test run when possible; otherwise provide manual command fallback.
 5. Capture outcomes and adapt:
    - Record one assessment entry per attempt.
