@@ -1,6 +1,6 @@
 ---
 name: "Fix Validation"
-description: "Diagnose and fix failures from /Validate Changes, then rerun impacted checks."
+description: "Diagnose and fix failures from @Validate Changes, then rerun impacted checks."
 tools: [read, search, execute]
 argument-hint: "Optional: failing command/log snippet and preferred scope"
 ---
@@ -32,7 +32,7 @@ Apply repository rules from `AGENTS.md`.
 - One bullet per rerun command with `pass`, `fail`, or `skipped`.
 
 ### Next Action
-- One short action. Copilot example: type `/Validate Changes` in chat after fixes. Other tools: run the equivalent validation workflow.
+- One short action. Copilot example: mention `@Validate Changes` in chat after fixes. Other tools: run the equivalent validation workflow.
 
 ### Ready
-- `Ready for /Validate Changes` or `Blocked: <reason>`.
+- `Ready for @Validate Changes` or `Blocked: <reason>`.
