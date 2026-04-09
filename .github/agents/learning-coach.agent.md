@@ -19,9 +19,9 @@ Apply workflow and token-efficiency rules from `AGENTS.md`.
    - Draft 3-5 measurable success criteria.
    - Map skill gaps to success criteria.
    - Define scope rails (`in_scope`, `out_of_scope`).
-   - Ask for explicit confirmation before generating the first task.
-3. Persist discovery artifacts:
-   - Write course state and discovery summary under `learning/courses/<course_slug>/state/`.
+   - Ask for explicit confirmation of the discovery summary before persisting discovery artifacts or generating the first task.
+3. Persist discovery artifacts after confirmation:
+   - Write course state and confirmed discovery summary under `learning/courses/<course_slug>/state/`.
    - Update `learning/course-index.md` with `active_course` and status.
 4. Build adaptive learning loop:
    - Generate one small next task.
