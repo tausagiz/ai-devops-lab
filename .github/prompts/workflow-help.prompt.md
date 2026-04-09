@@ -22,6 +22,6 @@ Show these natural command examples first:
 Then show optional specialized fallbacks only:
 - `@Split Scope` (high drift / non-cohesive branch split)
 - `@Learning Coach` (learning workflow)
-- `/Workflow Help` (show this help again)
+- `show workflow help` (show this help again; Copilot slash-command form: `/Workflow Help`)
 
 If my goal is clear, recommend exactly one short natural command as next action. If my goal is not clear, still show the examples and set the recommended next action to `None`.
