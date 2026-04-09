@@ -114,6 +114,8 @@ Short guide for agents working in this repository.
 For GitHub Copilot Chat, run these by typing the slash command directly in chat, for example: `/Open PR`.
 If you use another tool, keep the same workflow intent but adapt invocation syntax to that tool.
 
+- Implementation note: lightweight workflows may be prompt-only wrappers (no dedicated file in `.github/agents/`) when a separate custom agent would only duplicate prompt logic.
+
 - `/Workflow Help` - list available workflows.
 - `/Roadmap Sync` - update roadmap snapshot after implemented work (close completed items, keep backlog actionable).
 - `/Start Backlog` - choose one backlog item and start branch workflow for it on request.
