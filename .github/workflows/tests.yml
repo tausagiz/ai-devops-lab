@@ -26,10 +26,25 @@ jobs:
           pip install -e ".[dev]"
 
       - name: Run unit tests
-        run: pytest tests/unit -v --tb=short
+        run: |
+          if ls tests/unit/test_*.py >/dev/null 2>&1; then
+            pytest tests/unit -v --tb=short
+          else
+            echo "No unit tests to run."
+          fi
 
       - name: Run integration tests
-        run: pytest tests/integration -v --tb=short
+        run: |
+          if ls tests/integration/test_*.py >/dev/null 2>&1; then
+            pytest tests/integration -v --tb=short
+          else
+            echo "No integration tests to run."
+          fi
 
       - name: Coverage report
-        run: pytest tests/ --cov=docker_automation --cov-report=term-missing
+        run: |
+          if find tests -type f -name 'test_*.py' | grep -q .; then
+            pytest tests/ --cov --cov-report=term-missing
+          else
+            echo "No tests available for coverage report."
+          fi

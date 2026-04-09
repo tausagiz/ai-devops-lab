@@ -1,18 +1,18 @@
 ---
-description: "Use when writing or reviewing tests in tests/unit/ or tests/integration/. Covers mock patterns, assertion style, and test structure."
+description: "Use when writing or reviewing tests in tests/unit/ or tests/integration/. Covers assertion style, mocks, and test structure for course modules."
 applyTo: "tests/**/*.py"
 ---
 # Testing Conventions
 
 ## Unit tests (`tests/unit/`)
-- Mock Docker client via `patch("docker_automation.commands.<module>.get_client")`.
-- Use `MagicMock()` for container/image objects; configure return values inline in the `with patch(...)` block.
+- Mock external boundaries at module level using `patch("<module>.<dependency>")`.
+- Use `MagicMock()` for collaborator objects; configure return values inline in the test scope.
 - Capture printed output with `capsys`; assert on substrings (`assert "Expected text" in out`), not exact strings.
 - Use `pytest.raises(SystemExit)` to assert `sys.exit(1)` on error paths; check `exc_info.value.code == 1`.
-- One test file per command module; name pattern `test_<command>.py`.
+- Keep one test file per feature module; use `test_<feature>.py` naming.
 
 ## Integration tests (`tests/integration/`)
-- CLI smoke tests only; keep them thin — verify the command is reachable and exits cleanly, not detailed behaviour.
+- Keep integration tests thin: verify module wiring and key flows, not exhaustive edge behavior.
 
 ## General
 - No fixtures file (`conftest.py`) unless shared fixtures are needed by 3+ tests.

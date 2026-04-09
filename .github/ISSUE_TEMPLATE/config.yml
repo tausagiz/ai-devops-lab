@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: Project guidelines for contributors
-    url: https://github.com/tausagiz/ai-devops-lab/blob/main/CONTRIBUTING.md
+    url: https://github.com/tausagiz/ai-learning-lab/blob/main/CONTRIBUTING.md
     about: Start here for the preferred collaboration model.
   - name: Agent workflow policy (AGENTS.md)
-    url: https://github.com/tausagiz/ai-devops-lab/blob/main/AGENTS.md
+    url: https://github.com/tausagiz/ai-learning-lab/blob/main/AGENTS.md
     about: Workflow and operational rules for agents/automation.
   - name: Use this project in your own fork
-    url: https://github.com/tausagiz/ai-devops-lab/fork
+    url: https://github.com/tausagiz/ai-learning-lab/fork
     about: Reuse and extend the project under the repository license.
