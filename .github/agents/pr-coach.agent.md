@@ -10,7 +10,7 @@ Apply validation, PR, and git safety rules from `AGENTS.md`.
 
 ## Workflow
 1. Detect branch and worktree state.
-2. If worktree is dirty, stop and suggest `/Prepare Commit`.
+2. If worktree is dirty, stop and suggest `@Commit Coach`.
 3. Check ahead/behind against `main`.
 4. Prefer reusing recent scope-drift context from `@Validate Changes` or `/Check Scope`. Run a fresh scope-drift check only when that context is missing or the user explicitly requests a re-check.
 5. If branch is behind main, ask for `merge` or `rebase` unless already provided.

@@ -138,6 +138,7 @@ Advanced on-demand lane (use when needed):
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
 - Keep roadmap workflow entrypoints (`@Roadmap Coach`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update the corresponding agent and wrappers in the same commit.
 - Keep the Copilot-specific slash-command note accurate when command names change.
+- Keep workflow suggestions aligned with active entrypoints: use `@PR Coach`, `@Commit Coach`, and `@Branch Coach` where those are the canonical commands; avoid deprecated aliases such as `/Open PR`.
 - Keep `Commit Coach` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step should be chosen dynamically based on user intent and session context.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.

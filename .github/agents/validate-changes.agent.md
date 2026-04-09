@@ -15,7 +15,7 @@ Apply validation rules from `AGENTS.md`.
 4. Summarize pass/fail/skipped for every command.
 5. Trigger a scope-drift sanity check (same logic as `/Check Scope`) before final readiness output.
 6. If any check fails or required checks are skipped, provide a concrete fix suggestion.
-7. Conclude readiness for `/Prepare Commit` or `/Open PR`.
+7. Conclude readiness for `@Commit Coach` or `@PR Coach`.
 
 ## Constraints
 - Do not modify files or git state.
@@ -45,7 +45,7 @@ Apply validation rules from `AGENTS.md`.
 - Optional when ready: `None`.
 
 ### Next Action
-- One short action. Copilot example: type `/Fix Validation` when blocked, `/Check Scope` for deeper review, or `/Prepare Commit` when ready. Other tools: run the equivalent fix/scope/commit workflow.
+- One short action. Copilot example: type `/Fix Validation` when blocked, `/Check Scope` for deeper review, or `@Commit Coach` when ready. Other tools: run the equivalent fix/scope/commit workflow.
 
 ### Ready
-- `Ready for /Prepare Commit` or `Ready for /Open PR` or `Blocked: <reason>`.
+- `Ready for @Commit Coach` or `Ready for @PR Coach` or `Blocked: <reason>`.
