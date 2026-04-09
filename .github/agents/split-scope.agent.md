@@ -55,7 +55,7 @@ Apply scope drift, validation, and git safety rules from `AGENTS.md`.
 - Explicit risk notes and unresolved coupling concerns.
 
 ### Next Action
-- One short action. Copilot example: type `/Validate Changes` on the first split branch, then continue deploy in recommended order. Other tools: run the equivalent validation/deploy workflow.
+- One short action. Copilot example: type `validate changes on the first split branch` in chat, then continue deploy in recommended order. Other tools: run the equivalent validation/deploy workflow.
 
 ### Summary
 - One line confirming original branch preservation status, or `Blocked: <reason>`.
