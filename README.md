@@ -117,7 +117,7 @@ pip install -e ".[dev]"
 `AGENTS.md` defines:
 - **Repository character**: What this project is and isn't
 - **Work priorities**: Cheap checks first, expensive validation on request
-- **Workflow steps**: `/New Branch` → `/Validate` → `/Prepare Commit` → `/Open PR`
+- **Workflow steps**: "create branch" → "validate changes" → "commit these changes" → "open or update PR"
 - **Conventions**: Branch naming, commit message format, docs requirements
 - **Guardrails**: When to ask for confirmation, safety checks, risk mitigation
 
@@ -193,41 +193,41 @@ Note: `scripts/check_docs.py` resolves paths from the repository root, so it can
 
 The workflow system defined in `AGENTS.md` works for any experiment. Here's an example using the Docker CLI:
 
-### Recommended VS Code + Copilot Workflow (Docker Example)
+### Recommended Workflow (Docker Example)
 
-If you have GitHub Copilot installed:
+Use short natural commands in your AI assistant's chat (Plan mode for planning, Agent mode for execution):
 
 ```
-/New Branch "add push-command"
+"create branch for add-push-command"
   ↓
 # Edit src/docker_automation/commands/push.py (or any experiment)
 # Update cli.py registration
 # Add tests in tests/unit/ and tests/integration/
   ↓
-/Validate Changes
+"validate changes"
   ↓
-/Prepare Commit
+"commit these changes"
   ↓
-/Open PR
+"open or update PR"
   ↓
 # Review & merge on GitHub
   ↓
-/Close Branch
+"close current branch after merge"
 ```
 
-Each slash command follows `AGENTS.md`: cheap checks first, clear errors, human confirmation for risky operations.
+Each step follows `AGENTS.md`: cheap checks first, clear errors, human confirmation for risky operations. GitHub Copilot users can also type `/Workflow Help` for a quick reference of available commands.
 
 **Same workflow works for any experiment**: Replace Docker commands with your own CLI, API client, or infrastructure tool—the pattern stays the same.
 
 ### Adapting for Other AI Tools
 
-The workflow system is **tool-agnostic**. To use with Claude, OpenAI, or any AI assistant:
+The workflow system is **tool-agnostic**. Since commands are plain natural language, they work directly with Claude, OpenAI, or any AI assistant:
 
 1. Read `AGENTS.md` (vendor-neutral policy)
-2. Translate slash commands to your tool's interaction model
+2. Issue the same natural commands ("create branch", "validate changes", etc.)
 3. Reference `AGENTS.md` from tool-specific instructions (no duplication)
 
-Example: Claude doesn't have slash commands, but you can create a system prompt that references the same workflows and conventions from `AGENTS.md`.
+Example: Claude, OpenAI, or any other tool can follow the same workflow—no slash-command translation needed.
 
 ## Key Files for Learning
 
