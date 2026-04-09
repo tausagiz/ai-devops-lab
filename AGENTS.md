@@ -66,6 +66,9 @@ Short guide for agents working in this repository.
 
 - Keep roadmap visibility in `README.md` under a dedicated `## Roadmap` section with buckets: `Current Focus`, `Next Up`, `Backlog`, `Done Recently`.
 - When work implements a roadmap item, update roadmap status in the same change: remove or mark completed from active buckets and add to `Done Recently`.
+- During `validate changes`, include a short `Roadmap Delta Check` result with one of: `updated`, `not-needed`, or `deferred-with-reason`.
+- Before `commit these changes` and before `open or update PR`, explicitly verify roadmap impact for changes touching workflow/policy surfaces (`AGENTS.md`, `README.md`, `.github/agents/**`, `.github/prompts/**`, `.github/instructions/**`).
+- If roadmap-impacting work is merged without roadmap movement, require a one-line reason in PR context to avoid silent drift.
 - When user asks to start work from backlog, first pick one explicit backlog item, then run branch-start workflow for that item (do not pick multiple backlog items at once unless user explicitly asks).
 - If roadmap status is stale or unclear after implementation, run a roadmap sync step before commit/PR (or stop and ask for confirmation when mapping is ambiguous).
 - Keep roadmap updates concise; do not add large planning documents by default.
@@ -117,6 +120,7 @@ For GitHub Copilot Chat, use the simplest entrypoint for the job:
 - Core intent examples:
   - "create branch for <task>"
   - "validate changes"
+  - "sync roadmap with recent PRs"
   - "commit these changes"
   - "open or update PR"
   - "close current branch after merge"
