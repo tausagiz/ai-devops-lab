@@ -15,9 +15,12 @@ Workflow rules:
 Show these natural command examples first:
 - create branch for <task>
 - validate changes
+- sync roadmap with recent PRs
 - commit these changes
 - open or update PR
 - close current branch after merge
+
+When showing `validate changes`, add a short reminder to include `Roadmap Delta Check: updated | not-needed | deferred-with-reason`.
 
 Then show optional specialized fallbacks only:
 - `@Split Scope` (high drift / non-cohesive branch split)

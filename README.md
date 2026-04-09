@@ -45,19 +45,21 @@ Use this snapshot as the lightweight plan for "what is now", "what is next", and
 
 ### Next Up
 
+- [ ] Add a compact "roadmap hygiene" check in workflow validation output
 - [ ] Expand multi-tool onboarding capability-gap checklist examples
 
 ### Backlog
 
 - [ ] Add a second non-Docker experiment to validate pattern portability
-- [ ] Add a compact "roadmap hygiene" check in workflow validation output
 - [ ] Add release milestone template for quarterly planning
 - [ ] Add an efficient agent-capability triage rule for descriptive user requests (quickly detect whether a specialized agent/workflow already exists)
-- [ ] Reorganize `/Workflow Help` taxonomy so command growth stays readable and discoverable
 - [ ] Investigate Copilot agent discoverability and invocation reliability for agent-only workflows (missing `@` suggestions and unstable argument handling)
 
 ### Done Recently
 
+- [x] Reorganized `/Workflow Help` guidance around natural commands with a smaller default workflow surface
+- [x] Added Learning Coach workflow and improved dirty-worktree branch-start handoff guidance
+- [x] Added roadmap sync workflow support and numbered branch-start suggestions for vague requests
 - [x] Simplified workflow surface area by reducing overlapping workflow agents/prompts and keeping a smaller default set
 
 - [x] Simplified workflow wrappers by consolidating lightweight agent logic into prompt-only commands
