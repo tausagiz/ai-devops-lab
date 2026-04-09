@@ -15,7 +15,8 @@ Apply branch naming and git safety rules from `AGENTS.md`.
    - Ask user to reply with `1`, `2`, `3`, or a custom short description.
    - If the next reply is a single number (`1`-`3`), map it to the corresponding suggestion and continue without asking for a rewrite.
 3. If user intent explicitly references roadmap backlog work, read `README.md` backlog and normalize task description to one backlog item before branch naming.
-4. Run `git status --short`; if dirty, stop.
+4. Run `git status --short`.
+   - If dirty, stop branch creation and return a concise transfer handoff that suggests moving current changes onto a dedicated branch first (for example by commit/stash and then `@Branch Coach`).
 5. Ensure active branch is `main`, then run `git fetch origin` and `git merge --ff-only origin/main`.
 6. Build branch name following `AGENTS.md`.
 7. Check collision with `git show-ref --verify --quiet refs/heads/<branch>`.
@@ -38,7 +39,9 @@ Apply branch naming and git safety rules from `AGENTS.md`.
 - Created branch name.
 
 ### Next Action
-- One short action. Copilot example: type `/Validate Changes` in chat. Other tools: run the equivalent validation workflow command.
+- One short action.
+- For dirty worktree, suggest one concrete transfer step (for example stash/commit current changes, then run `@Branch Coach`).
+- Copilot example: type `@Validate Changes` in chat. Other tools: run the equivalent validation workflow command.
 
 ### Ready
 - One line confirming active branch is ready, `Awaiting selection: reply with 1, 2, or 3`, or `Blocked: <reason>`.

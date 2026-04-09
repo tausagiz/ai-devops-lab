@@ -38,7 +38,7 @@ Short guide for agents working in this repository.
 
 - Implementation: access Docker only through `get_client()`; keep constants in `config.py`; each new command must live in `commands/` and be registered in `cli.py`.
 - Language: developers may chat in any language, but all repository artifacts must be in English (code, comments, docstrings, variable/function names, CLI messages, tests, documentation, commit/PR descriptions).
-- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching; format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, return exactly 3 numbered branch suggestions and allow selection by number (`1`/`2`/`3`) instead of guessing.
+- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching and should return a short transfer handoff (commit/stash current changes, then rerun `/Branch Start`); format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, return exactly 3 numbered branch suggestions and allow selection by number (`1`/`2`/`3`) instead of guessing.
 - Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
 - Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
 - User confirmation guardrail: when a proposed action increases token/call usage or project surface (new files, broader tests, extra scripts, large documentation updates), ask for explicit confirmation before proceeding unless already requested.
@@ -121,7 +121,9 @@ If you use another tool, keep the same workflow intent and adapt invocation synt
 - `/Rescope Branch` - rename current branch to match coherent scope drift.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Close Branch` - close merged branch safely and return to `main`.
+- `/Learn` - start or resume a diagnostic-first learning session that maps your real problem to skill goals.
 - `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
+- `@Learning Coach` - run a structured learning workflow: mandatory problem discovery, adaptive tasks, and test-based or rubric-based validation.
 - `@Validate Changes` - run local tests + docs gate and scope-drift sanity check before readiness output.
 - `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
 - `@PR Coach` - branch sync, validation, push, and PR opening or refresh.
