@@ -31,4 +31,4 @@ Apply branch naming and git safety rules from `AGENTS.md`.
 - Upstream/tracking status and whether old remote branch was kept or deleted.
 
 ### Next Action
-- One short action. Copilot example: type `/Prepare Commit` in chat after re-scope. Other tools: run the equivalent commit workflow command.
+- One short action. Copilot example: mention `@Commit Coach` in chat after re-scope. Other tools: run the equivalent commit workflow command.
