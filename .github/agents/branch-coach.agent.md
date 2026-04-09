@@ -41,7 +41,7 @@ Apply branch naming and git safety rules from `AGENTS.md`.
 ### Next Action
 - One short action.
 - For dirty worktree, suggest one concrete transfer step (for example stash/commit current changes, then run `@Branch Coach`).
-- Copilot example: type `/Validate Changes` in chat. Other tools: run the equivalent validation workflow command.
+- Copilot example: type `@Validate Changes` in chat. Other tools: run the equivalent validation workflow command.
 
 ### Ready
 - One line confirming active branch is ready, `Awaiting selection: reply with 1, 2, or 3`, or `Blocked: <reason>`.
