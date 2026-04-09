@@ -11,6 +11,7 @@ Workflow rules:
 - Keep output concise.
 - Clarify that examples are plain natural-language commands typed in chat in the current execution mode.
 - Add one short note that other tools may require different syntax.
+- Add a mandatory branch-first reminder: implementation must not start on `main`/`master` unless the user explicitly asks for that.
 
 Show these natural command examples first:
 - create branch for <task>
@@ -19,6 +20,8 @@ Show these natural command examples first:
 - commit these changes
 - open or update PR
 - close current branch after merge
+
+When the user intent is implementation and branch context is unknown, recommend `create branch for <task>` as the default next action.
 
 When showing `validate changes`, add a short reminder to include `Roadmap Delta Check: updated | not-needed | deferred-with-reason`.
 
