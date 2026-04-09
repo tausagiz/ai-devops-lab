@@ -1,6 +1,6 @@
 ---
 name: "Workflow Help"
-description: "Show available workflow prompts and recommend one next command."
+description: "Show available workflow entrypoints and recommend one next action."
 argument-hint: "Optional: current goal"
 ---
 Show a compact workflow help screen for this repo.
@@ -9,23 +9,22 @@ Workflow rules:
 - Do not run git or tests.
 - Do not edit files.
 - Keep output concise.
-- Clarify that `/Command` examples are Copilot Chat slash commands entered in chat.
+- Clarify that `/Command` and `@Agent Name` examples are GitHub Copilot Chat entrypoints typed in chat.
 - Add one short note that other tools may require different syntax.
 
-List these commands with one-line usage:
+List these entrypoints with one-line usage:
 - `/Workflow Help`
-- `/Roadmap Sync`
-- `/Start Backlog`
-- `/New Branch`
-- `/Validate Changes`
-- `/Fix Validation`
 - `/Check Scope`
-- `/Split Scope`
 - `/Rescope Branch`
-- `/Prepare Commit`
-- `/Open PR`
+- `/Fix Validation`
 - `/Close Branch`
-- `/Branch Cleanup Report`
-- `/Cleanup Stale Branches`
+- `@Branch Coach`
+- `@Validate Changes`
+- `@Commit Coach`
+- `@PR Coach`
+- `@Split Scope`
+- `@Roadmap Coach`
+- `@Branch Cleanup Report`
+- `@Cleanup Stale Branches`
 
-If my goal is clear, recommend exactly one next command. If my goal is not clear, still show the full command list but set the recommended next command to `None`.
+If my goal is clear, recommend exactly one next entrypoint. If my goal is not clear, still show the full list but set the recommended next entrypoint to `None`.

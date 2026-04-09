@@ -42,7 +42,6 @@ Use this snapshot as the lightweight plan for "what is now", "what is next", and
 ### Current Focus
 
 - [ ] Add next experiment scope after Docker CLI baseline (candidate: AI-assisted release workflow checks)
-- [ ] Keep workflow wrappers thin and aligned with `AGENTS.md`
 
 ### Next Up
 
@@ -54,10 +53,12 @@ Use this snapshot as the lightweight plan for "what is now", "what is next", and
 - [ ] Add a compact "roadmap hygiene" check in workflow validation output
 - [ ] Add release milestone template for quarterly planning
 - [ ] Add an efficient agent-capability triage rule for descriptive user requests (quickly detect whether a specialized agent/workflow already exists)
-- [ ] Review existing agents to simplify wrappers and align them with proven patterns instead of duplicating custom logic
 - [ ] Reorganize `/Workflow Help` taxonomy so command growth stays readable and discoverable
 
 ### Done Recently
+
+- [x] Simplified workflow wrappers by consolidating lightweight agent logic into prompt-only commands
+- [x] Kept workflow wrappers thin and aligned with `AGENTS.md`
 
 - [x] Docker automation CLI baseline with mocked unit/integration test strategy
 - [x] Vendor-neutral policy centralization in `AGENTS.md` with thin Copilot adapters

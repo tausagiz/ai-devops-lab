@@ -109,32 +109,32 @@ Short guide for agents working in this repository.
 - **Recommendation Pattern**: When context shift is detected, offer: "It looks like you're shifting to [new topic], which is quite different from [session direction]. Would you like to start a fresh session? This helps the model maintain sharper focus on the new goal. You can always reference these changes later by commit SHA or branch name if needed."
 - **Boundary Between Subtasks vs New Session**: Continuing work on related subtasks within the same logical context (e.g., commit → PR → branch cleanup, or testing → refactor → PR all for same feature) is one session. Switching to an unrelated goal in parallel is a new session.
 
-## Workflow prompts
+## Workflow entrypoints
 
-For GitHub Copilot Chat, run these by typing the slash command directly in chat, for example: `/Open PR`.
-If you use another tool, keep the same workflow intent but adapt invocation syntax to that tool.
+For GitHub Copilot Chat, use the simplest entrypoint for the job:
+- Prompt-first lightweight workflows via slash commands (`/Command`).
+- Agent-first complex workflows via direct agent mentions (`@Agent Name`).
+If you use another tool, keep the same workflow intent and adapt invocation syntax.
 
-- `/Workflow Help` - list available workflows.
-- `/Roadmap Sync` - update roadmap snapshot after implemented work (close completed items, keep backlog actionable).
-- `/Start Backlog` - choose one backlog item and start branch workflow for it on request.
-- `/New Branch` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
-- `/Validate Changes` - local tests + docs gate. Triggers a scope-drift sanity check before final readiness output.
+- `/Workflow Help` - list available workflow entrypoints.
+- `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split.
+- `/Rescope Branch` - rename current branch to match coherent scope drift.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
-- `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split with reviewability in mind.
-- `/Split Scope` - safely split a high, non-cohesive drift branch while preserving the original branch and a backup branch until deployment verification.
-- `/Rescope Branch` - rename current branch to better match coherent scope drift.
-- `/Prepare Commit` - prepare and create commit. Triggers scope-drift check before commit creation; if drift is medium and coherent, allow continue with re-scope note; detects continuation plans and offers flexible next step (`/Open PR` or `/New Branch`) based on intent.
-- `/Open PR` - branch sync, validation, push, and PR opening or refresh. Triggers scope-drift check before push/PR creation, detects existing PRs, and suggests description update before applying it with explicit confirmation.
-- `/Close Branch` - close merged branch safely and return to `main`. Supports post-split cleanup with verification that split-child branches are merged.
-- `/Branch Cleanup Report` - scan local and remote branches periodically, identify stale or unmerged work, build contact map by author for notification.
-- `/Cleanup Stale Branches` - interactively delete branches after confirmation, with audit trail for both local and remote branches.
-
+- `/Close Branch` - close merged branch safely and return to `main`.
+- `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
+- `@Validate Changes` - run local tests + docs gate and scope-drift sanity check before readiness output.
+- `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
+- `@PR Coach` - branch sync, validation, push, and PR opening or refresh.
+- `@Split Scope` - safely split a high, non-cohesive drift branch while preserving original and backup branches.
+- `@Roadmap Coach` - roadmap sync and backlog-start workflows.
+- `@Branch Cleanup Report` - scan branches periodically and build author contact map.
+- `@Cleanup Stale Branches` - interactively delete confirmed stale branches with audit trail.
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
-- Keep roadmap workflow wrappers (`/Roadmap Sync`, `/Start Backlog`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update wrappers in the same commit.
+- Keep roadmap workflow entrypoints (`@Roadmap Coach`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update the corresponding agent and wrappers in the same commit.
 - Keep the Copilot-specific slash-command note accurate when command names change.
-- Keep `/Prepare Commit` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step must be chosen dynamically (`/Open PR` or `/New Branch`) based on user intent and session context. `/New Branch` is only correct when the user is starting *separate new work on a different branch*; for more commits on the *current* branch, the user should just continue and re-run `/Prepare Commit`.
+- Keep `Commit Coach` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step should be chosen dynamically based on user intent and session context.
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
 - When updating PR Coach's PR body edit step, preserve the `gh api` REST fallback for environments where `gh pr edit` fails with deprecation errors; document both methods in the agent.
