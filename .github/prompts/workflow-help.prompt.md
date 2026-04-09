@@ -18,7 +18,9 @@ List these entrypoints with one-line usage:
 - `/Rescope Branch`
 - `/Fix Validation`
 - `/Close Branch`
+- `/Learn`
 - `@Branch Coach`
+- `@Learning Coach`
 - `@Validate Changes`
 - `@Commit Coach`
 - `@PR Coach`

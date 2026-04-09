@@ -121,7 +121,9 @@ If you use another tool, keep the same workflow intent and adapt invocation synt
 - `/Rescope Branch` - rename current branch to match coherent scope drift.
 - `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
 - `/Close Branch` - close merged branch safely and return to `main`.
+- `/Learn` - start or resume a diagnostic-first learning session that maps your real problem to skill goals.
 - `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
+- `@Learning Coach` - run a structured learning workflow: mandatory problem discovery, adaptive tasks, and test-based or rubric-based validation.
 - `@Validate Changes` - run local tests + docs gate and scope-drift sanity check before readiness output.
 - `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
 - `@PR Coach` - branch sync, validation, push, and PR opening or refresh.
