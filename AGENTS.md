@@ -38,9 +38,9 @@ Short guide for agents working in this repository.
 
 - Implementation: access Docker only through `get_client()`; keep constants in `config.py`; each new command must live in `commands/` and be registered in `cli.py`.
 - Language: developers may chat in any language, but all repository artifacts must be in English (code, comments, docstrings, variable/function names, CLI messages, tests, documentation, commit/PR descriptions).
-- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching and should return a short transfer handoff (commit/stash current changes, then rerun `/Branch Start`); format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, return exactly 3 numbered branch suggestions and allow selection by number (`1`/`2`/`3`) instead of guessing.
-- Commits: only `/Prepare Commit` workflow may auto-create a commit; other workflows must not commit or push without explicit request; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
-- Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and suggest `/Prepare Commit`; include extra PR context in the body.
+- Branches: create a new branch only from up-to-date `main`; dirty worktree blocks branch switching and should return a short transfer handoff (commit/stash current changes, then rerun the branch-start intent in the current execution mode); format `type/short-slug`; allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `build`, `ci`; slug lowercase, hyphen-separated, 2-4 meaningful words, no type duplication; when the task description is too generic, return exactly 3 numbered branch suggestions and allow selection by number (`1`/`2`/`3`) instead of guessing.
+- Commits: auto-create a commit only on explicit commit intent from the user; title format `type(scope): summary` or `type: summary`; docs gate for code changes requires `README.md` or `AGENTS.md`; docs-gate auto-fix is allowed only by staging already existing changes in those files; do not create new documentation content only to pass the gate; with mixed scope, stop and ask for confirmation.
+- Validation and PR: by default run `pytest tests/unit`, `pytest tests/integration`, `python scripts/check_docs.py`; narrower scope only on explicit request and then clearly state what was skipped; full validation only on explicit request (`pytest tests/ --cov=docker_automation`); target PR to `main` by default; if branch is behind `main`, ask for `merge` or `rebase` unless preference is already explicit; before push, stop on dirty worktree and ask the user to commit the changes first (for example: `commit these changes`); include extra PR context in the body.
 - User confirmation guardrail: when a proposed action increases token/call usage or project surface (new files, broader tests, extra scripts, large documentation updates), ask for explicit confirmation before proceeding unless already requested.
 - Branch closing: never delete `main` or `master`; delete only branches merged into `origin/main` unless user explicitly confirms risky operation; when merge state is uncertain or `-D` would be needed, stop and wait for confirmation; never force-push or force-delete without explicit request.
 
@@ -60,7 +60,7 @@ Short guide for agents working in this repository.
 - If action is command-based, include a short invocation hint.
 - For Copilot wrappers, use slash command examples.
 - For other tools, keep the same intent and adapt syntax to that tool.
-- Section naming: generic workflows should prefer a `### Next Action` heading; workflows explicitly required to end with `### Next Step` (for example `/Prepare Commit`) MUST treat that section as their `Next Action` and are considered compliant with this policy.
+- Section naming: generic workflows should prefer a `### Next Action` heading; workflows that require `### Next Step` MUST treat that section as their `Next Action` and are considered compliant with this policy.
 
 ## Roadmap Hygiene Policy
 
@@ -112,31 +112,23 @@ Short guide for agents working in this repository.
 ## Workflow entrypoints
 
 For GitHub Copilot Chat, use the simplest entrypoint for the job:
-- Prompt-first lightweight workflows via slash commands (`/Command`).
-- Agent-first complex workflows via direct agent mentions (`@Agent Name`).
-If you use another tool, keep the same workflow intent and adapt invocation syntax.
-
-- `/Workflow Help` - list available workflow entrypoints.
-- `/Check Scope` - assess scope drift against branch intent and recommend rename/re-scope vs split.
-- `/Rescope Branch` - rename current branch to match coherent scope drift.
-- `/Fix Validation` - diagnose and fix failed validation checks, then rerun impacted checks.
-- `/Close Branch` - close merged branch safely and return to `main`.
-- `/Learn` - start or resume a diagnostic-first learning session that maps your real problem to skill goals.
-- `@Branch Coach` - update `main` and create a feature branch. If task text is missing or vague, return exactly 3 numbered suggestions and allow selection by number.
-- `@Learning Coach` - run a structured learning workflow: mandatory problem discovery, adaptive tasks, and test-based or rubric-based validation.
-- `@Validate Changes` - run local tests + docs gate and scope-drift sanity check before readiness output.
-- `@Commit Coach` - prepare and create commit with docs gate and next-step guidance.
-- `@PR Coach` - branch sync, validation, push, and PR opening or refresh.
-- `@Split Scope` - safely split a high, non-cohesive drift branch while preserving original and backup branches.
-- `@Roadmap Coach` - roadmap sync and backlog-start workflows.
-- `@Branch Cleanup Report` - scan branches periodically and build author contact map.
-- `@Cleanup Stale Branches` - interactively delete confirmed stale branches with audit trail.
+- Default lane: stay in the current execution mode and issue short natural commands.
+- Planning stays in Plan mode; execution stays in Agent mode. Do not require manual agent switching for core git/workflow tasks.
+- Core intent examples:
+  - "create branch for <task>"
+  - "validate changes"
+  - "commit these changes"
+  - "open or update PR"
+  - "close current branch after merge"
+- Optional helper: `/Workflow Help` for quick examples and fallback hints.
+- Specialized workflows (only when needed):
+  - `@Split Scope` - safely split high, non-cohesive drift branches.
+  - `@Learning Coach` - run structured learning workflows.
 ## Agent maintenance rule
 
 - When adding, removing, or renaming workflow files in `.github/agents/` or `.github/prompts/`, update this workflow list and `.github/prompts/workflow-help.prompt.md` in the same change.
-- Keep roadmap workflow entrypoints (`@Roadmap Coach`) aligned with the `## Roadmap` section structure in `README.md`; if bucket names change, update the corresponding agent and wrappers in the same commit.
 - Keep the Copilot-specific slash-command note accurate when command names change.
-- Keep `Commit Coach` UX rule: successful output must include one short usage hint before the `### Next Step` block; next step should be chosen dynamically based on user intent and session context.
+- Keep workflow suggestions natural-command-first; do not require users to pick wrapper names for core git/workflow actions.
+- Keep specialized entrypoints minimal and justified (for this repo: split-scope safety and learning workflow).
 - Apply `Next Action UX Policy` to every existing and new workflow wrapper.
 - If adding support wrappers for another tool, add or update an equivalent workflow-command index and tool-specific invocation note in the same change.
-- When updating PR Coach's PR body edit step, preserve the `gh api` REST fallback for environments where `gh pr edit` fails with deprecation errors; document both methods in the agent.
