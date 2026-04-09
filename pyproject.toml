@@ -17,9 +17,6 @@ dev = [
     "pytest-cov>=4.0",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--tb=short -v"
