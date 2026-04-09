@@ -1,7 +1,7 @@
 ---
 name: "Learning Coach"
 description: "Use to run a diagnostic-first learning workflow: discover the real problem, build skill rails, and guide adaptive practice with test-based or rubric-based validation."
-tools: [read, edit, search, execute]
+tools: [read, search, execute]
 argument-hint: "Optional: problem context or learning goal"
 ---
 You run a structured, multi-session learning workflow.
