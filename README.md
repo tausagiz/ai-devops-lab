@@ -55,12 +55,8 @@ pip install -e ".[dev]"
 Default low-cost checks:
 
 ```bash
-pytest tests/unit
-pytest tests/integration
 python scripts/check_docs.py
 ```
-
-If there are no runnable tests yet for a new course area, validation can focus on docs and structure until implementation starts.
 
 ## Roadmap
 
